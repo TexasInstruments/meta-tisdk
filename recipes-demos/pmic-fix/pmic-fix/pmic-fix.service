@@ -1,0 +1,14 @@
+[Unit]
+Description=Update pmic registers for tda4vm-sk to disable safety feature on power rails
+
+[Service]
+ExecStart=/etc/init.d/pmic-fix
+Type=oneshot
+RemainAfterExit=yes
+TimeoutStopSec=20
+KillMode=process
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+
