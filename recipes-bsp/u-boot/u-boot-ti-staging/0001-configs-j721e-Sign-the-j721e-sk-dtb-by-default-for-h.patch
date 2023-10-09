@@ -1,0 +1,47 @@
+From a5e1b2c0c2ad57146d9c5d60eaff3497d9ea5220 Mon Sep 17 00:00:00 2001
+From: Aniket Limaye <a-limaye@ti.com>
+Date: Thu, 13 Jul 2023 23:15:08 +0530
+Subject: [PATCH] configs: j721e: Sign the j721e-sk dtb by default for hs
+ devices
+
+- Change the CONFIG_DEFAULT_DEVICE_TREE
+- Change the binman nodes to package u-boot.dtb for the correct set of
+  platform
+
+Signed-off-by: Aniket Limaye <a-limaye@ti.com>
+---
+ arch/arm/dts/k3-j721e-binman.dtsi | 4 ++--
+ configs/j721e_evm_a72_defconfig   | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/arch/arm/dts/k3-j721e-binman.dtsi b/arch/arm/dts/k3-j721e-binman.dtsi
+index 48a21e838b..7b42eb729d 100644
+--- a/arch/arm/dts/k3-j721e-binman.dtsi
++++ b/arch/arm/dts/k3-j721e-binman.dtsi
+@@ -299,8 +299,8 @@
+ #define SPL_J721E_SK_DTB "spl/dts/k3-j721e-sk.dtb"
+ 
+ #define UBOOT_NODTB "u-boot-nodtb.bin"
+-#define J721E_EVM_DTB "u-boot.dtb"
+-#define J721E_SK_DTB "arch/arm/dts/k3-j721e-sk.dtb"
++#define J721E_EVM_DTB "arch/arm/dts/k3-j721e-common-proc-board.dtb"
++#define J721E_SK_DTB "u-boot.dtb"
+ 
+ &binman {
+ 	ti-dm {
+diff --git a/configs/j721e_evm_a72_defconfig b/configs/j721e_evm_a72_defconfig
+index cd2475f43f..4d773b210c 100644
+--- a/configs/j721e_evm_a72_defconfig
++++ b/configs/j721e_evm_a72_defconfig
+@@ -13,7 +13,7 @@ CONFIG_CUSTOM_SYS_INIT_SP_ADDR=0x80480000
+ CONFIG_ENV_SIZE=0x20000
+ CONFIG_DM_GPIO=y
+ CONFIG_SPL_DM_SPI=y
+-CONFIG_DEFAULT_DEVICE_TREE="k3-j721e-common-proc-board"
++CONFIG_DEFAULT_DEVICE_TREE="k3-j721e-sk"
+ CONFIG_SPL_TEXT_BASE=0x80080000
+ CONFIG_DM_RESET=y
+ CONFIG_SPL_MMC=y
+-- 
+2.34.1
+
