@@ -1,0 +1,13 @@
+[Unit]
+Description=startwlansta
+
+[Service]
+Type=idle
+ExecStart=/etc/init.d/startwlansta.sh
+StandardOutput=journal+console
+RemainAfterExit=yes
+
+
+[Install]
+WantedBy=multi-user.target
+

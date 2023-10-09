@@ -1,0 +1,8 @@
+[Match]
+Name=wlp1s0
+
+[Network]
+Address=192.168.43.1
+Broadcast=192.168.43.255
+Netmask=255.255.255.0
+

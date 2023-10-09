@@ -1,0 +1,17 @@
+[Unit]
+Description=startwlanap
+
+[Service]
+Type=idle
+Restart=no
+TimeoutSec=5min
+IgnoreSIGPIPE=no
+KillMode=process
+GuessMainPID=no
+RemainAfterExit=yes
+ExecStart=/etc/init.d/startwlanap.sh
+StandardOutput=journal+console
+
+
+[Install]
+WantedBy=multi-user.target
