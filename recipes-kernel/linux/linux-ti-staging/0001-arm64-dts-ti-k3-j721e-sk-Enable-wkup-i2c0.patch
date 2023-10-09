@@ -1,0 +1,33 @@
+From ca1be2f4d6a72751eed5973fb090cc6267de4ed7 Mon Sep 17 00:00:00 2001
+From: Rahul T R <r-ravikumar@ti.com>
+Date: Fri, 4 Aug 2023 21:50:37 +0530
+Subject: [PATCH] arm64: dts: ti: k3-j721e-sk: Enable wkup i2c0
+
+This is required ti configure PMIC, to fix the
+issue of random reboots during log runs
+
+Signed-off-by: Rahul T R <r-ravikumar@ti.com>
+---
+ arch/arm64/boot/dts/ti/k3-j721e-sk.dts | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/ti/k3-j721e-sk.dts b/arch/arm64/boot/dts/ti/k3-j721e-sk.dts
+index 4b3a1ba4d7d0..ceedf8d6d771 100644
+--- a/arch/arm64/boot/dts/ti/k3-j721e-sk.dts
++++ b/arch/arm64/boot/dts/ti/k3-j721e-sk.dts
+@@ -590,6 +590,12 @@
+ 	status = "disabled";
+ };
+ 
++&wkup_i2c0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&wkup_i2c0_pins_default>;
++	status = "okay";
++};
++
+ &main_i2c0 {
+ 	status = "okay";
+ 	pinctrl-names = "default";
+-- 
+2.17.1
+

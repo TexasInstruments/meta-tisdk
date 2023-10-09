@@ -1,0 +1,52 @@
+From a05243f976d60a0e018b463e8bca56d0648d9fbb Mon Sep 17 00:00:00 2001
+From: Siddharth Vadapalli <s-vadapalli@ti.com>
+Date: Wed, 2 Aug 2023 15:52:38 +0530
+Subject: [PATCH] net: ethernet: ti: j721e-cpsw-virt-mac: Exit notification
+ handler if ndev is NULL
+
+The notification received from the core networking subsystem should not
+provide a NULL pointer for the net_device. It is observed that when a
+virtual networking device is created, its associated notifier chain
+results in a NULL pointer being handed over to the
+virt_cpsw_inetaddr_event() notification handler.
+
+Exit the virt_cpsw_intetaddr_event() handler in such a situation.
+
+Signed-off-by: Siddharth Vadapalli <s-vadapalli@ti.com>
+---
+This is a workaround for an underlying issue.
+Carried here temporarily: for 9.0 release as a bug-fix
+To be fixed in ti-linux-kernel by 9.1 release
+---
+ drivers/net/ethernet/ti/j721e-cpsw-virt-mac.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/net/ethernet/ti/j721e-cpsw-virt-mac.c b/drivers/net/ethernet/ti/j721e-cpsw-virt-mac.c
+index 2cfdec266..fc94c8635 100644
+--- a/drivers/net/ethernet/ti/j721e-cpsw-virt-mac.c
++++ b/drivers/net/ethernet/ti/j721e-cpsw-virt-mac.c
+@@ -1424,15 +1424,19 @@ static bool virt_cpsw_dev_check(const struct net_device *ndev)
+ static int virt_cpsw_inetaddr_event(struct notifier_block *unused,
+ 				    unsigned long event, void *ptr)
+ {
+-	struct in_ifaddr *ifa = (struct in_ifaddr *)ptr;
++	struct net_device *ndev = netdev_notifier_info_to_dev(ptr);
+ 	struct rpmsg_remotedev_eth_switch_ops *rdev_ops;
+-	struct net_device *ndev = ifa->ifa_dev->dev;
+ 	struct virt_cpsw_common *common;
++	struct in_ifaddr *ifa;
+ 	int ret = 0;
+ 
++	if(!ndev)
++		return NOTIFY_DONE;
++
+ 	if (!virt_cpsw_dev_check(ndev))
+ 		goto out;
+ 
++	ifa = (struct in_ifaddr *)ptr;
+ 	common = virt_ndev_to_common(ndev);
+ 	rdev_ops = common->rdev_switch_ops;
+ 	switch (event) {
+-- 
+2.34.1
+
