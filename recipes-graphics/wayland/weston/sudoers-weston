@@ -1,0 +1,2 @@
+weston ALL=(ALL:ALL) ALL
+Defaults:weston  !authenticate
