@@ -4,8 +4,6 @@ RDEPENDS:${PN}:append = " \
         libloki \
         boost \
         json-c \
-        gdb \
-        udev \
 "
 
 PR:append = "_tisdk_0"

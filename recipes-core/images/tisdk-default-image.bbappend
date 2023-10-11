@@ -12,7 +12,6 @@ IMAGE_INSTALL:append = " \
 
 IMAGE_INSTALL:append:j721e = " \
 	wifi-oob \
-	pru-icss \
 	pmic-fix \
 "
 
