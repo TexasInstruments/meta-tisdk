@@ -1,0 +1,16 @@
+#! /bin/sh
+
+demoscript="/usr/share/demo/demo.sh"
+PIDFILE="/var/run/demo.pid"
+
+# Important System Environment Variables
+for sh in /etc/profile.d/*.sh ; do
+    [ -r "$sh" ] && . "$sh"
+done
+
+echo -n "Starting demo application"
+start-stop-daemon --start --quiet --background -m --pidfile $PIDFILE --startas /bin/bash -- -c "exec $demoscript >/var/log/demo.log 2>&1"
+echo "."
+
+exit 0
+

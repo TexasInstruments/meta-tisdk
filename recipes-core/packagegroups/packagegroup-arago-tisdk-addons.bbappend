@@ -1,6 +1,6 @@
-PR:append = "_tisdk_1"
+PR:append = "_tisdk_2"
 
-DEMOS = ""
+DEMOS = "oob-demo"
 DEMOS:append:am62xx = " ti-apps-launcher"
 DEMOS:append:am62pxx = " ti-apps-launcher"
 DEMOS:append:j721e = " wifi-oob"
