@@ -1,4 +1,4 @@
-PR:append = "_tisdk_1"
+PR:append = "_tisdk_2"
 
 IMAGE_INSTALL:remove:am62xx = " \
     packagegroup-arago-tisdk-matrix \
@@ -38,18 +38,7 @@ IMAGE_INSTALL:append = " \
     resize-rootfs \
 "
 
-IMAGE_INSTALL:append:j721e = " \
-    wifi-oob \
-    pmic-fix \
-"
-
-IMAGE_INSTALL:append:j721s2 = " \
-    wifi-oob \
-"
-
-IMAGE_INSTALL:append:j784s4 = " \
-    wifi-oob \
-"
+IMAGE_INSTALL:append:j721e = " pmic-fix"
 
 WIC_CREATE_EXTRA_ARGS += " --no-fstab-update"
 
