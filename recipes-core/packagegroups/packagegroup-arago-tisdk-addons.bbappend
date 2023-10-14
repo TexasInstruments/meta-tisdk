@@ -11,6 +11,8 @@ DEMOS:append:am64xx = " \
     print-ip \
 "
 
+DEMOS:append:am335x-evm = " pru-adc"
+
 RDEPENDS:${PN}:append = " \
     ${DEMOS} \
 "
