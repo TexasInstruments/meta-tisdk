@@ -1,0 +1,31 @@
+# This is a system unit for launching ti-apps-launcher with auto-login as the
+# user configured here.
+
+[Unit]
+Description=ti-apps-launcher service
+
+# Make sure we are started after logins are permitted.
+Requires=weston.service docker.socket
+After=docker.service
+
+[Service]
+# Requires systemd-notify.so Weston plugin.
+Type=simple
+Environment=XDG_RUNTIME_DIR=/run/user/1000
+Environment=QT_QPA_PLATFORM=wayland
+Environment=WAYLAND_DISPLAY=/run/wayland-0
+EnvironmentFile=/etc/environment
+ExecStart=/bin/sh -c '. /opt/edgeai-gst-apps/init_script.sh ; /usr/bin/ti-apps-launcher'
+
+# The user to run Weston as.
+User=root
+Group=root
+
+# Fail to start if not controlling the tty.
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+# Note: If you only want weston to start on-demand, remove this line with a
+# service drop file
+WantedBy=graphical.target multi-user.target
