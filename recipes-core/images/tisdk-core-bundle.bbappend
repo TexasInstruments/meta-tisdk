@@ -16,10 +16,20 @@ IMAGE_INSTALL:append = " \
 DTB_FILTER:j721e = "j721e\|fpdlink"
 DTB_FILTER:j721s2 = "j721s2\|am68\|fpdlink"
 DTB_FILTER:j784s4 = "j784s4\|am69\|fpdlink"
+DTB_FILTER:am65xx = "k3-am654"
+DTB_FILTER:am62xx-evm = "k3-am625"
+DTB_FILTER:am62xx-lp-evm = "k3-am62-lp\|k3-am625-sk"
+DTB_FILTER:am62xxsip-evm = "k3-am625"
+DTB_FILTER:am64xx = "k3-am642"
+DTB_FILTER:am62pxx-evm = "k3-am62p5"
+DTB_FILTER:am62axx-evm = "k3-am62a7\|k3-fpdlink"
+DTB_FILTER:ti33x = "am335x"
+DTB_FILTER:ti43x = "am437x\|am43x"
 
 # All the boot partition files, including all the device variants that were built
 BOOT_PART:k3 = "uEnv.txt u-boot.img tispl.bin tiboot3.bin tiboot3-*.bin"
 BOOT_PART:append:j721e = " sysfw.itb sysfw-*evm.itb"
+BOOT_PART:append:am65xx = " sysfw.itb sysfw-*evm.itb"
 
 # Update the default boot binaries in prebuilt-images
 SYSFW_SOC ?= "*"
@@ -28,20 +38,33 @@ SYSFW_SOC:j7200 = "j7200"
 SYSFW_SOC:j721s2 = "j721s2"
 SYSFW_SOC:j784s4 = "j784s4"
 SYSFW_SOC:am62axx = "am62ax"
+SYSFW_SOC:am62xx = "am62x"
+SYSFW_SOC:am64xx = "am64x"
+SYSFW_SOC:am62pxx = "am62px"
+
+SYSFW_PREFIX ?= "fs"
+SYSFW_PREFIX:am64xx = "sci"
+SYSFW_PREFIX:am65xx = "sci"
+SYSFW_PREFIX:am62xx = "fs*"
 
 SYSFW_SUFFIX ?= "gp"
 SYSFW_SUFFIX:am62axx = "hs-fs"
 SYSFW_SUFFIX:j721s2:sk = "hs-fs"
 SYSFW_SUFFIX:j784s4:sk = "hs-fs"
+SYSFW_SUFFIX:am62xx = "hs-fs"
+SYSFW_SUFFIX:am64xx = "hs-fs"
+SYSFW_SUFFIX:am62pxx = "hs-fs"
+
+SYSFW_BINARY = "ti-${SYSFW_PREFIX}-firmware-${SYSFW_SOC}*.bin"
 
 PREBUILT_DIR = "${IMAGE_ROOTFS}/board-support/prebuilt-images"
-
 
 tisdk_image_build:append() {
     # Add ti-sysfw, ti-dm needed by binman builds for u-boot
     if [ -d "${DEPLOY_DIR_IMAGE}/ti-sysfw" ]
     then
-        cp -r ${DEPLOY_DIR_IMAGE}/ti-sysfw ${PREBUILT_DIR}/
+        mkdir -p ${PREBUILT_DIR}/ti-sysfw/
+        cp ${DEPLOY_DIR_IMAGE}/ti-sysfw/${SYSFW_BINARY} ${PREBUILT_DIR}/ti-sysfw/
     fi
     if [ -d "${DEPLOY_DIR_IMAGE}/ti-dm" ]
     then
