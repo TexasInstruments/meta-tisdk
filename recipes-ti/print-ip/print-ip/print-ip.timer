@@ -1,0 +1,9 @@
+[Unit]
+Description=Timer service to update the IP on OLED each 10s
+
+[Timer]
+OnUnitActiveSec=10s
+OnBootSec=10s
+
+[Install]
+WantedBy=timers.target
