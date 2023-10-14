@@ -1,0 +1,56 @@
+From 6131d37309adf8f090f331a0db0a49df7d9f3e89 Mon Sep 17 00:00:00 2001
+From: Sai Sree Kartheek Adivi <s-adivi@ti.com>
+Date: Thu, 1 Jun 2023 12:01:18 +0530
+Subject: [PATCH] [PATCH] use library so names for linking
+
+The recommended "best practices" for applications is to link to library
+sonames (e.g. libEGL.so.1) instead of library names (e.g. libiEGL.so). This
+ensures that applications don't try to use libraries if an incompatible ABI
+change occurs.
+
+Signed-off-by: Sai Sree Kartheek Adivi <s-adivi@ti.com>
+---
+ include/DynamicEgl.h  | 6 +++---
+ include/DynamicGles.h | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/include/DynamicEgl.h b/include/DynamicEgl.h
+index 1cc84779..7c1bf485 100644
+--- a/include/DynamicEgl.h
++++ b/include/DynamicEgl.h
+@@ -33,7 +33,7 @@ static const char* libName = "libEGL.dll";
+ #elif defined(__APPLE__)
+ static const char* libName = "libEGL.dylib";
+ #else
+-static const char* libName = "libEGL.so";
++static const char* libName = "libEGL.so.1";
+ #endif
+ } // namespace internal
+ } // namespace egl
+@@ -214,8 +214,8 @@ inline EGLContext DYNAMICEGL_FUNCTION(CreateContext)(EGLDisplay dpy, EGLConfig c
+ 
+ 			if ((type & EGL_OPENGL_ES2_BIT) == EGL_OPENGL_ES2_BIT)
+ 			{
+-				Log_Info("EGL Bindings: Preloading libGLESv2.so\n");
+-				pvr::lib::openlib("libGLESv2.so");
++				Log_Info("EGL Bindings: Preloading libGLESv2.so.2\n");
++				pvr::lib::openlib("libGLESv2.so.2");
+ 				once = true;
+ 			}
+ 		}
+diff --git a/include/DynamicGles.h b/include/DynamicGles.h
+index d247061b..2389f414 100644
+--- a/include/DynamicGles.h
++++ b/include/DynamicGles.h
+@@ -59,7 +59,7 @@ static const char* libName = "libGLESv2.dll";
+ #elif defined(__APPLE__)
+ static const char* libName = "libGLESv2.dylib";
+ #else
+-static const char* libName = "libGLESv2.so";
++static const char* libName = "libGLESv2.so.2";
+ #endif
+ } // namespace internals
+ } // namespace gl
+-- 
+2.17.1
+

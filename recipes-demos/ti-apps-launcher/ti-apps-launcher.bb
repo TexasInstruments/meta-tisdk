@@ -13,6 +13,7 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/git/LICENSE;md5=5c3a7f5f6886ba6f33ec3d214d
 DEPENDS = "qtbase qtquick3d qtmultimedia"
 RDEPENDS:${PN} = "qtquick3d qtmultimedia bash seva-launcher"
 RDEPENDS:${PN}:remove:am62xxsip-evm = "seva-launcher"
+RDEPENDS:${PN}:append:am62xx = " powervr-graphics"
 
 BRANCH = "master"
 SRCREV = "ef93f8bbd95e1382f07e5fe8ef73b1818cc8c7af"
