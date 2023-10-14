@@ -15,6 +15,8 @@ DEMOS:append:am64xx = " \
 "
 
 EXTRA_PACKAGES:append = " watchdog"
+EXTRA_PACKAGES:append:ti33x = " opencv"
+EXTRA_PACKAGES:append:ti43x = " opencv"
 
 UTILS:append = " \
     hidapi \
