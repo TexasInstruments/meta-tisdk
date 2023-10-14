@@ -1,11 +1,10 @@
-PR = "r2"
+PR = "r3"
 SUMMARY = "Seva Launcher Golang Binary"
 
-LICENSE = "TI-TSPA"
-LIC_FILES_CHKSUM = "file://${COREBASE}/../meta-ti/meta-ti-bsp/licenses/TI-TSPA;md5=bb6bc27cd44417c389a180bd62f552a0"
+LICENSE = "TI-TFL"
+LIC_FILES_CHKSUM = "file://${COREBASE}/../meta-ti/meta-ti-bsp/licenses/TI-TFL;md5=a1b59cb7ba626b9dbbcbf00f3fbc438a"
 
-COMPATIBLE_MACHINE = "am62xx|j721s2|j784s4"
-PACKAGE_ARCH = "${MACHINE_ARCH}"
+COMPATIBLE_MACHINE = "am62xx|am62pxx|j721s2|j784s4"
 
 PV = "v1.0.2"
 
@@ -21,8 +20,11 @@ SRC_URI[am62_launcher.sha256sum] = "a923a0c6d6aa099a15eea227530f0306bdac2f5ef468
 SRC_URI[am68_launcher.sha256sum] = "15daa4e2a467ee6476a687632edcaaf8f23a159e1d6ea9f82e60351b1b1a8105"
 SRC_URI[am69_launcher.sha256sum] = "f319d1053e99fdc7cc796b90715f5f74aa609b2c43f50e2fdd98f4d28f4cda11"
 
+RDEPENDS:${PN} = " seva-browser"
+
 LAUNCHER_SOC = "unknown"
 LAUNCHER_SOC:am62xx = "am62"
+LAUNCHER_SOC:am62pxx = "am62"
 LAUNCHER_SOC:j721s2 = "am68"
 LAUNCHER_SOC:j784s4 = "am69"
 
