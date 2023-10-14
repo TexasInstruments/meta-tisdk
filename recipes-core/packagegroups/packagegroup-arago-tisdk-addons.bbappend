@@ -14,6 +14,14 @@ DEMOS:append:am64xx = " \
     opcua-server \
 "
 
+EXTRA_PACKAGES:append = " watchdog"
+
+UTILS:append = " \
+    hidapi \
+    net-snmp \
+    net-snmp-server-snmpd \
+"
+
 RDEPENDS:${PN}:append = " \
     ${DEMOS} \
 "
