@@ -3,7 +3,7 @@ Description=startwlansta
 
 [Service]
 Type=idle
-ExecStart=/etc/init.d/startwlansta.sh
+ExecStart=/usr/bin/startwlansta.sh
 StandardOutput=journal+console
 RemainAfterExit=yes
 

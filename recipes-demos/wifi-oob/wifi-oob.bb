@@ -10,8 +10,6 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 FILESEXTRAPATHS:prepend := "${THISDIR}/wifi-oob:"
 
-FILES:${PN} += "${datadir}/intel9260/"
-
 COMPATIBLE_MACHINE = "j7"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
@@ -51,12 +49,18 @@ do_install() {
     install -d ${D}/${sysconfdir}/systemd/network
     install -m 0644 ${WORKDIR}/01-wlan1-static.network ${D}/${sysconfdir}/systemd/network
 
-    install -d ${D}${sysconfdir}/systemd/system
-    install -m 0644 ${WORKDIR}/startwlanap.service ${D}${sysconfdir}/systemd/system
-    install -m 0644 ${WORKDIR}/startwlansta.service ${D}${sysconfdir}/systemd/system
+    install -d ${D}${systemd_system_unitdir}
+    install -m 0644 ${WORKDIR}/startwlanap.service ${D}${systemd_system_unitdir}
+    install -m 0644 ${WORKDIR}/startwlansta.service ${D}${systemd_system_unitdir}
 
-    install -d ${D}/${sysconfdir}/init.d
-    install -m 0755 ${WORKDIR}/startwlanap.sh ${D}/${sysconfdir}/init.d
-    install -m 0755 ${WORKDIR}/startwlansta.sh ${D}/${sysconfdir}/init.d
+    install -d ${D}${bindir}
+    install -m 0755 ${WORKDIR}/startwlanap.sh ${D}${bindir}
+    install -m 0755 ${WORKDIR}/startwlansta.sh ${D}${bindir}
 }
+
+FILES:${PN} += " \
+    ${datadir}/intel9260 \
+    ${sysconfdir}/systemd/network \
+    ${bindir} \
+"
 
