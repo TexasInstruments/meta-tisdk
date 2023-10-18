@@ -66,12 +66,11 @@ do_install:append() {
     install -d ${D}/opt/ti-apps-launcher
     install -m 0755 ${S}/scripts/* ${D}/opt/ti-apps-launcher/
 
-    install -d ${D}${sysconfdir}/systemd/system
-    install -m 0755 ${WORKDIR}/ti-apps-launcher${SERVICE_SUFFIX}.service ${D}${sysconfdir}/systemd/system/ti-apps-launcher.service
+    install -d ${D}${systemd_system_unitdir}
+    install -m 0755 ${WORKDIR}/ti-apps-launcher${SERVICE_SUFFIX}.service ${D}${systemd_system_unitdir}/ti-apps-launcher.service
 }
 
-FILES:${PN} = " \
+FILES:${PN} += " \
     ${bindir}/ti-apps-launcher \
     /opt/ti-apps-launcher/ \
-    ${sysconfdir}/systemd/system/ti-apps-launcher.service \
 "
