@@ -4,7 +4,7 @@ LICENSE = "MIT"
 
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 
-
+COMPATIBLE_MACHINE = "j721e"
 FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 
 SRC_URI= " \
@@ -19,11 +19,15 @@ SYSTEMD_SERVICE:${PN} = "pmic-fix.service"
 inherit systemd
 
 do_install() {
-    install -d ${D}${sysconfdir}/systemd/system
-    install -m 0644 ${WORKDIR}/pmic-fix.service ${D}${sysconfdir}/systemd/system
+    install -d ${D}${systemd_system_unitdir}
+    install -m 0644 ${WORKDIR}/pmic-fix.service ${D}${systemd_system_unitdir}
 
-    install -d ${D}/${sysconfdir}/init.d
-    install -m 0755 ${WORKDIR}/pmic-fix ${D}/${sysconfdir}/init.d
+    install -d ${D}${bindir}
+    install -m 0755 ${WORKDIR}/pmic-fix ${D}${bindir}
 }
 
-PR:append = "_tisdk_0"
+FILES:${PN} += " \
+	${bindir} \
+"
+
+PR = "r0"
