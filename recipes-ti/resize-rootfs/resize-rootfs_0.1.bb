@@ -17,11 +17,15 @@ SYSTEMD_SERVICE:${PN} = "resize_rootfs.service"
 inherit systemd
 
 do_install() {
-    install -d ${D}${sysconfdir}/systemd/system
-    install -m 0644 ${WORKDIR}/resize_rootfs.service ${D}${sysconfdir}/systemd/system
+    install -d ${D}${systemd_system_unitdir}
+    install -m 0644 ${WORKDIR}/resize_rootfs.service ${D}${systemd_system_unitdir}
 
-    install -d ${D}/${sysconfdir}/init.d
-    install -m 0755 ${WORKDIR}/resize_rootfs.sh ${D}/${sysconfdir}/init.d
+    install -d ${D}${bindir}
+    install -m 0755 ${WORKDIR}/resize_rootfs.sh ${D}${bindir}
 }
+
+FILES:${PN} = " \
+    ${bindir} \
+"
 
 PR = "r0"

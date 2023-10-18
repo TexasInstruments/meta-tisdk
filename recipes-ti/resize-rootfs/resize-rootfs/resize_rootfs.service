@@ -2,7 +2,7 @@
 Description=Expand the rootfs partition to full size of the boot device.
 
 [Service]
-ExecStart=/etc/init.d/resize_rootfs.sh
+ExecStart=/usr/bin/resize_rootfs.sh
 Type=oneshot
 RemainAfterExit=yes
 TimeoutStopSec=20
