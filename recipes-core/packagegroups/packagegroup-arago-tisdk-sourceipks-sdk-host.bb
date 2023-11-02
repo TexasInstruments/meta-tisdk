@@ -13,6 +13,9 @@ KERNEL_SRC = "${PREFERRED_PROVIDER_virtual/kernel}-src"
 # Task to install graphics sources in SDK
 GRAPHICS_RDEPENDS = "${@bb.utils.contains('MACHINE_FEATURES','gpu','${PREFERRED_PROVIDER_virtual/gpudriver}-src','',d)}"
 
+# Remove GPU driver sources for j7200
+GRAPHICS_RDEPENDS:remove:j7200 = "${@bb.utils.contains('MACHINE_FEATURES','gpu','${PREFERRED_PROVIDER_virtual/gpudriver}-src','',d)}"
+
 # Remove gpudriver sources for ti33x and ti43x family of devices until SGX driver is fixed
 GRAPHICS_RDEPENDS:remove:ti33x = "${@bb.utils.contains('MACHINE_FEATURES','gpu','${PREFERRED_PROVIDER_virtual/gpudriver}-src','',d)}"
 GRAPHICS_RDEPENDS:remove:ti43x = "${@bb.utils.contains('MACHINE_FEATURES','gpu','${PREFERRED_PROVIDER_virtual/gpudriver}-src','',d)}"
