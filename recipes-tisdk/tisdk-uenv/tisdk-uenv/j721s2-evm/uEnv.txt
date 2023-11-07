@@ -10,4 +10,4 @@
 
 # Update the Linux hostname based on board_name
 # The SK also requires an additional dtbo to boot. Prepend it to name_overlays depending on board_name
-uenvcmd=if test "$board_name" = "am68-sk"; then ; setenv args_all $args_all systemd.hostname=am68-sk ; if test ${boot_fit} -eq 1; then  setenv name_overlays conf-ti_k3-am68-sk-som-ddr-mem-carveout.dtbo $name_overlays ; else; setenv name_overlays ti/k3-am68-sk-som-ddr-mem-carveout.dtbo $name_overlays; fi ; fi
+uenvcmd=if test "$board_name" = "am68-sk"; then ; setenv args_all $args_all systemd.hostname=am68-sk ; if test ${boot_fit} -eq 1; then  setenv name_overlays ti/k3-am68-sk-som-ddr-mem-carveout.dtbo $name_overlays ; else; setenv name_overlays k3-am68-sk-som-ddr-mem-carveout.dtbo $name_overlays; fi ; fi
