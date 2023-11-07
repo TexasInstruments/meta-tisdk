@@ -37,6 +37,11 @@ IMAGE_INSTALL:remove:j721e = " \
     packagegroup-arago-tisdk-matrix-extra \
 "
 
+IMAGE_INSTALL:remove:j722s = " \
+    packagegroup-arago-tisdk-matrix \
+    packagegroup-arago-tisdk-matrix-extra \
+"
+
 IMAGE_INSTALL:append = " \
     packagegroup-arago-gst-sdk-target \
     resize-rootfs \
