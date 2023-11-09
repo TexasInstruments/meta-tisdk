@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/../meta-ti/meta-ti-bsp/licenses/TI-TFL;md
 
 COMPATIBLE_MACHINE = "am62xx|am62pxx|j721s2|j784s4"
 
-PV = "v1.0.2"
+PV = "v1.0.3"
 
 S = "${WORKDIR}"
 
@@ -16,9 +16,9 @@ SRC_URI = " \
     https://github.com/TexasInstruments/seva/releases/download/${PV}/seva-launcher-am69-aarch64;name=am69_launcher \
 "
 
-SRC_URI[am62_launcher.sha256sum] = "a923a0c6d6aa099a15eea227530f0306bdac2f5ef4681d0cd23cdde09dc87209"
-SRC_URI[am68_launcher.sha256sum] = "15daa4e2a467ee6476a687632edcaaf8f23a159e1d6ea9f82e60351b1b1a8105"
-SRC_URI[am69_launcher.sha256sum] = "f319d1053e99fdc7cc796b90715f5f74aa609b2c43f50e2fdd98f4d28f4cda11"
+SRC_URI[am62_launcher.sha256sum] = "5a5ca6d10c75aa289bb87d3e210152fea6dc679500d9f4c7453e4887ff550fe4"
+SRC_URI[am68_launcher.sha256sum] = "15bfced2315752da0345f59a43d8cc1974914a26bec7ed2cbe9f82b6314e3b3d"
+SRC_URI[am69_launcher.sha256sum] = "11f7862eb83fee6ceaa5920cb571c11a153558b2bfa9c56dac9d30c99567aa33"
 
 RDEPENDS:${PN} = " seva-browser"
 
