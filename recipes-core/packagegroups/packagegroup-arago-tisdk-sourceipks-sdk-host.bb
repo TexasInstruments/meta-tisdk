@@ -1,6 +1,6 @@
 DESCRIPTION = "Task to install sources for the BSP, out of tree drivers, and additional utilities/demos for SDKs"
 LICENSE = "MIT"
-PR = "r2"
+PR = "r3"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
@@ -18,6 +18,9 @@ GRAPHICS_RDEPENDS:remove:j7200 = "${@bb.utils.contains('MACHINE_FEATURES','gpu',
 
 # Remove GPU driver sources for am62axx
 GRAPHICS_RDEPENDS:remove:am62axx = "${@bb.utils.contains('MACHINE_FEATURES','gpu','${PREFERRED_PROVIDER_virtual/gpudriver}-src','',d)}"
+
+# Remove GPU driver sources for am64xx
+GRAPHICS_RDEPENDS:remove:am64xx = "${@bb.utils.contains('MACHINE_FEATURES','gpu','${PREFERRED_PROVIDER_virtual/gpudriver}-src','',d)}"
 
 # Remove gpudriver sources for ti33x and ti43x family of devices until SGX driver is fixed
 GRAPHICS_RDEPENDS:remove:ti33x = "${@bb.utils.contains('MACHINE_FEATURES','gpu','${PREFERRED_PROVIDER_virtual/gpudriver}-src','',d)}"
