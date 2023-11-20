@@ -85,3 +85,5 @@ CREATE_SRCIPK:pn-trusted-firmware-a ?= "1"
 SRCIPK_INSTALL_DIR:pn-trusted-firmware-a ?= "board-support/${PN}-${PV}"
 SRCIPK_PRESERVE_GIT:pn-trusted-firmware-a ?= "true"
 
+CREATE_SRCIPK:pn-pru-icss ?= "1"
+SRCIPK_INSTALL_DIR:pn-pru-icss ?= "example-applications/${PN}-${PV}"
