@@ -1,4 +1,4 @@
-PR:append = "_tisdk_0"
+PR:append = "_tisdk_1"
 
 # Avoid building bootstrap-image while generating tisdk-core-bundle for PROC SDK
 TARGET_IMAGES:remove = "tisdk-bootstrap-image"
@@ -39,7 +39,7 @@ SYSFW_SOC:j721s2 = "j721s2"
 SYSFW_SOC:j784s4 = "j784s4"
 SYSFW_SOC:am62axx = "am62ax"
 SYSFW_SOC:am62xx = "am62x"
-SYSFW_SOC:am64xx = "am64x"
+SYSFW_SOC:am64xx = "am64x_sr2"
 SYSFW_SOC:am62pxx = "am62px"
 
 SYSFW_PREFIX ?= "fs"
