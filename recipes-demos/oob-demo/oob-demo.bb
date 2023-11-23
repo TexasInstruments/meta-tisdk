@@ -1,7 +1,7 @@
 SUMMARY = "Out of box demo application"
 
 LICENSE = "TI-TSPA"
-LIC_FILES_CHKSUM = "file://demo.service;md5=83087d8825f4c424956f68a5c3af96c4"
+LIC_FILES_CHKSUM = "file://demo.service;md5=267f86208e40c3debf19cea6e5837bbe"
 
 FILESEXTRAPATHS:append := ":${THISDIR}/${PN}"
 
@@ -32,4 +32,4 @@ FILES:${PN} += " \
 	${datadir}/demo \
 "
 
-PR = "r0"
+PR = "r1"

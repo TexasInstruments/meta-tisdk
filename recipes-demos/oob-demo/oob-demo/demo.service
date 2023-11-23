@@ -1,7 +1,5 @@
 [Unit]
 Description=DEMO
-After=weston.service
-Requires=weston.service
 Before=graphical.target
 
 [Service]
