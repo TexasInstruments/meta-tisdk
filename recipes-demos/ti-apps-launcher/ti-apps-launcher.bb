@@ -1,4 +1,4 @@
-PR = "r9"
+PR = "r10"
 
 DESCRIPTION = "ti-apps-launcher service"
 HOMEPAGE = "https://github.com/TexasInstruments/ti-apps-launcher"
@@ -11,12 +11,12 @@ LICENSE = "TI-TFL"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/git/LICENSE;md5=5c3a7f5f6886ba6f33ec3d214dc7ab4c"
 
 DEPENDS = "qtbase qtquick3d qtmultimedia"
-RDEPENDS:${PN} = "qtquick3d qtmultimedia bash seva-launcher"
+RDEPENDS:${PN} = "qtquick3d qtmultimedia bash seva-launcher pulseaudio-service"
 RDEPENDS:${PN}:remove:am62xxsip-evm = "seva-launcher"
 RDEPENDS:${PN}:append:am62xx = " powervr-graphics"
 
 BRANCH = "master"
-SRCREV = "ef93f8bbd95e1382f07e5fe8ef73b1818cc8c7af"
+SRCREV = "cbec12637278c76991dc721fa672f989196be94b"
 
 SRC_URI = " \
     git://github.com/TexasInstruments/ti-apps-launcher.git;protocol=https;branch=${BRANCH} \
@@ -65,6 +65,10 @@ do_install:append() {
 
     install -d ${D}/opt/ti-apps-launcher
     install -m 0755 ${S}/scripts/* ${D}/opt/ti-apps-launcher/
+
+    install -d ${D}/opt/ti-apps-launcher/assets
+    install -m 0755 ${S}/images/* ${D}/opt/ti-apps-launcher/assets/
+    install -m 0755 ${S}/audios/* ${D}/opt/ti-apps-launcher/assets/
 
     install -d ${D}${systemd_system_unitdir}
     install -m 0755 ${WORKDIR}/ti-apps-launcher${SERVICE_SUFFIX}.service ${D}${systemd_system_unitdir}/ti-apps-launcher.service
