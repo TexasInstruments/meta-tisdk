@@ -47,16 +47,16 @@ CREATE_SRCIPK:pn-u-boot ?= "1"
 SRCIPK_INSTALL_DIR:pn-u-boot ?= "board-support/u-boot-${PV}"
 
 CREATE_SRCIPK:pn-u-boot-ti-staging ?= "1"
-SRCIPK_INSTALL_DIR:pn-u-boot-ti-staging ?= "board-support/u-boot-${PV}${UBOOT_LOCALVERSION}"
+SRCIPK_INSTALL_DIR:pn-u-boot-ti-staging ?= "board-support/ti-u-boot-${PV}${UBOOT_LOCALVERSION}"
 SRCIPK_PRESERVE_GIT:pn-u-boot-ti-staging ?= "true"
 
 CREATE_SRCIPK:pn-linux-ti-staging ?= "1"
-SRCIPK_INSTALL_DIR:pn-linux-ti-staging ?= "board-support/linux-${PV}${KERNEL_LOCALVERSION}"
+SRCIPK_INSTALL_DIR:pn-linux-ti-staging ?= "board-support/ti-linux-kernel-${PV}${KERNEL_LOCALVERSION}"
 SRCIPK_PRESERVE_GIT:pn-linux-ti-staging ?= "true"
 SRCIPK_SHALLOW_CLONE:pn-linux-ti-staging ?= "true"
 
 CREATE_SRCIPK:pn-linux-ti-staging-rt ?= "1"
-SRCIPK_INSTALL_DIR:pn-linux-ti-staging-rt ?= "board-support/linux-rt-${PV}${KERNEL_LOCALVERSION}"
+SRCIPK_INSTALL_DIR:pn-linux-ti-staging-rt ?= "board-support/ti-linux-kernel-${PV}${KERNEL_LOCALVERSION}"
 SRCIPK_PRESERVE_GIT:pn-linux-ti-staging-rt ?= "true"
 SRCIPK_SHALLOW_CLONE:pn-linux-ti-staging-rt ?= "true"
 
@@ -87,3 +87,5 @@ SRCIPK_PRESERVE_GIT:pn-trusted-firmware-a ?= "true"
 
 CREATE_SRCIPK:pn-pru-icss ?= "1"
 SRCIPK_INSTALL_DIR:pn-pru-icss ?= "example-applications/${PN}-${PV}"
+
+
