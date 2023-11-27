@@ -16,7 +16,7 @@ RDEPENDS:${PN}:remove:am62xxsip-evm = "seva-launcher"
 RDEPENDS:${PN}:append:am62xx = " powervr-graphics"
 
 BRANCH = "master"
-SRCREV = "cbec12637278c76991dc721fa672f989196be94b"
+SRCREV = "267a895b16d250d0e3e2351e988671d0894a80dd"
 
 SRC_URI = " \
     git://github.com/TexasInstruments/ti-apps-launcher.git;protocol=https;branch=${BRANCH} \
