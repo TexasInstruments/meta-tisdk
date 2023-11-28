@@ -1,4 +1,4 @@
-PR = "r10"
+PR = "r11"
 
 DESCRIPTION = "ti-apps-launcher service"
 HOMEPAGE = "https://github.com/TexasInstruments/ti-apps-launcher"
@@ -16,13 +16,14 @@ RDEPENDS:${PN}:remove:am62xxsip-evm = "seva-launcher"
 RDEPENDS:${PN}:append:am62xx = " powervr-graphics"
 
 BRANCH = "master"
-SRCREV = "267a895b16d250d0e3e2351e988671d0894a80dd"
+SRCREV = "cb60e5d8d002fdec13050aa3eb4a266cee451157"
 
 SRC_URI = " \
     git://github.com/TexasInstruments/ti-apps-launcher.git;protocol=https;branch=${BRANCH} \
     file://ti-apps-launcher.service \
     file://ti-apps-launcher-eglfs.service \
     file://ti-apps-launcher-analytics.service \
+    file://ti-demo.service \
 "
 
 S = "${WORKDIR}/git"
@@ -47,11 +48,14 @@ SERVICE_SUFFIX = ""
 SERVICE_SUFFIX:am62xx = "-analytics"
 SERVICE_SUFFIX:am62xxsip-evm = "-eglfs"
 
+APP_NAME = "${@oe.utils.conditional("DISPLAY_CLUSTER_ENABLE", "1", "ti-demo", "ti-apps-launcher", d)}"
+QMAKE_PROFILES = "${S}/${APP_NAME}.pro"
+
 inherit qmake5 deploy systemd
 
 SYSTEMD_PACKAGES = "${PN}"
 
-SYSTEMD_SERVICE:${PN} = "ti-apps-launcher.service"
+SYSTEMD_SERVICE:${PN} = "${APP_NAME}.service"
 
 do_compile:prepend() {
     echo "SOURCES += configs/${CONFIG_FILE}.cpp" >> ${S}/ti-apps-launcher.pro
@@ -61,20 +65,25 @@ do_compile:prepend() {
 
 do_install:append() {
     install -d ${D}${bindir}
-    install -m 0755 ti-apps-launcher ${D}${bindir}/ti-apps-launcher
+    install -m 0755 ${APP_NAME} ${D}${bindir}/${APP_NAME}
 
-    install -d ${D}/opt/ti-apps-launcher
-    install -m 0755 ${S}/scripts/* ${D}/opt/ti-apps-launcher/
+    if [ "${DISPLAY_CLUSTER_ENABLE}" != "1" ]; then
+        install -d ${D}/opt/ti-apps-launcher
+        install -m 0755 ${S}/scripts/* ${D}/opt/ti-apps-launcher/
 
-    install -d ${D}/opt/ti-apps-launcher/assets
-    install -m 0755 ${S}/images/* ${D}/opt/ti-apps-launcher/assets/
-    install -m 0755 ${S}/audios/* ${D}/opt/ti-apps-launcher/assets/
+        install -d ${D}/opt/ti-apps-launcher/assets
+        install -m 0755 ${S}/images/* ${D}/opt/ti-apps-launcher/assets/
+        install -m 0755 ${S}/audios/* ${D}/opt/ti-apps-launcher/assets/
 
-    install -d ${D}${systemd_system_unitdir}
-    install -m 0755 ${WORKDIR}/ti-apps-launcher${SERVICE_SUFFIX}.service ${D}${systemd_system_unitdir}/ti-apps-launcher.service
+        install -d ${D}${systemd_system_unitdir}
+        install -m 0755 ${WORKDIR}/ti-apps-launcher${SERVICE_SUFFIX}.service ${D}${systemd_system_unitdir}/ti-apps-launcher.service
+    else
+        install -d ${D}${systemd_system_unitdir}
+        install -m 0755 ${WORKDIR}/ti-demo.service ${D}${systemd_system_unitdir}/ti-demo.service
+    fi    
 }
 
 FILES:${PN} += " \
-    ${bindir}/ti-apps-launcher \
-    /opt/ti-apps-launcher/ \
+    ${bindir}/${APP_NAME} \
+    /opt/${APP_NAME}/ \
 "
