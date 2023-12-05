@@ -16,7 +16,7 @@ RDEPENDS:${PN}:remove:am62xxsip-evm = "seva-launcher"
 RDEPENDS:${PN}:append:am62xx = " powervr-graphics"
 
 BRANCH = "master"
-SRCREV = "cb60e5d8d002fdec13050aa3eb4a266cee451157"
+SRCREV = "5b7d87a9d9ec8f038df4db0da9ae517b335b4b4b"
 
 SRC_URI = " \
     git://github.com/TexasInstruments/ti-apps-launcher.git;protocol=https;branch=${BRANCH} \
@@ -31,7 +31,7 @@ S = "${WORKDIR}/git"
 APPS_DEFINES = ""
 APPS_DEFINES:am62xx = "SOC_AM62"
 APPS_DEFINES:am62xx-lp-evm = "SOC_AM62_LP"
-APPS_DEFINES:am62pxx-evm = "SOC_AM62_LP"
+APPS_DEFINES:am62pxx-evm = "SOC_AM62P"
 APPS_DEFINES:am62xxsip-evm = "SOC_AM62_LP"
 APPS_DEFINES:j721s2 = "SOC_J721S2"
 APPS_DEFINES:j784s4 = "SOC_J784S4"
@@ -46,6 +46,7 @@ CONFIG_FILE:j784s4 = "am69-sk"
 
 SERVICE_SUFFIX = ""
 SERVICE_SUFFIX:am62xx = "-analytics"
+SERVICE_SUFFIX:am62pxx = "-analytics"
 SERVICE_SUFFIX:am62xxsip-evm = "-eglfs"
 
 APP_NAME = "${@oe.utils.conditional("DISPLAY_CLUSTER_ENABLE", "1", "ti-demo", "ti-apps-launcher", d)}"
