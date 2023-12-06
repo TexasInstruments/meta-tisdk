@@ -47,16 +47,16 @@ CREATE_SRCIPK:pn-u-boot ?= "1"
 SRCIPK_INSTALL_DIR:pn-u-boot ?= "board-support/u-boot-${PV}"
 
 CREATE_SRCIPK:pn-u-boot-ti-staging ?= "1"
-SRCIPK_INSTALL_DIR:pn-u-boot-ti-staging ?= "board-support/ti-u-boot-${PV}${UBOOT_LOCALVERSION}"
+SRCIPK_INSTALL_DIR:pn-u-boot-ti-staging ?= "${@oe.utils.conditional("TI_EXTRAS", "tie-jailhouse", "board-support/u-boot-extras-${PV}${UBOOT_LOCALVERSION}", "board-support/ti-u-boot-${PV}${UBOOT_LOCALVERSION}", d)}"
 SRCIPK_PRESERVE_GIT:pn-u-boot-ti-staging ?= "true"
 
 CREATE_SRCIPK:pn-linux-ti-staging ?= "1"
-SRCIPK_INSTALL_DIR:pn-linux-ti-staging ?= "board-support/ti-linux-kernel-${PV}${KERNEL_LOCALVERSION}"
+SRCIPK_INSTALL_DIR:pn-linux-ti-staging ?= "${@oe.utils.conditional("TI_EXTRAS", "tie-jailhouse", "board-support/linux-extras-${PV}${KERNEL_LOCALVERSION}", "board-support/ti-linux-kernel-${PV}${KERNEL_LOCALVERSION}", d)}"
 SRCIPK_PRESERVE_GIT:pn-linux-ti-staging ?= "true"
 SRCIPK_SHALLOW_CLONE:pn-linux-ti-staging ?= "true"
 
 CREATE_SRCIPK:pn-linux-ti-staging-rt ?= "1"
-SRCIPK_INSTALL_DIR:pn-linux-ti-staging-rt ?= "board-support/ti-linux-kernel-${PV}${KERNEL_LOCALVERSION}"
+SRCIPK_INSTALL_DIR:pn-linux-ti-staging-rt ?= "${@oe.utils.conditional("TI_EXTRAS", "tie-jailhouse", "board-support/linux-extras-${PV}${KERNEL_LOCALVERSION}", "board-support/ti-linux-kernel-${PV}${KERNEL_LOCALVERSION}", d)}"
 SRCIPK_PRESERVE_GIT:pn-linux-ti-staging-rt ?= "true"
 SRCIPK_SHALLOW_CLONE:pn-linux-ti-staging-rt ?= "true"
 
@@ -76,6 +76,9 @@ CREATE_SRCIPK:pn-ti-img-rogue-driver ?= "1"
 SRCIPK_INSTALL_DIR:pn-ti-img-rogue-driver ?= "board-support/extra-drivers/${PN}-${PV}"
 SRCIPK_PRESERVE_GIT:pn-ti-img-rogue-driver ?= "true"
 
+CREATE_SRCIPK:pn-jailhouse ?= "1"
+SRCIPK_INSTALL_DIR:pn-jailhouse ?= "board-support/extra-drivers/${PN}-${PV}"
+SRCIPK_PRESERVE_GIT:pn-jailhouse ?= "true"
 
 CREATE_SRCIPK:pn-optee-os ?= "1"
 SRCIPK_INSTALL_DIR:pn-optee-os ?= "board-support/${PN}-${PV}"

@@ -1,6 +1,6 @@
 DESCRIPTION = "Task to install sources for the BSP, out of tree drivers, and additional utilities/demos for SDKs"
 LICENSE = "MIT"
-PR = "r3"
+PR = "r4"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
@@ -68,6 +68,10 @@ UTILS:append:am65xx = " \
     oprofile-example-src \
     matrix-gui-src \
     ${@bb.utils.contains('MACHINE_FEATURES', 'gpu', 'pdm-anomaly-detection-src', '', d)} \
+"
+
+UTILS:append = " \
+	${@oe.utils.conditional("TI_EXTRAS", "tie-jailhouse", "jailhouse-src", "", d)} \
 "
 
 # Collect all of the source packages into a packagegroup
