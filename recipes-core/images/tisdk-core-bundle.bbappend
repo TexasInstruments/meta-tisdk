@@ -1,7 +1,15 @@
-PR:append = "_tisdk_1"
+PR:append = "_tisdk_2"
 
 # Avoid building bootstrap-image while generating tisdk-core-bundle for PROC SDK
-TARGET_IMAGES:remove = "tisdk-bootstrap-image"
+TARGET_IMAGES:remove = " \
+	tisdk-bootstrap-image \
+	${@oe.utils.conditional("TI_EXTRAS", "tie-jailhouse", "tisdk-base-image", "", d)} \
+	${@oe.utils.conditional("TI_EXTRAS", "tie-jailhouse", "tisdk-thinlinux-image", "", d)} \
+	${@oe.utils.conditional("TI_EXTRAS", "tie-jailhouse", "tisdk-default-image", "", d)} \
+"
+
+TARGET_IMAGES:append = " ${@oe.utils.conditional("TI_EXTRAS", "tie-jailhouse", "tisdk-jailhouse-image", "", d)}"
+
 TARGET_IMAGE_TYPES = "tar.xz wic.xz wic.bmap"
 
 DEPLOY_IMAGES_NAME:append = " Image fitImage fitImage-its-${MACHINE}"
