@@ -1,4 +1,4 @@
-PR = "r11"
+PR = "r12"
 
 DESCRIPTION = "ti-apps-launcher service"
 HOMEPAGE = "https://github.com/TexasInstruments/ti-apps-launcher"
@@ -14,6 +14,7 @@ DEPENDS = "qtbase qtquick3d qtmultimedia"
 RDEPENDS:${PN} = "qtquick3d qtmultimedia bash seva-launcher pulseaudio-service"
 RDEPENDS:${PN}:remove:am62xxsip-evm = "seva-launcher"
 RDEPENDS:${PN}:append:am62xx = " powervr-graphics"
+RDEPENDS:${PN}:append:am62pxx = " powervr-graphics"
 
 BRANCH = "master"
 SRCREV = "5b7d87a9d9ec8f038df4db0da9ae517b335b4b4b"
