@@ -16,7 +16,11 @@ DEMOS:append:am64xx = " \
     opcua-server \
 "
 
-EXTRA_PACKAGES:append = " watchdog"
+EXTRA_PACKAGES:append = " \
+    watchdog \
+    kmscube \
+"
+EXTRA_PACKAGES:remove:am64xx = "kmscube"
 EXTRA_PACKAGES:append:ti33x = " opencv"
 EXTRA_PACKAGES:append:ti43x = " opencv"
 
