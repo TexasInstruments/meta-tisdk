@@ -5,5 +5,16 @@ SRC_URI:append:j721e = " \
     file://0001-arm64-dts-ti-k3-j721e-sk-Enable-wkup-i2c0.patch \
 "
 
-PR:append = "_tisdk_1"
+# This hack to pick a different branch & SRCREV is needed for 
+# 9.1 RT release for SITARA platforms (i.e am62xx, am64xx, am62pxx)
+BRANCH:am62xx = "ti-rt-linux-6.1.y-cicd"
+SRCREV:am62xx = "b871cdee8c31b877177e4e9d626d1d424052e32e"
+
+BRANCH:am62pxx = "ti-rt-linux-6.1.y-cicd"
+SRCREV:am62pxx = "b871cdee8c31b877177e4e9d626d1d424052e32e"
+
+BRANCH:am64xx = "ti-rt-linux-6.1.y-cicd"
+SRCREV:am64xx = "b871cdee8c31b877177e4e9d626d1d424052e32e"
+
+PR:append = "_tisdk_2"
 
