@@ -16,5 +16,7 @@ SRCREV:am62pxx = "b871cdee8c31b877177e4e9d626d1d424052e32e"
 BRANCH:am64xx = "ti-rt-linux-6.1.y-cicd"
 SRCREV:am64xx = "b871cdee8c31b877177e4e9d626d1d424052e32e"
 
-PR:append = "_tisdk_2"
+SRCREV:tie-jailhouse = "a63a1b1be1443add3bdae62cfcb7101ac483e190"
+
+PR:append = "_tisdk_3"
 
