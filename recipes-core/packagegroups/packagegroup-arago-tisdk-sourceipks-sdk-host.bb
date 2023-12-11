@@ -82,5 +82,4 @@ RDEPENDS:${PN} = "\
     ${CRYPTO_RDEPENDS} \
     ${UTILS} \
     optee-os-src \
-    trusted-firmware-a-src \
 "
