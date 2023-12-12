@@ -12,7 +12,7 @@ EnvironmentFile=/etc/profile
 Environment=QT_QPA_PLATFORM=eglfs
 Environment=QT_QPA_EGLFS_KMS_CONFIG=/etc/eglfs.conf
 ExecStartPre=/bin/sh -c 'source /etc/profile ; for i in $(find /sys/devices/platform -name "card?"); do export D=${i:0-1}; if [[ "$i" == *"dss"* ]]; then echo -e "{\n\t\x5c\x22device\x5c\x22: \x5c\x22/dev/dri/card${i:0-1}\x5c\x22,\n\t\x5c\x22hwcursor\x5c\x22: false\n}\n" > /etc/eglfs.conf ; fi; done'
-ExecStart=/bin/sh -c 'source /etc/profile ; QT_QPA_EGLFS_KMS_CONFIG=/etc/eglfs.conf /usr/bin/ti-apps-launcher -platform eglfs'
+ExecStart=/bin/sh -c 'sleep 5 ; source /etc/profile ; QT_QPA_EGLFS_KMS_CONFIG=/etc/eglfs.conf /usr/bin/ti-apps-launcher -platform eglfs'
 
 # The user to run Weston as.
 User=root
