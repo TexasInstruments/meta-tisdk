@@ -1,0 +1,43 @@
+From 466a0f62d4ca9fd8eeea3fc060f4f1a9584f4af5 Mon Sep 17 00:00:00 2001
+From: Sinthu Raja <sinthu.raja@ti.com>
+Date: Tue, 14 Nov 2023 12:45:29 +0530
+Subject: [PATCH 1/2] km: Fix stdarg header file compilation issues
+
+The location of the stdarg.h is changed to linux/stdarg.h. Fix the same
+by updating the stdarg header location.
+
+Signed-off-by: Sinthu Raja <sinthu.raja@ti.com>
+---
+ hal/os/linux/kernel/gc_hal_kernel_debug.h   | 2 +-
+ hal/os/linux/kernel/gc_hal_kernel_debugfs.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/hal/os/linux/kernel/gc_hal_kernel_debug.h b/hal/os/linux/kernel/gc_hal_kernel_debug.h
+index 54782fd..cac5528 100755
+--- a/hal/os/linux/kernel/gc_hal_kernel_debug.h
++++ b/hal/os/linux/kernel/gc_hal_kernel_debug.h
+@@ -59,7 +59,7 @@
+ #include <gc_hal_kernel_linux.h>
+ #include <linux/spinlock.h>
+ #include <linux/time.h>
+-#include <stdarg.h>
++#include <linux/stdarg.h>
+ 
+ #ifdef __cplusplus
+ extern "C" {
+diff --git a/hal/os/linux/kernel/gc_hal_kernel_debugfs.h b/hal/os/linux/kernel/gc_hal_kernel_debugfs.h
+index 9a15d77..a960272 100755
+--- a/hal/os/linux/kernel/gc_hal_kernel_debugfs.h
++++ b/hal/os/linux/kernel/gc_hal_kernel_debugfs.h
+@@ -53,7 +53,7 @@
+ *****************************************************************************/
+ 
+ 
+-#include <stdarg.h>
++#include <linux/stdarg.h>
+ 
+ #ifndef __gc_hal_kernel_debugfs_h_
+ #define __gc_hal_kernel_debugfs_h_
+-- 
+2.36.1
+

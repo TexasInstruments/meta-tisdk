@@ -1,0 +1,28 @@
+From e7d20324dcfed1b57e09d9e1498fad666e91665e Mon Sep 17 00:00:00 2001
+From: Sinthu Raja <sinthu.raja@ti.com>
+Date: Tue, 14 Nov 2023 12:53:00 +0530
+Subject: [PATCH 2/2] km: import DMA_BUF namespace to load the dma_buf modules
+
+The DMA BUF module is added to the namespace. To load the graphics
+driver with dma_buf module import the DAM_BUF namespace
+
+Signed-off-by: Sinthu Raja <sinthu.raja@ti.com>
+---
+ hal/os/linux/kernel/gc_hal_kernel_probe.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/hal/os/linux/kernel/gc_hal_kernel_probe.c b/hal/os/linux/kernel/gc_hal_kernel_probe.c
+index 877b5a2..430c67e 100755
+--- a/hal/os/linux/kernel/gc_hal_kernel_probe.c
++++ b/hal/os/linux/kernel/gc_hal_kernel_probe.c
+@@ -73,6 +73,7 @@
+ #define _GC_OBJ_ZONE    gcvZONE_DRIVER
+ 
+ MODULE_DESCRIPTION("Vivante Graphics Driver");
++MODULE_IMPORT_NS(DMA_BUF);
+ MODULE_LICENSE("GPL");
+ 
+ static struct class* gpuClass;
+-- 
+2.36.1
+
