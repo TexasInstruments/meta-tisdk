@@ -5,6 +5,8 @@ SRC_URI:append:j721e = " \
     file://0001-arm64-dts-ti-k3-j721e-sk-Enable-wkup-i2c0.patch \
 "
 
+SRC_URI += "file://0001-support-TI-GC320-drivers.patch"
+
 # This hack to pick a different branch & SRCREV is needed for 
 # 9.1 RT release for SITARA platforms (i.e am62xx, am64xx, am62pxx)
 BRANCH:am62xx = "${@oe.utils.conditional("TI_EXTRAS", "tie-jailhouse", "ti-rt-linux-6.1.y-jailhouse", "ti-rt-linux-6.1.y-cicd", d)}"
