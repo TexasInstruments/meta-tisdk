@@ -7,16 +7,16 @@ SRC_URI:append:j721e = " \
 
 # This hack to pick a different branch & SRCREV is needed for 
 # 9.1 RT release for SITARA platforms (i.e am62xx, am64xx, am62pxx)
-BRANCH:am62xx = "ti-rt-linux-6.1.y-cicd"
-SRCREV:am62xx = "b871cdee8c31b877177e4e9d626d1d424052e32e"
+BRANCH:am62xx = "${@oe.utils.conditional("TI_EXTRAS", "tie-jailhouse", "ti-rt-linux-6.1.y-jailhouse", "ti-rt-linux-6.1.y-cicd", d)}"
+SRCREV:am62xx = "${@oe.utils.conditional("TI_EXTRAS", "tie-jailhouse", "a63a1b1be1443add3bdae62cfcb7101ac483e190", "b871cdee8c31b877177e4e9d626d1d424052e32e", d)}"
 
-BRANCH:am62pxx = "ti-rt-linux-6.1.y-cicd"
-SRCREV:am62pxx = "b871cdee8c31b877177e4e9d626d1d424052e32e"
+BRANCH:am62pxx = "${@oe.utils.conditional("TI_EXTRAS", "tie-jailhouse", "ti-rt-linux-6.1.y-jailhouse", "ti-rt-linux-6.1.y-cicd", d)}"
+SRCREV:am62pxx = "${@oe.utils.conditional("TI_EXTRAS", "tie-jailhouse", "a63a1b1be1443add3bdae62cfcb7101ac483e190", "b871cdee8c31b877177e4e9d626d1d424052e32e", d)}"
 
 BRANCH:am64xx = "ti-rt-linux-6.1.y-cicd"
 SRCREV:am64xx = "b871cdee8c31b877177e4e9d626d1d424052e32e"
 
 SRCREV:tie-jailhouse = "a63a1b1be1443add3bdae62cfcb7101ac483e190"
 
-PR:append = "_tisdk_3"
+PR:append = "_tisdk_4"
 
