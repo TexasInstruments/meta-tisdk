@@ -82,5 +82,5 @@ RDEPENDS:${PN} = "\
     ${GRAPHICS_RDEPENDS} \
     ${CRYPTO_RDEPENDS} \
     ${UTILS} \
-    optee-os-src \
 "
+RDEPENDS:${PN}:append:am57xx-hs-evm = "optee-os-src"
