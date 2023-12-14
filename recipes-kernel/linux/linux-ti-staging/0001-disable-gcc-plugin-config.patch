@@ -1,0 +1,24 @@
+From 0e3e51bbd657695a3b13789a38e8042916d7bf37 Mon Sep 17 00:00:00 2001
+From: Sinthu Raja <sinthu.raja@ti.com>
+Date: Thu, 14 Dec 2023 13:39:45 +0000
+Subject: [PATCH] disbale gcc plugin config
+
+Signed-off-by: Sinthu Raja <sinthu.raja@ti.com>
+---
+ kernel/configs/ti_multi_v7_prune.config | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/kernel/configs/ti_multi_v7_prune.config b/kernel/configs/ti_multi_v7_prune.config
+index 8f1a38fca68a..b04d5d0a0269 100644
+--- a/kernel/configs/ti_multi_v7_prune.config
++++ b/kernel/configs/ti_multi_v7_prune.config
+@@ -171,3 +171,6 @@ CONFIG_XEN_FBDEV_FRONTEND=n
+ CONFIG_USB_DWC2=n
+ CONFIG_USB_CHIPIDEA=n
+ CONFIG_USB_ISP1760=n
++
++#GCC
++CONFIG_GCC_PLUGINS=n
+-- 
+2.34.1
+
