@@ -96,6 +96,14 @@ CREATE_SRCIPK:pn-cryptodev-module ?= "1"
 SRCIPK_INSTALL_DIR:pn-cryptodev-module ?= "board-support/extra-drivers/cryptodev-module-${PV}"
 SRCIPK_PRESERVE_GIT:pn-cryptodev-module ?= "true"
 
+CREATE_SRCIPK:pn-ti-gc320-driver ?= "1"
+SRCIPK_INSTALL_DIR:pn-ti-gc320-driver ?= "board-support/extra-drivers/ti-gc320-driver-${PV}"
+SRCIPK_PRESERVE_GIT:-ti-gc320-driver ?= "true"
+
+CREATE_SRCIPK:pn-cmem ?= "1"
+SRCIPK_INSTALL_DIR:pn-cmem ?= "board-support/extra-drivers/${PN}-${PV}"
+SRCIPK_PRESERVE_GIT:-cmem ?= "true"
+
 CREATE_SRCIPK:pn-ti-img-rogue-driver ?= "1"
 SRCIPK_INSTALL_DIR:pn-ti-img-rogue-driver ?= "board-support/extra-drivers/${PN}-${PV}"
 SRCIPK_PRESERVE_GIT:pn-ti-img-rogue-driver ?= "true"
