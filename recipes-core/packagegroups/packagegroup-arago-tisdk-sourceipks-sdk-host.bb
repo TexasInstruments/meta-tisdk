@@ -1,6 +1,6 @@
 DESCRIPTION = "Task to install sources for the BSP, out of tree drivers, and additional utilities/demos for SDKs"
 LICENSE = "MIT"
-PR = "r5"
+PR = "r6"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
@@ -25,10 +25,13 @@ GRAPHICS_RDEPENDS:remove:am64xx = "${@bb.utils.contains('MACHINE_FEATURES','gpu'
 # Remove gpudriver sources for ti33x and ti43x family of devices until SGX driver is fixed
 GRAPHICS_RDEPENDS:remove:ti33x = "${@bb.utils.contains('MACHINE_FEATURES','gpu','${PREFERRED_PROVIDER_virtual/gpudriver}-src','',d)}"
 GRAPHICS_RDEPENDS:remove:ti43x = "${@bb.utils.contains('MACHINE_FEATURES','gpu','${PREFERRED_PROVIDER_virtual/gpudriver}-src','',d)}"
-GRAPHICS_RDEPENDS:remove:omap-a15 = "${@bb.utils.contains('MACHINE_FEATURES','gpu','${PREFERRED_PROVIDER_virtual/gpudriver}-src','',d)}"
+GRAPHICS_RDEPENDS:am57xx = "${@bb.utils.contains('MACHINE_FEATURES','gc320','ti-gc320-driver-src','',d)}"
 
 # Task to install crypto sources in SDK"
 CRYPTO_RDEPENDS = "cryptodev-module-src"
+
+# Task to install CMEM source in SDK
+CMEM_RDEPENDS:am57xx = "cmem-src"
 
 # Task to install sources for additional utilities/demos for SDKs
 UTILS = "arm-benchmarks-src"
@@ -63,6 +66,17 @@ UTILS:append:ti43x = " \
     ${@bb.utils.contains('MACHINE_FEATURES', 'gpu', 'pdm-anomaly-detection-src', '', d)} \
 "
 
+UTILS += " \
+    omapconf-src \
+    mmwavegesture-hmi-src \
+    evse-hmi-src \
+    dual-camera-demo-src \
+    qt-tstat-src \
+    oprofile-example-src \
+    refresh-screen-src \
+    ${@bb.utils.contains('MACHINE_FEATURES', 'gpu', 'pdm-anomaly-detection-src', '', d)} \
+"
+
 UTILS:append:am65xx = " \
     pru-icss-src \
     matrix-gui-browser-src \
@@ -81,6 +95,7 @@ RDEPENDS:${PN} = "\
     ${KERNEL_SRC} \
     ${GRAPHICS_RDEPENDS} \
     ${CRYPTO_RDEPENDS} \
+    ${CMEM_RDEPENDS} \
     ${UTILS} \
 "
 RDEPENDS:${PN}:append:am57xx-hs-evm = "optee-os-src"
