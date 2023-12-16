@@ -1,0 +1,39 @@
+From 8e9818bc708f2eea8959dfaeb3c22c39127f3dc3 Mon Sep 17 00:00:00 2001
+From: Sinthu Raja <sinthu.raja@ti.com>
+Date: Sat, 16 Dec 2023 18:54:22 +0530
+Subject: [PATCH] arm: dts: am57xx-beagle-x15: Disable the PRU cores
+
+Disable all the available PRU cores from the PRU Subsystem
+
+Signed-off-by: Sinthu Raja <sinthu.raja@ti.com>
+---
+ arch/arm/boot/dts/am57xx-beagle-x15.dts | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+diff --git a/arch/arm/boot/dts/am57xx-beagle-x15.dts b/arch/arm/boot/dts/am57xx-beagle-x15.dts
+index 5aa374289943..92dcd29f10fa 100644
+--- a/arch/arm/boot/dts/am57xx-beagle-x15.dts
++++ b/arch/arm/boot/dts/am57xx-beagle-x15.dts
+@@ -36,3 +36,19 @@ &mmc2 {
+ &phy1 {
+ 	max-speed = <100>;
+ };
++
++&pru1_0 {
++	status = "disabled";
++};
++
++&pru1_1 {
++	status = "disabled";
++};
++
++&pru2_0 {
++	status = "disabled";
++};
++
++&pru2_1 {
++	status = "disabled";
++};
+-- 
+2.36.1
+
