@@ -13,6 +13,9 @@ SRCREV:am62xx = "${@oe.utils.conditional("TI_EXTRAS", "tie-jailhouse", "a63a1b1b
 BRANCH:am62pxx = "${@oe.utils.conditional("TI_EXTRAS", "tie-jailhouse", "ti-rt-linux-6.1.y-jailhouse", "ti-rt-linux-6.1.y-cicd", d)}"
 SRCREV:am62pxx = "${@oe.utils.conditional("TI_EXTRAS", "tie-jailhouse", "a63a1b1be1443add3bdae62cfcb7101ac483e190", "b871cdee8c31b877177e4e9d626d1d424052e32e", d)}"
 
+BRANCH:am62axx = "ti-rt-linux-6.1.y-cicd"
+SRCREV:am62axx = "b871cdee8c31b877177e4e9d626d1d424052e32e"
+
 BRANCH:am64xx = "ti-rt-linux-6.1.y-cicd"
 SRCREV:am64xx = "b871cdee8c31b877177e4e9d626d1d424052e32e"
 
