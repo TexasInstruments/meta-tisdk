@@ -64,9 +64,7 @@ UTILS:append:ti43x = " \
 
 UTILS:append:am65xx = " \
     pru-icss-src \
-    matrix-gui-browser-src \
     oprofile-example-src \
-    matrix-gui-src \
     ${@bb.utils.contains('MACHINE_FEATURES', 'gpu', 'pdm-anomaly-detection-src', '', d)} \
 "
 

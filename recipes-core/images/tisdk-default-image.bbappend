@@ -1,4 +1,4 @@
-PR:append = "_tisdk_2"
+PR:append = "_tisdk_3"
 
 IMAGE_INSTALL:remove:am62xx = " \
     packagegroup-arago-tisdk-matrix \
@@ -13,6 +13,10 @@ IMAGE_INSTALL:remove:am62axx = " \
     packagegroup-arago-tisdk-matrix-extra \
 "
 IMAGE_INSTALL:remove:am64xx = " \
+    packagegroup-arago-tisdk-matrix \
+    packagegroup-arago-tisdk-matrix-extra \
+"
+IMAGE_INSTALL:remove:am65xx = " \
     packagegroup-arago-tisdk-matrix \
     packagegroup-arago-tisdk-matrix-extra \
 "
