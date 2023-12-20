@@ -43,6 +43,12 @@ SRCIPK_INCLUDE_EXTRAFILES = "0"
 CREATE_SRCIPK:pn-arm-benchmarks ?= "1"
 SRCIPK_INSTALL_DIR:pn-arm-benchmarks ?= "example-applications/${PN}-${PV}"
 
+CREATE_SRCIPK:pn-oprofile-example ?= "1"
+SRCIPK_INSTALL_DIR:pn-oprofile-example ?= "example-applications/${PN}"
+
+CREATE_SRCIPK:pn-pdm-anomaly-detection ?= "1"
+SRCIPK_INSTALL_DIR:pn-pdm-anomaly-detection ?= "example-applications/${PN}-${PV}"
+
 CREATE_SRCIPK:pn-u-boot ?= "1"
 SRCIPK_INSTALL_DIR:pn-u-boot ?= "board-support/u-boot-${PV}"
 
