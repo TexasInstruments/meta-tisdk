@@ -1,0 +1,27 @@
+From d390b2d307694dfb2abf2537d14786117042db22 Mon Sep 17 00:00:00 2001
+From: Sinthu Raja <sinthu.raja@ti.com> 
+Date: Wed, 20 Dec 2023 10:28:59 +0530
+Subject: [PATCH 1/2] arm: configs: omap5: Enable support for QSPI controller
+
+Enable config SPI_TI_QSPI to add support for QSPI master controller
+driver for flash devices on omap5 platforms.
+
+Signed-off-by: Sinthu Raja <sinthu.raja@ti.com>
+
+Author:    Sinthu Raja <sinthu.raja@ti.com>
+---
+ arch/arm/configs/multi_v7_defconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/arm/configs/multi_v7_defconfig b/arch/arm/configs/multi_v7_defconfig
+index 9052b3404188..34787d58870d 100644
+--- a/arch/arm/configs/multi_v7_defconfig
++++ b/arch/arm/configs/multi_v7_defconfig
+@@ -1307,3 +1307,4 @@ CONFIG_CMA_SIZE_MBYTES=64
+ CONFIG_PRINTK_TIME=y
+ CONFIG_MAGIC_SYSRQ=y
+ CONFIG_DEBUG_FS=y
++CONFIG_SPI_TI_QSPI=y
+-- 
+2.36.1
+
