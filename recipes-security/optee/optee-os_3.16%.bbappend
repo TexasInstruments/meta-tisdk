@@ -4,5 +4,6 @@ EXTRA_OEMAKE:append:am62xx = " \
 "
 
 EXTRA_OEMAKE:append:am64xx = " ${@oe.utils.conditional("ARAGO_RT_ENABLE", "1", "CFG_WITH_SOFTWARE_PRNG=y", "", d)}"
+EXTRA_OEMAKE:append:am62axx = " ${@oe.utils.conditional("ARAGO_RT_ENABLE", "1", "CFG_WITH_SOFTWARE_PRNG=y", "", d)}"
 
-PR:appd = "_tisdk_3"
+PR:append = "_tisdk_4"
