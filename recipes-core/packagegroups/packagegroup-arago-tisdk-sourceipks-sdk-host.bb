@@ -1,6 +1,6 @@
 DESCRIPTION = "Task to install sources for the BSP, out of tree drivers, and additional utilities/demos for SDKs"
 LICENSE = "MIT"
-PR = "r5"
+PR = "r6"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
@@ -79,10 +79,10 @@ RDEPENDS:${PN} = "\
     ${GRAPHICS_RDEPENDS} \
     ${CRYPTO_RDEPENDS} \
     ${UTILS} \
-    optee-os-src \
 "
 
-# ATF is compatible only on k3 platforms
+# Package ATF & OPTEE sources for k3 platforms
 RDEPENDS:${PN}:append:k3 = "\
     trusted-firmware-a-src \
+    optee-os-src \
 "
