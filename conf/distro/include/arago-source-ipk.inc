@@ -97,4 +97,32 @@ SRCIPK_PRESERVE_GIT:pn-trusted-firmware-a ?= "true"
 CREATE_SRCIPK:pn-pru-icss ?= "1"
 SRCIPK_INSTALL_DIR:pn-pru-icss ?= "example-applications/${PN}-${PV}"
 
+CREATE_SRCIPK:pn-matrix-gui ?= "1"
+SRCIPK_INSTALL_DIR:pn-matrix-gui ?= "example-applications/${PN}-${PV}"
 
+CREATE_SRCIPK:pn-matrix-gui-browser ?= "1"
+SRCIPK_INSTALL_DIR:pn-matrix-gui-browser ?= "example-applications/${PN}-${PV}"
+
+CREATE_SRCIPK:pn-mmwavegesture-hmi ?= "1"
+SRCIPK_INSTALL_DIR:pn-mmwavegesture-hmi ?= "example-applications/${PN}-${PV}"
+
+CREATE_SRCIPK:pn-evse-hmi ?= "1"
+SRCIPK_INSTALL_DIR:pn-evse-hmi ?= "example-applications/${PN}-${PV}"
+
+CREATE_SRCIPK:pn-refresh-screen ?= "1"
+SRCIPK_INSTALL_DIR:pn-refresh-screen ?= "example-applications/${PN}-${PV}"
+
+CREATE_SRCIPK:pn-qt-tstat ?= "1"
+SRCIPK_INSTALL_DIR:pn-qt-tstat ?= "example-applications/${PN}-${PV}"
+
+CREATE_SRCIPK:pn-dual-camera-demo ?= "1"
+SRCIPK_INSTALL_DIR:pn-dual-camera-demo ?= "example-applications/${PN}-${PV}"
+
+CREATE_SRCIPK:pn-image-gallery ?= "1"
+SRCIPK_INSTALL_DIR:pn-image-gallery ?= "example-applications/${PN}"
+
+CREATE_SRCIPK:pn-protection-relays-hmi ?= "1"
+SRCIPK_INSTALL_DIR:pn-protection-relays-hmi ?= "example-applications/${PN}-${PV}"
+
+CREATE_SRCIPK_pn-omapconf ?= "1"
+SRCIPK_INSTALL_DIR_pn-omapconf ?= "example-applications/${PN}-${PV}"
