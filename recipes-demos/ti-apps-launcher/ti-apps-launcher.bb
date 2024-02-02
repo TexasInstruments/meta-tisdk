@@ -17,7 +17,7 @@ RDEPENDS:${PN}:append:am62xx = " powervr-graphics"
 RDEPENDS:${PN}:append:am62pxx = " powervr-graphics"
 
 BRANCH = "master"
-SRCREV = "7ca9fb1fb9b71c3277d0bb818166b365babcd5a7"
+SRCREV = "04e234edb9514a8e6f59c55aec4fb95bd5eca4d7"
 
 SRC_URI = " \
     git://github.com/TexasInstruments/ti-apps-launcher.git;protocol=https;branch=${BRANCH} \
@@ -82,7 +82,7 @@ do_install:append() {
     else
         install -d ${D}${systemd_system_unitdir}
         install -m 0755 ${WORKDIR}/ti-demo.service ${D}${systemd_system_unitdir}/ti-demo.service
-    fi    
+    fi
 }
 
 FILES:${PN} += " \
