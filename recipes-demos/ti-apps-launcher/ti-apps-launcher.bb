@@ -3,7 +3,7 @@ PR = "r13"
 DESCRIPTION = "ti-apps-launcher service"
 HOMEPAGE = "https://github.com/TexasInstruments/ti-apps-launcher"
 
-COMPATIBLE_MACHINE = "am62xx|am62pxx|j721s2|j784s4"
+COMPATIBLE_MACHINE = "am62xx|am62pxx|j721s2|j784s4|j722s"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
@@ -37,6 +37,7 @@ APPS_DEFINES:am62pxx-evm = "SOC_AM62P"
 APPS_DEFINES:am62xxsip-evm = "SOC_AM62_LP"
 APPS_DEFINES:j721s2 = "SOC_J721S2"
 APPS_DEFINES:j784s4 = "SOC_J784S4"
+APPS_DEFINES:j722s = "SOC_J722S"
 
 CONFIG_FILE = "generic"
 CONFIG_FILE:am62xx = "am62xx-evm"
@@ -45,6 +46,7 @@ CONFIG_FILE:am62pxx-evm = "am62pxx-evm"
 CONFIG_FILE:am62xxsip-evm = "am62xxsip-evm"
 CONFIG_FILE:j721s2 = "am68-sk"
 CONFIG_FILE:j784s4 = "am69-sk"
+CONFIG_FILE:j722s = "am67-sk"
 
 SERVICE_SUFFIX = ""
 SERVICE_SUFFIX:am62xx = "-analytics"
