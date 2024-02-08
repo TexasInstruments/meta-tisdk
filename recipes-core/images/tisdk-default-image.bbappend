@@ -1,45 +1,40 @@
-PR:append = "_tisdk_3"
+PR:append = "_tisdk_4"
 
-IMAGE_INSTALL:remove:am62xx = " \
+# Holds all packagegroups that includes Matrix v2
+MATRIX_GUI_PACKAGEGROUPS = " \
     packagegroup-arago-tisdk-matrix \
     packagegroup-arago-tisdk-matrix-extra \
+"
+
+IMAGE_INSTALL:remove:am62xx = " \
+    ${MATRIX_GUI_PACKAGEGROUPS} \
 "
 IMAGE_INSTALL:remove:am62pxx = " \
-    packagegroup-arago-tisdk-matrix \
-    packagegroup-arago-tisdk-matrix-extra \
+    ${MATRIX_GUI_PACKAGEGROUPS} \
 "
 IMAGE_INSTALL:remove:am62axx = " \
-    packagegroup-arago-tisdk-matrix \
-    packagegroup-arago-tisdk-matrix-extra \
+    ${MATRIX_GUI_PACKAGEGROUPS} \
 "
 IMAGE_INSTALL:remove:am64xx = " \
-    packagegroup-arago-tisdk-matrix \
-    packagegroup-arago-tisdk-matrix-extra \
+    ${MATRIX_GUI_PACKAGEGROUPS} \
 "
 IMAGE_INSTALL:remove:am65xx = " \
-    packagegroup-arago-tisdk-matrix \
-    packagegroup-arago-tisdk-matrix-extra \
+    ${MATRIX_GUI_PACKAGEGROUPS} \
 "
 IMAGE_INSTALL:remove:j784s4 = " \
-    packagegroup-arago-tisdk-matrix \
-    packagegroup-arago-tisdk-matrix-extra \
+    ${MATRIX_GUI_PACKAGEGROUPS} \
 "
 IMAGE_INSTALL:remove:j721s2 = " \
-    packagegroup-arago-tisdk-matrix \
-    packagegroup-arago-tisdk-matrix-extra \
+    ${MATRIX_GUI_PACKAGEGROUPS} \
 "
 IMAGE_INSTALL:remove:j7200 = " \
-    packagegroup-arago-tisdk-matrix \
-    packagegroup-arago-tisdk-matrix-extra \
+    ${MATRIX_GUI_PACKAGEGROUPS} \
 "
 IMAGE_INSTALL:remove:j721e = " \
-    packagegroup-arago-tisdk-matrix \
-    packagegroup-arago-tisdk-matrix-extra \
+    ${MATRIX_GUI_PACKAGEGROUPS} \
 "
-
 IMAGE_INSTALL:remove:j722s = " \
-    packagegroup-arago-tisdk-matrix \
-    packagegroup-arago-tisdk-matrix-extra \
+    ${MATRIX_GUI_PACKAGEGROUPS} \
 "
 
 IMAGE_INSTALL:append = " \
