@@ -1,6 +1,4 @@
-TI_LINUX_FW_SRCREV:j721s2 = "1c28bc84f3e82a29e27ac400aaf880062559575c"
-
-PR:append = "_tisdk_1"
+PR:append = "_tisdk_2"
 
 IPC_DM_FW = "ipc_echo_testb_mcu1_0_release_strip.xer5f"
 
