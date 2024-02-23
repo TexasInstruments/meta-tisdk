@@ -1,4 +1,4 @@
-PR = "r4"
+PR = "r5"
 SUMMARY = "Seva Launcher Golang Binary"
 
 LICENSE = "TI-TFL"
@@ -21,8 +21,6 @@ SRC_URI[am62_launcher.sha256sum] = "49ca65cf6a626eecefd3a8498ef932d0558505ee9af7
 SRC_URI[am62p_launcher.sha256sum] = "4974181abce8b9404fb320df0befae345b43f2f19a6edc6e4cb0c9af946acd62"
 SRC_URI[am68_launcher.sha256sum] = "274eb2d2b027c5b95e405acc4a7dbbf609416df4250c63b4fe692223205bb44e"
 SRC_URI[am69_launcher.sha256sum] = "c0f76fa9ac1ba3bafd2e8b5eecf5326c616fa2df2d6101cde014357fb781cceb"
-
-RDEPENDS:${PN} = " seva-browser"
 
 LAUNCHER_SOC = "unknown"
 LAUNCHER_SOC:am62xx = "am62"
