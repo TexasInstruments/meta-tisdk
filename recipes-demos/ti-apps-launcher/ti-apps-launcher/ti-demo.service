@@ -3,16 +3,15 @@
 
 [Unit]
 Description=ti-demo service
+After=multi-user.target
 
 [Service]
-# Requires systemd-notify.so Weston plugin.
 Type=simple
 EnvironmentFile=/etc/environment
-EnvironmentFile=/etc/profile
 Environment=QT_QPA_PLATFORM=eglfs
 Environment=QT_QPA_EGLFS_KMS_CONFIG=/etc/eglfs.conf
-ExecStartPre=/bin/sh -c 'source /etc/profile ; for i in $(find /sys/devices/platform -name "card?"); do export D=${i:0-1}; if [[ "$i" == *"dss"* ]]; then echo -e "{\n\t\x5c\x22device\x5c\x22: \x5c\x22/dev/dri/card${i:0-1}\x5c\x22,\n\t\x5c\x22hwcursor\x5c\x22: false\n}\n" > /etc/eglfs.conf ; fi; done'
-ExecStart=/bin/sh -c 'source /etc/profile ; QT_QPA_EGLFS_KMS_CONFIG=/etc/eglfs.conf /usr/bin/ti-demo -platform eglfs'
+ExecStartPre=/bin/sh -c 'for i in $(find /sys/devices/platform -name "card?"); do export D=${i:0-1}; if [[ "$i" == *"dss"* ]]; then echo -e "{\n\t\x5c\x22device\x5c\x22: \x5c\x22/dev/dri/card${i:0-1}\x5c\x22,\n\t\x5c\x22hwcursor\x5c\x22: false\n}\n" > /etc/eglfs.conf ; fi; done'
+ExecStart=/usr/bin/ti-demo -platform eglfs
 
 # The user to run Weston as.
 User=root
