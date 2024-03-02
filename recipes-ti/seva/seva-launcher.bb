@@ -1,4 +1,4 @@
-PR = "r5"
+PR = "r6"
 SUMMARY = "Seva Launcher Golang Binary"
 
 LICENSE = "TI-TFL"
@@ -15,6 +15,7 @@ SRC_URI = " \
     https://github.com/TexasInstruments/seva/releases/download/${PV}/seva-launcher-am62p-aarch64;name=am62p_launcher \
     https://github.com/TexasInstruments/seva/releases/download/${PV}/seva-launcher-am68-aarch64;name=am68_launcher \
     https://github.com/TexasInstruments/seva/releases/download/${PV}/seva-launcher-am69-aarch64;name=am69_launcher \
+    file://seva-launcher.service \
 "
 
 SRC_URI[am62_launcher.sha256sum] = "49ca65cf6a626eecefd3a8498ef932d0558505ee9af7ef7be5b285aa327db6fd"
@@ -28,9 +29,17 @@ LAUNCHER_SOC:am62pxx = "am62p"
 LAUNCHER_SOC:j721s2 = "am68"
 LAUNCHER_SOC:j784s4 = "am69"
 
+inherit systemd
+
+SYSTEMD_PACKAGES = "${PN}"
+SYSTEMD_SERVICE:${PN} = "seva-launcher.service"
+
 do_install() {
     install -d ${D}/usr/bin
     install -m 0755 ${S}/seva-launcher-${LAUNCHER_SOC}-aarch64 ${D}/usr/bin/seva-launcher-aarch64
+
+    install -d ${D}${systemd_system_unitdir}
+    install -m 0755 ${WORKDIR}/seva-launcher.service ${D}${systemd_system_unitdir}/seva-launcher.service
 }
 
 FILES:${PN} = "/usr/bin/seva-launcher-aarch64"
