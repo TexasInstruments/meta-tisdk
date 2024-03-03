@@ -25,6 +25,7 @@ SRC_URI = " \
     file://ti-apps-launcher-eglfs.service \
     file://ti-apps-launcher-analytics.service \
     file://ti-demo.service \
+    file://Usage.md \
 "
 
 S = "${WORKDIR}/git"
@@ -82,6 +83,13 @@ do_install:append() {
     else
         install -d ${D}${systemd_system_unitdir}
         install -m 0755 ${WORKDIR}/ti-demo.service ${D}${systemd_system_unitdir}/ti-demo.service
+    fi
+}
+
+do_install:am62pxx:append() {
+    if [ "${DISPLAY_CLUSTER_ENABLE}" != "1" ]; then
+        install -d ${D}/opt/ti-apps-launcher/gallery
+        install -m 0644 ${WORKDIR}/Usage.md ${D}/opt/ti-apps-launcher/gallery/
     fi
 }
 
