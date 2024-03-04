@@ -1,0 +1,15 @@
+# This is a unit for configuring network interface for jailhouse linux inmate
+
+[Unit]
+Description=Jailhouse Inmate OOB
+After=systemd-logind.service
+Wants=systemd-logind.service
+
+[Service]
+Type=simple
+ExecStart=/usr/share/demo/jailhouse-oob.sh
+StandardOutput=append:/var/log/jailhouse-oob.log
+StandardError=append:/var/log/jailhouse-oob.error.log
+
+[Install]
+WantedBy=multi-user.target
