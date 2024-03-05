@@ -53,7 +53,7 @@ CREATE_SRCIPK:pn-u-boot ?= "1"
 SRCIPK_INSTALL_DIR:pn-u-boot ?= "board-support/u-boot-${PV}"
 
 CREATE_SRCIPK:pn-u-boot-ti-staging ?= "1"
-SRCIPK_INSTALL_DIR:pn-u-boot-ti-staging ?= "${@oe.utils.conditional("TI_EXTRAS", "tie-jailhouse", "board-support/u-boot-extras-${PV}${UBOOT_LOCALVERSION}", "board-support/ti-u-boot-${PV}${UBOOT_LOCALVERSION}", d)}"
+SRCIPK_INSTALL_DIR:pn-u-boot-ti-staging ?= "${@oe.utils.conditional("TI_EXTRAS", "tie-jailhouse", "board-support/u-boot-extras-jailhouse-${PV}${UBOOT_LOCALVERSION}", "board-support/ti-u-boot-${PV}${UBOOT_LOCALVERSION}", d)}"
 SRCIPK_PRESERVE_GIT:pn-u-boot-ti-staging ?= "true"
 
 CREATE_SRCIPK:pn-linux-ti-staging ?= "1"
