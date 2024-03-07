@@ -1,0 +1,13 @@
+# This uEnv.txt file can contain additional environment settings that you
+# want to set in U-Boot at boot time.  This can be simple variables such
+# as the serverip or custom variables.  The format of this file is:
+#    variable=value
+# NOTE: This file will be evaluated after the bootcmd is run and the
+#       bootcmd must be set to load this file if it exists (this is the
+#       default on all newer U-Boot images.  This also means that some
+#       variables such as bootdelay cannot be changed by this file since
+#       it is not evaluated until the bootcmd is run.
+
+# Update the Linux hostname for the SK board
+# The SK also requires an additional dtbo to boot. Prepend it to name_overlays
+uenvcmd=setenv args_all $args_all systemd.hostname=am69-sk ; if test ${boot_fit} -eq 1; then  setenv name_overlays ti/k3-am69-sk-ddr-mem-carveout.dtbo $name_overlays ; else; setenv name_overlays k3-am69-sk-ddr-mem-carveout.dtbo $name_overlays; fi
