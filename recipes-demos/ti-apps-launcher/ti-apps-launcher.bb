@@ -1,4 +1,4 @@
-PR = "r13"
+PR = "r14"
 
 DESCRIPTION = "ti-apps-launcher service"
 HOMEPAGE = "https://github.com/TexasInstruments/ti-apps-launcher"
@@ -53,6 +53,12 @@ SERVICE_SUFFIX:am62xx = "-analytics"
 SERVICE_SUFFIX:am62pxx = "-analytics"
 SERVICE_SUFFIX:am62xxsip-evm = "-eglfs"
 
+HW_CODEC = "0"
+HW_CODEC:am62pxx = "1"
+HW_CODEC:j721s2 = "1"
+HW_CODEC:j784s4 = "1"
+HW_CODEC:j722s = "1"
+
 APP_NAME = "${@oe.utils.conditional("DISPLAY_CLUSTER_ENABLE", "1", "ti-demo", "ti-apps-launcher", d)}"
 QMAKE_PROFILES = "${S}/${APP_NAME}.pro"
 
@@ -82,16 +88,14 @@ do_install:append() {
 
         install -d ${D}${systemd_system_unitdir}
         install -m 0755 ${WORKDIR}/ti-apps-launcher${SERVICE_SUFFIX}.service ${D}${systemd_system_unitdir}/ti-apps-launcher.service
+
+        if [ "${HW_CODEC}" = "1" ]; then
+            install -d ${D}/opt/ti-apps-launcher/gallery
+            install -m 0644 ${WORKDIR}/Usage.md ${D}/opt/ti-apps-launcher/gallery/
+        fi
     else
         install -d ${D}${systemd_system_unitdir}
         install -m 0755 ${WORKDIR}/ti-demo.service ${D}${systemd_system_unitdir}/ti-demo.service
-    fi
-}
-
-do_install:am62pxx:append() {
-    if [ "${DISPLAY_CLUSTER_ENABLE}" != "1" ]; then
-        install -d ${D}/opt/ti-apps-launcher/gallery
-        install -m 0644 ${WORKDIR}/Usage.md ${D}/opt/ti-apps-launcher/gallery/
     fi
 }
 
