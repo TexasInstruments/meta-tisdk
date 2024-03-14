@@ -3,7 +3,6 @@
 
 [Unit]
 Description=ti-demo service
-After=multi-user.target
 
 [Service]
 Type=simple
@@ -13,7 +12,7 @@ Environment=QT_QPA_EGLFS_KMS_CONFIG=/etc/eglfs.conf
 ExecStartPre=/bin/sh -c 'for i in $(find /sys/devices/platform -name "card?"); do export D=${i:0-1}; if [[ "$i" == *"dss"* ]]; then echo -e "{\n\t\x5c\x22device\x5c\x22: \x5c\x22/dev/dri/card${i:0-1}\x5c\x22,\n\t\x5c\x22hwcursor\x5c\x22: false\n}\n" > /etc/eglfs.conf ; fi; done'
 ExecStart=/usr/bin/ti-demo -platform eglfs
 
-# The user to run Weston as.
+# The user to run ti-demo as.
 User=root
 Group=root
 
@@ -22,6 +21,6 @@ StandardOutput=journal
 StandardError=journal
 
 [Install]
-# Note: If you only want weston to start on-demand, remove this line with a
+# Note: If you only want ti-demo to start on-demand, remove this line with a
 # service drop file
 WantedBy=graphical.target multi-user.target
