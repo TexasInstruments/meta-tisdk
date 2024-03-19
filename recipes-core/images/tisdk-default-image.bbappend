@@ -1,5 +1,9 @@
 PR:append = "_tisdk_2"
 
+IMAGE_INSTALL:remove:am57xx = " \
+    packagegroup-arago-tisdk-matrix \
+    packagegroup-arago-tisdk-matrix-extra \
+"
 IMAGE_INSTALL:remove:am62xx = " \
     packagegroup-arago-tisdk-matrix \
     packagegroup-arago-tisdk-matrix-extra \
