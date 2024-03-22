@@ -5,7 +5,7 @@ SRC_URI:append:sk = " \
 		    file://0001-configs-j721s2-Sign-the-am68-sk-dtb-by-default-for-h.patch \
 		    file://0001-configs-j784s4-Sign-the-am69-sk-dtb-by-default-for-h.patch \
 		    "
-SRCREV:tie-jailhouse = "9ed275573821d171ac072cf8c78f94ec92a2a469"
+SRCREV:tie-jailhouse = "1f8add4c7f1889b4d4327627f11300134615e688"
 
 IPC_DM_FW = "ipc_echo_testb_mcu1_0_release_strip.xer5f"
 
