@@ -18,6 +18,7 @@ SRC_URI:append:am57xx = " \
     file://0007-net-rpmsg-unblock-reader-threads-operating-on-errore.patch \
     file://0008-remoteproc-Fix-multiple-back-to-back-error-recoverie.patch \
     file://0009-arm-multi_v7_defconfig-enable-rpmsg-proto-driver.patch \
+    file://0001-ARM-dts-Fix-suspend-issue-for-vip.patch \
 "
 
 # This hack to pick a different branch & SRCREV is needed for 
