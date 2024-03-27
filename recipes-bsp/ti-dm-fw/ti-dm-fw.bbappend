@@ -1,4 +1,12 @@
-PR:append = "_tisdk_3"
+PR:append = "_tisdk_4"
+
+FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
+
+SRC_URI:append:j784s4 = " \
+    file://tiLFW-1-1-ti-dm-Update-firmware-for-j784s4.patch \
+"
+
+PATCHTOOL = "git"
 
 IPC_DM_FW = "ipc_echo_testb_mcu1_0_release_strip.xer5f"
 
