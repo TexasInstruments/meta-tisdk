@@ -1,6 +1,6 @@
 PR:append = "_tisdk_0"
 
-DEPENDS += " docker-ce"
+DEPENDS += " docker-moby"
 
 USERADD_PARAM:${PN} = "--home /home/weston --shell /bin/sh -p '' --user-group -G video,input,render,wayland,docker weston"
 
