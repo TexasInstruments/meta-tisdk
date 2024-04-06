@@ -22,9 +22,10 @@ GRAPHICS_RDEPENDS:remove:am62axx = "${@bb.utils.contains('MACHINE_FEATURES','gpu
 # Remove GPU driver sources for am64xx
 GRAPHICS_RDEPENDS:remove:am64xx = "${@bb.utils.contains('MACHINE_FEATURES','gpu','${PREFERRED_PROVIDER_virtual/gpudriver}-src','',d)}"
 
-# Remove gpudriver sources for ti33x and ti43x family of devices until SGX driver is fixed
+# Remove gpudriver sources for ti33x, ti43x and am65xx family of devices until we have SGX driver working with kernel 6.6
 GRAPHICS_RDEPENDS:remove:ti33x = "${@bb.utils.contains('MACHINE_FEATURES','gpu','${PREFERRED_PROVIDER_virtual/gpudriver}-src','',d)}"
 GRAPHICS_RDEPENDS:remove:ti43x = "${@bb.utils.contains('MACHINE_FEATURES','gpu','${PREFERRED_PROVIDER_virtual/gpudriver}-src','',d)}"
+GRAPHICS_RDEPENDS:remove:am65xx = "${@bb.utils.contains('MACHINE_FEATURES','gpu','${PREFERRED_PROVIDER_virtual/gpudriver}-src','',d)}"
 
 # Task to install crypto sources in SDK"
 CRYPTO_RDEPENDS = "cryptodev-module-src"
