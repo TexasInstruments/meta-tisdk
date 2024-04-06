@@ -55,7 +55,6 @@ UTILS:append:ti43x = " \
     matrix-gui-browser-src \
     refresh-screen-src \
     qt-tstat-src \
-    dual-camera-demo-src \
     image-gallery-src \
     oprofile-example-src \
     matrix-gui-src \
