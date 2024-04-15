@@ -19,6 +19,6 @@ IMAGE_INSTALL:append = " \
     resize-rootfs \
 "
 
-export IMAGE_BASENAME = "tisdk-display-cluster-image"
+export IMAGE_BASENAME = "tisdk-display-cluster-image${ARAGO_IMAGE_SUFFIX}"
 
 WIC_CREATE_EXTRA_ARGS:append = " --no-fstab-update"
