@@ -72,7 +72,7 @@ SRC_URI = " \
 "
 SRCREV = "89cd7d9d048231bc6f9f504f9b705e7655b0e085"
 SRCREV_FORMAT = "default"
-PV = "1.0.0+git${SRCPV}"
+PV = "1.0.0"
 
 NPM_SHIRNKWRAP := "${THISDIR}/${BPN}/npm-shrinkwrap.json"
 SRCREV_guicomposer = "18115d266ba9f1956d06258ce2c8997fd1ef2efe"
