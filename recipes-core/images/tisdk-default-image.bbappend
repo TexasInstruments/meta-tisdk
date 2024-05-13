@@ -17,6 +17,3 @@ IMAGE_INSTALL:append = " \
 "
 
 IMAGE_INSTALL:append:j721e = " pmic-fix"
-
-WIC_CREATE_EXTRA_ARGS += " --no-fstab-update"
-

@@ -20,5 +20,3 @@ IMAGE_INSTALL:append = " \
 "
 
 export IMAGE_BASENAME = "tisdk-display-cluster-image"
-
-WIC_CREATE_EXTRA_ARGS:append = " --no-fstab-update"
