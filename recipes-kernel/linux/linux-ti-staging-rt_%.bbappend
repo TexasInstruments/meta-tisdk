@@ -5,7 +5,7 @@ SRC_URI:append:j721e = " \
     file://0001-arm64-dts-ti-k3-j721e-sk-Enable-wkup-i2c0.patch \
 "
 
-SRCREV:tie-jailhouse = "af13755ebde9e1dc74e8442b538de8bad99e7e5d"
+SRCREV:tie-jailhouse = "3c0d73833e537ba18f63ba91f384349a1d76f340"
 
 PR:append = "_tisdk_6"
 
