@@ -21,9 +21,6 @@ IMAGE_INSTALL:append = " \
     packagegroup-arago-tisdk-sourceipks-sdk-host \
 "
 
-# Avoid building chromium for AM65x
-IMAGE_INSTALL:remove:am65xx = "chromium"
-
 # Set DTB filters for each machine.  Use "unknown" by default to avoid
 # picking up DTB files for devices with no DTB support.
 DTB_FILTER:j721e = "j721e\|fpdlink"
