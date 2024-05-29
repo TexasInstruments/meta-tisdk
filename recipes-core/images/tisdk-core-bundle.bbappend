@@ -95,11 +95,11 @@ tisdk_image_build:append() {
     done
 
     # Update the tiboot3.bin/sysfw.itb for the platform
-    if [ -f "${PREBUILT_DIR}/tiboot3.bin" ]
+    if [ -f "${DEPLOY_DIR_IMAGE}/tiboot3-${SYSFW_SOC}-${SYSFW_SUFFIX}-evm.bin" ]
     then
         cp ${DEPLOY_DIR_IMAGE}/tiboot3-${SYSFW_SOC}-${SYSFW_SUFFIX}-evm.bin ${PREBUILT_DIR}/tiboot3.bin
     fi
-    if [ -f "${PREBUILT_DIR}/sysfw.itb" ]
+    if [ -f "${DEPLOY_DIR_IMAGE}/sysfw-${SYSFW_SOC}-${SYSFW_SUFFIX}-evm.itb" ]
     then
         cp ${DEPLOY_DIR_IMAGE}/sysfw-${SYSFW_SOC}-${SYSFW_SUFFIX}-evm.itb ${PREBUILT_DIR}/sysfw.itb
     fi
