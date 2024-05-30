@@ -1,6 +1,6 @@
 PR:append = "_tisdk_3"
 
-DEMOS = "oob-demo"
+DEMOS = ""
 DEMOS:append:am62xx = " ti-apps-launcher"
 DEMOS:append:am62pxx = " ti-apps-launcher"
 DEMOS:append:j722s:sk = " ti-apps-launcher"
