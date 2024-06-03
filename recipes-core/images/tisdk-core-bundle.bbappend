@@ -12,10 +12,6 @@ TARGET_IMAGES:append = " ${@oe.utils.conditional("TI_EXTRAS", "tie-jailhouse", "
 
 TARGET_IMAGE_TYPES = "tar.xz wic.xz wic.bmap"
 
-DEPLOY_IMAGES_NAME:append:k3 = " Image fitImage fitImage-its-${MACHINE}"
-DEPLOY_IMAGES_NAME:append:am335x-evm = " extlinux.conf"
-DEPLOY_IMAGES_NAME:append:am437x-evm = " extlinux.conf"
-
 # Add packagegroup to deploy sources in SDK installer
 IMAGE_INSTALL:append = " \
     packagegroup-arago-tisdk-sourceipks-sdk-host \
