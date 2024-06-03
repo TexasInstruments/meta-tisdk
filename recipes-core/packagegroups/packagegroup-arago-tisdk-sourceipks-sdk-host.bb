@@ -41,11 +41,9 @@ UTILS:append:ti33x = " \
     mmwavegesture-hmi-src \
     evse-hmi-src \
     protection-relays-hmi-src \
-    matrix-gui-browser-src \
     refresh-screen-src \
     qt-tstat-src \
     oprofile-example-src \
-    matrix-gui-src \
     ${@bb.utils.contains('MACHINE_FEATURES', 'gpu', 'pdm-anomaly-detection-src', '', d)} \
 "
 
@@ -53,12 +51,10 @@ UTILS:append:ti43x = " \
     pru-icss-src \
     mmwavegesture-hmi-src \
     evse-hmi-src \
-    matrix-gui-browser-src \
     refresh-screen-src \
     qt-tstat-src \
     image-gallery-src \
     oprofile-example-src \
-    matrix-gui-src \
     ${@bb.utils.contains('MACHINE_FEATURES', 'gpu', 'pdm-anomaly-detection-src', '', d)} \
 "
 
