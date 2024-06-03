@@ -9,11 +9,6 @@ require recipes-core/images/tisdk-default-image.bb
 # Ensure that we build this image only for AM62P
 COMPATIBLE_MACHINE = "am62pxx"
 
-IMAGE_INSTALL:remove = " \
-    packagegroup-arago-tisdk-matrix \
-    packagegroup-arago-tisdk-matrix-extra \
-"
-
 IMAGE_INSTALL:append = " \
     packagegroup-arago-gst-sdk-target \
     resize-rootfs \
