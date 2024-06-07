@@ -67,11 +67,6 @@ SRCIPK_INSTALL_DIR:pn-linux-ti-staging-rt ?= "${@oe.utils.conditional("TI_EXTRAS
 SRCIPK_PRESERVE_GIT:pn-linux-ti-staging-rt ?= "true"
 SRCIPK_SHALLOW_CLONE:pn-linux-ti-staging-rt ?= "true"
 
-CREATE_SRCIPK:pn-linux-ti-staging-systest ?= "1"
-SRCIPK_INSTALL_DIR:pn-linux-ti-staging-systest ?= "board-support/linux-systest-${PV}${KERNEL_LOCALVERSION}"
-SRCIPK_PRESERVE_GIT:pn-linux-ti-staging-systest ?= "true"
-SRCIPK_SHALLOW_CLONE:pn-linux-ti-staging-systest ?= "true"
-
 CREATE_SRCIPK:pn-linux ?= "1"
 SRCIPK_INSTALL_DIR:pn-linux ?= "board-support/linux-${PV}"
 
