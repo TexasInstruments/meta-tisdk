@@ -38,30 +38,14 @@ UTILS:append:am335x-evm = " pru-adc-src"
 UTILS:append:ti33x = " \
     omapconf-src \
     pru-icss-src \
-    mmwavegesture-hmi-src \
-    evse-hmi-src \
-    protection-relays-hmi-src \
-    refresh-screen-src \
-    qt-tstat-src \
-    oprofile-example-src \
-    ${@bb.utils.contains('MACHINE_FEATURES', 'gpu', 'pdm-anomaly-detection-src', '', d)} \
 "
 
 UTILS:append:ti43x = " \
     pru-icss-src \
-    mmwavegesture-hmi-src \
-    evse-hmi-src \
-    refresh-screen-src \
-    qt-tstat-src \
-    image-gallery-src \
-    oprofile-example-src \
-    ${@bb.utils.contains('MACHINE_FEATURES', 'gpu', 'pdm-anomaly-detection-src', '', d)} \
 "
 
 UTILS:append:am65xx = " \
     pru-icss-src \
-    oprofile-example-src \
-    ${@bb.utils.contains('MACHINE_FEATURES', 'gpu', 'pdm-anomaly-detection-src', '', d)} \
 "
 
 UTILS:append = " \
