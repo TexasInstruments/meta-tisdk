@@ -43,12 +43,6 @@ SRCIPK_INCLUDE_EXTRAFILES = "0"
 CREATE_SRCIPK:pn-arm-benchmarks ?= "1"
 SRCIPK_INSTALL_DIR:pn-arm-benchmarks ?= "example-applications/${PN}-${PV}"
 
-CREATE_SRCIPK:pn-oprofile-example ?= "1"
-SRCIPK_INSTALL_DIR:pn-oprofile-example ?= "example-applications/${PN}"
-
-CREATE_SRCIPK:pn-pdm-anomaly-detection ?= "1"
-SRCIPK_INSTALL_DIR:pn-pdm-anomaly-detection ?= "example-applications/${PN}-${PV}"
-
 CREATE_SRCIPK:pn-u-boot ?= "1"
 SRCIPK_INSTALL_DIR:pn-u-boot ?= "board-support/u-boot-${PV}"
 
@@ -92,24 +86,6 @@ SRCIPK_PRESERVE_GIT:pn-trusted-firmware-a ?= "true"
 
 CREATE_SRCIPK:pn-pru-icss ?= "1"
 SRCIPK_INSTALL_DIR:pn-pru-icss ?= "example-applications/${PN}-${PV}"
-
-CREATE_SRCIPK:pn-mmwavegesture-hmi ?= "1"
-SRCIPK_INSTALL_DIR:pn-mmwavegesture-hmi ?= "example-applications/${PN}-${PV}"
-
-CREATE_SRCIPK:pn-evse-hmi ?= "1"
-SRCIPK_INSTALL_DIR:pn-evse-hmi ?= "example-applications/${PN}-${PV}"
-
-CREATE_SRCIPK:pn-refresh-screen ?= "1"
-SRCIPK_INSTALL_DIR:pn-refresh-screen ?= "example-applications/${PN}-${PV}"
-
-CREATE_SRCIPK:pn-qt-tstat ?= "1"
-SRCIPK_INSTALL_DIR:pn-qt-tstat ?= "example-applications/${PN}-${PV}"
-
-CREATE_SRCIPK:pn-image-gallery ?= "1"
-SRCIPK_INSTALL_DIR:pn-image-gallery ?= "example-applications/${PN}"
-
-CREATE_SRCIPK:pn-protection-relays-hmi ?= "1"
-SRCIPK_INSTALL_DIR:pn-protection-relays-hmi ?= "example-applications/${PN}-${PV}"
 
 CREATE_SRCIPK_pn-omapconf ?= "1"
 SRCIPK_INSTALL_DIR_pn-omapconf ?= "example-applications/${PN}-${PV}"
