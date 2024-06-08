@@ -49,9 +49,6 @@ SRCIPK_INSTALL_DIR:pn-oprofile-example ?= "example-applications/${PN}"
 CREATE_SRCIPK:pn-pdm-anomaly-detection ?= "1"
 SRCIPK_INSTALL_DIR:pn-pdm-anomaly-detection ?= "example-applications/${PN}-${PV}"
 
-CREATE_SRCIPK:pn-u-boot ?= "1"
-SRCIPK_INSTALL_DIR:pn-u-boot ?= "board-support/u-boot-${PV}"
-
 CREATE_SRCIPK:pn-u-boot-ti-staging ?= "1"
 SRCIPK_INSTALL_DIR:pn-u-boot-ti-staging ?= "${@oe.utils.conditional("TI_EXTRAS", "tie-jailhouse", "board-support/u-boot-extras-jailhouse-${PV}${UBOOT_LOCALVERSION}", "board-support/ti-u-boot-${PV}${UBOOT_LOCALVERSION}", d)}"
 SRCIPK_PRESERVE_GIT:pn-u-boot-ti-staging ?= "true"
@@ -66,14 +63,6 @@ CREATE_SRCIPK:pn-linux-ti-staging-rt ?= "1"
 SRCIPK_INSTALL_DIR:pn-linux-ti-staging-rt ?= "${@oe.utils.conditional("TI_EXTRAS", "tie-jailhouse", "board-support/linux-extras-${PV}${KERNEL_LOCALVERSION}", "board-support/ti-linux-kernel-${PV}${KERNEL_LOCALVERSION}", d)}"
 SRCIPK_PRESERVE_GIT:pn-linux-ti-staging-rt ?= "true"
 SRCIPK_SHALLOW_CLONE:pn-linux-ti-staging-rt ?= "true"
-
-CREATE_SRCIPK:pn-linux-ti-staging-systest ?= "1"
-SRCIPK_INSTALL_DIR:pn-linux-ti-staging-systest ?= "board-support/linux-systest-${PV}${KERNEL_LOCALVERSION}"
-SRCIPK_PRESERVE_GIT:pn-linux-ti-staging-systest ?= "true"
-SRCIPK_SHALLOW_CLONE:pn-linux-ti-staging-systest ?= "true"
-
-CREATE_SRCIPK:pn-linux ?= "1"
-SRCIPK_INSTALL_DIR:pn-linux ?= "board-support/linux-${PV}"
 
 CREATE_SRCIPK:pn-cryptodev-module ?= "1"
 SRCIPK_INSTALL_DIR:pn-cryptodev-module ?= "board-support/extra-drivers/cryptodev-module-${PV}"
