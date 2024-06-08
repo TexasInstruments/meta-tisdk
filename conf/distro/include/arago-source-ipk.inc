@@ -104,12 +104,6 @@ SRCIPK_INSTALL_DIR:pn-mmwavegesture-hmi ?= "example-applications/${PN}-${PV}"
 CREATE_SRCIPK:pn-evse-hmi ?= "1"
 SRCIPK_INSTALL_DIR:pn-evse-hmi ?= "example-applications/${PN}-${PV}"
 
-CREATE_SRCIPK:pn-refresh-screen ?= "1"
-SRCIPK_INSTALL_DIR:pn-refresh-screen ?= "example-applications/${PN}-${PV}"
-
-CREATE_SRCIPK:pn-qt-tstat ?= "1"
-SRCIPK_INSTALL_DIR:pn-qt-tstat ?= "example-applications/${PN}-${PV}"
-
 CREATE_SRCIPK:pn-image-gallery ?= "1"
 SRCIPK_INSTALL_DIR:pn-image-gallery ?= "example-applications/${PN}"
 
