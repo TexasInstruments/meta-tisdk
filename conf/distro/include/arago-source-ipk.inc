@@ -93,9 +93,6 @@ SRCIPK_INSTALL_DIR:pn-mmwavegesture-hmi ?= "example-applications/${PN}-${PV}"
 CREATE_SRCIPK:pn-evse-hmi ?= "1"
 SRCIPK_INSTALL_DIR:pn-evse-hmi ?= "example-applications/${PN}-${PV}"
 
-CREATE_SRCIPK:pn-image-gallery ?= "1"
-SRCIPK_INSTALL_DIR:pn-image-gallery ?= "example-applications/${PN}"
-
 CREATE_SRCIPK:pn-protection-relays-hmi ?= "1"
 SRCIPK_INSTALL_DIR:pn-protection-relays-hmi ?= "example-applications/${PN}-${PV}"
 

@@ -49,7 +49,6 @@ UTILS:append:ti43x = " \
     pru-icss-src \
     mmwavegesture-hmi-src \
     evse-hmi-src \
-    image-gallery-src \
     oprofile-example-src \
     ${@bb.utils.contains('MACHINE_FEATURES', 'gpu', 'pdm-anomaly-detection-src', '', d)} \
 "
