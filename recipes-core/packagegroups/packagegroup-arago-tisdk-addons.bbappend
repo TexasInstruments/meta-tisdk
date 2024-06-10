@@ -15,7 +15,6 @@ DEMOS:append:am64xx = " \
 "
 
 EXTRA_PACKAGES:append = " \
-    watchdog \
     kmscube \
 "
 EXTRA_PACKAGES:remove:am64xx = "kmscube"
