@@ -1,4 +1,4 @@
-PR:append = "_tisdk_5"
+PR:append = "_tisdk_6"
 
 # Avoid building bootstrap-image while generating tisdk-core-bundle for PROC SDK
 TARGET_IMAGES:remove = " \
@@ -56,15 +56,6 @@ SYSFW_PREFIX:am64xx = "sci"
 SYSFW_PREFIX:am65xx = "sci"
 SYSFW_PREFIX:am62xx = "fs*"
 
-SYSFW_SUFFIX ?= "gp"
-SYSFW_SUFFIX:am62axx = "hs-fs"
-SYSFW_SUFFIX:j721s2:sk = "hs-fs"
-SYSFW_SUFFIX:j784s4:sk = "hs-fs"
-SYSFW_SUFFIX:j722s = "hs-fs"
-SYSFW_SUFFIX:am62xx = "hs-fs"
-SYSFW_SUFFIX:am64xx = "hs-fs"
-SYSFW_SUFFIX:am62pxx = "hs-fs"
-
 SYSFW_BINARY = "ti-${SYSFW_PREFIX}-firmware-${SYSFW_SOC}*.bin"
 
 PREBUILT_DIR = "${IMAGE_ROOTFS}/board-support/prebuilt-images"
@@ -86,16 +77,6 @@ tisdk_image_build:append() {
     do
         cp ${DEPLOY_DIR_IMAGE}/$f ${PREBUILT_DIR}
     done
-
-    # Update the tiboot3.bin/sysfw.itb for the platform
-    if [ -f "${DEPLOY_DIR_IMAGE}/tiboot3-${SYSFW_SOC}-${SYSFW_SUFFIX}-evm.bin" ]
-    then
-        cp ${DEPLOY_DIR_IMAGE}/tiboot3-${SYSFW_SOC}-${SYSFW_SUFFIX}-evm.bin ${PREBUILT_DIR}/tiboot3.bin
-    fi
-    if [ -f "${DEPLOY_DIR_IMAGE}/sysfw-${SYSFW_SOC}-${SYSFW_SUFFIX}-evm.itb" ]
-    then
-        cp ${DEPLOY_DIR_IMAGE}/sysfw-${SYSFW_SOC}-${SYSFW_SUFFIX}-evm.itb ${PREBUILT_DIR}/sysfw.itb
-    fi
 }
 
 

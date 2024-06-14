@@ -4,8 +4,8 @@ DEMOS = ""
 DEMOS:append:am62xx = " ti-apps-launcher"
 DEMOS:append:am62pxx = " ti-apps-launcher"
 DEMOS:append:j722s:sk = " ti-apps-launcher"
-DEMOS:append:j721s2:sk = " ti-apps-launcher"
-DEMOS:append:j784s4:sk = " ti-apps-launcher"
+DEMOS:append:am68-sk = " ti-apps-launcher"
+DEMOS:append:am69-sk = " ti-apps-launcher"
 DEMOS:append:am335x-evm = " pru-adc"
 
 DEMOS:append:am64xx = " \
