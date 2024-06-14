@@ -1,10 +1,5 @@
 FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 
-SRC_URI:append:sk = " \
-		    file://0001-configs-j721e-Sign-the-j721e-sk-dtb-by-default-for-h.patch \
-		    file://0001-configs-j721s2-Sign-the-am68-sk-dtb-by-default-for-h.patch \
-		    file://0001-configs-j784s4-Sign-the-am69-sk-dtb-by-default-for-h.patch \
-		    "
 SRCREV:tie-jailhouse = "1f8add4c7f1889b4d4327627f11300134615e688"
 
 IPC_DM_FW = "ipc_echo_testb_mcu1_0_release_strip.xer5f"
@@ -18,5 +13,5 @@ TI_DM="${STAGING_DIR_HOST}${nonarch_base_libdir}/firmware/ti-dm/${PLAT_SFX}/${DM
 
 EXTRA_OEMAKE += "TI_DM=${TI_DM}"
 
-PR:append = "_tisdk_3"
+PR:append = "_tisdk_4"
 
