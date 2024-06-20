@@ -49,8 +49,8 @@ CONFIG_FILE:j784s4 = "am69-sk"
 CONFIG_FILE:j722s = "am67-sk"
 
 SERVICE_SUFFIX = ""
-SERVICE_SUFFIX:am62xx = "-analytics"
-SERVICE_SUFFIX:am62pxx = "-analytics"
+# SERVICE_SUFFIX:am62xx = "-analytics"
+# SERVICE_SUFFIX:am62pxx = "-analytics"
 SERVICE_SUFFIX:am62xxsip-evm = "-eglfs"
 
 HW_CODEC = "0"
