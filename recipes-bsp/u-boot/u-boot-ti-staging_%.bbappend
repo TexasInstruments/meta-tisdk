@@ -1,5 +1,3 @@
-FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
-
 SRCREV:tie-jailhouse = "1f8add4c7f1889b4d4327627f11300134615e688"
 
 IPC_DM_FW = "ipc_echo_testb_mcu1_0_release_strip.xer5f"
