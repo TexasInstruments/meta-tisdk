@@ -32,6 +32,7 @@ CRYPTO_RDEPENDS = "cryptodev-module-src"
 
 # Task to install sources for additional utilities/demos for SDKs
 UTILS = "arm-benchmarks-src"
+UTILS:append:am62xx = " pru-icss-src"
 UTILS:append:am64xx = " pru-icss-src"
 UTILS:append:am335x-evm = " pru-adc-src"
 
