@@ -17,7 +17,7 @@ RDEPENDS:${PN}:append:am62xx = " powervr-graphics"
 RDEPENDS:${PN}:append:am62pxx = " powervr-graphics"
 
 BRANCH = "master"
-SRCREV = "5bc6acad31c5281d53ae4bc73e1522e54cf2e81a"
+SRCREV = "bc84e06d6ffb43e0420bbeefb5fa197e5c4dfeba"
 
 SRC_URI = " \
     git://github.com/TexasInstruments/ti-apps-launcher.git;protocol=https;branch=${BRANCH} \
