@@ -14,7 +14,7 @@ S = "${WORKDIR}/lib"
 do_install() {
 	CP_ARGS="-Prf --preserve=mode,timestamps --no-preserve=ownership"
 	install -d ${D}${base_libdir}
-	cp ${CP_ARGS} ${S} ${D}${base_libdir}
+	cp ${CP_ARGS} ${S}/* ${D}${base_libdir}
 }
 
 inherit deploy
@@ -49,4 +49,4 @@ ALTERNATIVE_PRIORITY = "20"
 
 FILES:${PN} += "${base_libdir}"
 
-PR:append = "r1"
+PR:append = "r2"
