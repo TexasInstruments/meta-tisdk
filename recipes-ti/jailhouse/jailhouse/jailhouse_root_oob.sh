@@ -1,6 +1,6 @@
 run_crashapp=''
 run_background=''
-interface="enP1p0s1"
+interface="enp0s1"
 inmate_ipv4_address="192.168.0.3"
 inmate_boot=''
 interface_detected=''
