@@ -1,4 +1,4 @@
-SRCREV:tie-jailhouse = "1f8add4c7f1889b4d4327627f11300134615e688"
+SRCREV:tie-jailhouse = "67e6428fc439d3456634fac9660e3c1108b7fce0"
 
 IPC_DM_FW = "ipc_echo_testb_mcu1_0_release_strip.xer5f"
 
@@ -11,5 +11,5 @@ TI_DM="${STAGING_DIR_HOST}${nonarch_base_libdir}/firmware/ti-dm/${PLAT_SFX}/${DM
 
 EXTRA_OEMAKE += "TI_DM=${TI_DM}"
 
-PR:append = "_tisdk_4"
+PR:append = "_tisdk_5"
 
