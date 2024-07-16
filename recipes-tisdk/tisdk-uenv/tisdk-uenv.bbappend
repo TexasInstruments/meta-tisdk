@@ -1,9 +1,17 @@
 FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}/${MACHINE}:${THISDIR}/${PN}:"
-FILESEXTRAPATHS:prepend:sk := "${THISDIR}/${PN}/${MACHINE}/sk:"
+
+SRC_URI:append:j722s = "\
+    file://uEnv-sk.txt \
+"
 
 SRC_URI:append:am62pxx = "\
     file://uEnv-am62p-display-cluster.txt \
 "
+
+do_deploy:j722s:foundational() {
+    install -d ${DEPLOYDIR}
+    install -m 0644 ${S}/uEnv-sk.txt ${DEPLOYDIR}/uEnv.txt
+}
 
 do_deploy:am62pxx() {
     install -d ${DEPLOYDIR}
