@@ -1,4 +1,4 @@
-PR = "r15"
+PR = "r16"
 
 DESCRIPTION = "ti-apps-launcher service"
 HOMEPAGE = "https://github.com/TexasInstruments/ti-apps-launcher"
@@ -25,6 +25,7 @@ SRC_URI = " \
     file://ti-apps-launcher-eglfs.service \
     file://ti-apps-launcher-analytics.service \
     file://ti-demo.service \
+    file://dev-dri-card1.rules \
     file://Usage.md \
 "
 
@@ -98,9 +99,16 @@ do_install:append() {
         install -d ${D}${systemd_system_unitdir}
         install -m 0755 ${WORKDIR}/ti-demo.service ${D}${systemd_system_unitdir}/ti-demo.service
     fi
+
+    if [ "${SERVICE_SUFFIX}" == "-eglfs" ]; then
+        install -d ${D}${sysconfdir}/udev/rules.d
+        install -m 0644 ${WORKDIR}/dev-dri-card1.rules ${D}${sysconfdir}/udev/rules.d/
+    fi
+
 }
 
 FILES:${PN} += " \
     ${bindir}/${APP_NAME} \
     /opt/${APP_NAME}/ \
+    ${sysconfdir} \
 "
