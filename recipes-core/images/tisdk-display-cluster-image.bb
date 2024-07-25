@@ -14,4 +14,9 @@ IMAGE_INSTALL:append = " \
     resize-rootfs \
 "
 
+IMAGE_INSTALL:remove = " \
+    weston \
+    weston-init \
+"
+
 export IMAGE_BASENAME = "tisdk-display-cluster-image${ARAGO_IMAGE_SUFFIX}"
