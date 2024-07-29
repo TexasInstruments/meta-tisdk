@@ -1,4 +1,4 @@
-SRCREV:tie-jailhouse = "6f201e0dc3f047010321c8a9f1966d6b8de9db8a"
+SRCREV:tie-jailhouse = "6301979bc99cd27951ee140df4b29bcfa4823fdd"
 
 IPC_DM_FW = "ipc_echo_testb_mcu1_0_release_strip.xer5f"
 
