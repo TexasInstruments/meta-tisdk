@@ -1,4 +1,4 @@
-PR = "r16"
+PR = "r17"
 
 DESCRIPTION = "ti-apps-launcher service"
 HOMEPAGE = "https://github.com/TexasInstruments/ti-apps-launcher"
@@ -7,8 +7,8 @@ COMPATIBLE_MACHINE = "am62xx|am62pxx|j721s2|j784s4|j722s"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-LICENSE = "GPL-2.0-only"
-LIC_FILES_CHKSUM = "file://${WORKDIR}/git/LICENSE;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+LICENSE = "TI-TFL"
+LIC_FILES_CHKSUM = "file://${WORKDIR}/git/LICENSE;md5=5c3a7f5f6886ba6f33ec3d214dc7ab4c"
 
 DEPENDS = "qtbase qtquick3d qtdeclarative qtgraphicaleffects qtmultimedia qtxmlpatterns"
 RDEPENDS:${PN} = "qtquick3d qtmultimedia bash seva-launcher pulseaudio-service qtdeclarative-qmlplugins qtgraphicaleffects-qmlplugins"
@@ -17,7 +17,7 @@ RDEPENDS:${PN}:append:am62xx = " powervr-graphics"
 RDEPENDS:${PN}:append:am62pxx = " powervr-graphics"
 
 BRANCH = "master"
-SRCREV = "bc84e06d6ffb43e0420bbeefb5fa197e5c4dfeba"
+SRCREV = "c7de1de7ab0bb7057ce1638bbbc1b671e5da8f4d"
 
 SRC_URI = " \
     git://github.com/TexasInstruments/ti-apps-launcher.git;protocol=https;branch=${BRANCH} \
@@ -85,8 +85,8 @@ do_install:append() {
         install -m 0755 ${S}/scripts/* ${D}/opt/ti-apps-launcher/
 
         install -d ${D}/opt/ti-apps-launcher/assets
-        install -m 0755 ${S}/assets/images/* ${D}/opt/ti-apps-launcher/assets/
-        install -m 0755 ${S}/assets/audios/* ${D}/opt/ti-apps-launcher/assets/
+        install -m 0755 ${S}/images/* ${D}/opt/ti-apps-launcher/assets/
+        install -m 0755 ${S}/audios/* ${D}/opt/ti-apps-launcher/assets/
 
         install -d ${D}${systemd_system_unitdir}
         install -m 0755 ${WORKDIR}/ti-apps-launcher${SERVICE_SUFFIX}.service ${D}${systemd_system_unitdir}/ti-apps-launcher.service
