@@ -1,4 +1,4 @@
-PR:append = "_tisdk_6"
+PR:append = "_tisdk_7"
 
 # Avoid building bootstrap-image while generating tisdk-core-bundle for PROC SDK
 TARGET_IMAGES:remove = " \
@@ -25,6 +25,7 @@ DTB_FILTER:j784s4 = "j784s4\|am69\|fpdlink\|k3-v3link"
 DTB_FILTER:j722s = "j722s\|fpdlink\|k3-v3link"
 DTB_FILTER:am65xx = "k3-am654"
 DTB_FILTER:am62xx-evm = "k3-am625"
+DTB_FILTER:am62lxx = "k3-am62l"
 DTB_FILTER:am62xx-lp-evm = "k3-am62-lp\|k3-am625-sk"
 DTB_FILTER:am62xxsip-evm = "k3-am625"
 DTB_FILTER:am64xx = "k3-am642"
@@ -47,6 +48,7 @@ SYSFW_SOC:j784s4 = "j784s4"
 SYSFW_SOC:j722s = "j722s"
 SYSFW_SOC:am62axx = "am62ax"
 SYSFW_SOC:am62xx = "am62x"
+SYSFW_SOC:am62lxx = "am62lx"
 SYSFW_SOC:am64xx = "am64x_sr2"
 SYSFW_SOC:am62pxx = "am62px"
 SYSFW_SOC:am65xx = "am65x_sr2"
