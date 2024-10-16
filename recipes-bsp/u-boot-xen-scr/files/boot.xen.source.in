@@ -1,0 +1,155 @@
+xen_name=@@XEN_IMAGE_NAME@@
+kernel_name=@@XEN_KERNEL_IMAGE_NAME@@
+ramdisk_name=@@XEN_RAMDISK_NAME@@
+
+xen_addr=@@XEN_ADDRESS@@
+kernel_addr=@@XEN_KERNEL_ADDRESS@@
+ramdisk_addr=@@XEN_RAMDISK_ADDRESS@@
+
+dom0less=@@XEN_BOOT_DOM0LESS@@
+
+setenv fdtaddr @@XEN_FDT_ADDRESS@@
+
+for boot_target in ${boot_targets};
+do
+  # only support searching mmc for now and break if kernel is scanned
+  if test -z "${kernel_size}" && test "${boot_target}" = "mmc0" || test "${boot_target}" = "mmc1"; then
+    setenv devtype mmc
+    setenv bootdir /boot
+    setenv dtbdir ${bootdir}/dtb
+
+    if test "${boot_target}" = "mmc0"; then
+      setenv devnum 0
+    elif test "${boot_target}" = "mmc1"; then
+      setenv devnum 1
+    fi
+
+    setenv loadboot ${devtype} ${devnum}:1
+    setenv loadroot ${devtype} ${devnum}:2
+
+    # check xen image in boot partition then root partition
+    if test -e ${loadboot} ${xen_name}; then
+      echo "Loading ${xen_name}";
+      fatload ${loadboot} ${xen_addr} ${xen_name};
+    elif test -e ${loadroot} ${bootdir}/${xen_name}; then
+      echo "Loading ${xen_name}";
+      load ${loadroot} ${xen_addr} ${bootdir}/${xen_name};
+    fi
+
+    # check kernel image in boot partition then root partition
+    if test -e ${loadboot} ${kernel_name}; then
+      echo "Loading ${kernel_name}";
+      fatload ${loadboot} ${kernel_addr} ${kernel_name};
+      setenv kernel_size 0x$filesize;
+    elif test -e ${loadroot} ${bootdir}/$kernel_name}; then
+      echo "Loading ${kernel_name}";
+      load ${loadroot} ${kernel_addr} ${bootdir}/${kernel_name};
+      setenv kernel_size 0x$filesize;
+    fi
+
+    # load fdt from root partition
+    if test -e ${loadroot} ${dtbdir}/${fdtfile}; then
+      echo "Loading ${dtbdir}/${fdtfile}";
+      load ${loadroot} ${fdtaddr} ${dtbdir}/${fdtfile};
+      part uuid ${loadroot} rootfs_partuuid
+    fi
+
+    # load ramdisk for DomU from root partition
+    if test -n "${dom0less}" && test -e ${loadroot} ${bootdir}/${ramdisk_name}; then
+      echo "Loading ${bootdir}/${ramdisk_name}";
+      load ${loadroot} ${ramdisk_addr} ${bootdir}/${ramdisk_name};
+      setenv ramdisk_size 0x$filesize;
+    fi
+  fi
+done
+
+if test -z "${kernel_size}"; then
+  echo "No kernel image found"
+  exit
+fi
+
+fdt addr ${fdtaddr}
+fdt resize 1024
+
+# fdt operations
+fdt set /chosen \#address-cells <0x2>
+fdt set /chosen \#size-cells <0x2>
+setenv xen_bootargs "console=dtuart dtuart=@@XEN_DTUART_SERIAL@@ dom0_mem=@@DOM0_MEM@@ dom0_max_vcpus=@@DOM0_MAX_VCPUS@@"
+fdt set /chosen xen,xen-bootargs \"${xen_bootargs}\"
+
+# dom0
+fdt mknod /chosen dom0
+fdt set /chosen/dom0 compatible  "xen,linux-zimage" "xen,multiboot-module" "multiboot,module"
+fdt set /chosen/dom0 reg <0x0 ${kernel_addr} 0x0 ${kernel_size}>
+setenv dom0_bootargs "console=hvc0 earlyprintk=xen root=PARTUUID=${rootfs_partuuid} rw rootfstype=ext4 rootwait clk_ignore_unused"
+
+# domU
+echo outside
+if test -n "${dom0less}" && test -n "${ramdisk_size}"; then
+  setexpr kernel_addr_u ${kernel_addr} + 0x03000000
+  setenv kernel_addr_u "0x${kernel_addr_u}"
+  cp.b ${kernel_addr} ${kernel_addr_u} ${kernel_size}
+  fdt mknod /chosen domU
+  fdt set /chosen/domU compatible "xen,domain"
+  fdt set /chosen/domU xen,enhanced "enabled"
+  fdt set /chosen/domU \#address-cells <0x2>
+  fdt set /chosen/domU \#size-cells <0x2>
+  fdt set /chosen/domU memory <0 1048576>
+  fdt set /chosen/domU cpus <4>
+  fdt set /chosen/domU vpl011
+  fdt mknod /chosen/domU module${kernel_addr_u}
+  fdt set /chosen/domU/module${kernel_addr_u} compatible "multiboot,kernel" "multiboot,module"
+  fdt set /chosen/domU/module${kernel_addr_u} reg <0x0 ${kernel_addr_u} 0x0 ${kernel_size} >
+  fdt set /chosen/domU/module${kernel_addr_u} bootargs "console=ttyAMA0"
+  fdt mknod /chosen/domU module${ramdisk_addr}
+  fdt set /chosen/domU/module${ramdisk_addr} compatible "multiboot,ramdisk" "multiboot,module"
+  fdt set /chosen/domU/module${ramdisk_addr} reg <0x0 ${ramdisk_addr} 0x0 ${ramdisk_size} >
+fi
+
+# shared memory
+if test -n "@@XEN_SHMEM_START@@"; then
+  shmem_start=@@XEN_SHMEM_START@@
+  shmem_size=@@XEN_SHMEM_SIZE@@
+  shmem_node=xen_shmem@@@XEN_SHMEM_START@@
+  uio_node=xen_uio@@@XEN_SHMEM_START@@
+
+  # mark it as shared
+  fdt mknod /reserved-memory ${shmem_node}
+  fdt set /reserved-memory/${shmem_node} compatible "xen,shared-memory-v1"
+  fdt set /reserved-memory/${shmem_node} reg <0x00 ${shmem_start} 0x00 ${shmem_size}>
+
+  # expose as UIO to Dom0
+  fdt mknod / ${uio_node}
+  fdt set /${uio_node} compatible @@XEN_SHMEM_UIO_NAME@@
+  fdt set /${uio_node} reg <0x00 ${shmem_start} 0x00 ${shmem_size}>
+
+  # append uio to bootargs
+  setenv dom0_bootargs "${dom0_bootargs} uio_pdrv_genirq.of_id=@@XEN_SHMEM_UIO_NAME@@"
+fi
+
+fdt set /chosen xen,dom0-bootargs \"${dom0_bootargs}\"
+
+fdt print /chosen
+
+# Specify interrupts explicitly for the following instead of relying on ti,interrupt-ranges
+for dev_path in @@XEN_IRQ_DEVICES@@; do
+  fdt get value irq_cur ${dev_path} ti,interrupt-ranges 0
+  fdt get value irq_num ${dev_path} ti,interrupt-ranges 2
+
+  setexpr irq_cur ${irq_cur} + 0x20
+  setexpr irq_end ${irq_cur} + ${irq_num}
+  setenv irq_prop "<"
+
+  while itest ${irq_cur} < ${irq_end}; do
+    setenv irq_prop "${irq_prop}0 0x${irq_cur} 4 "
+    setexpr irq_cur ${irq_cur} + 1
+  done
+
+  setenv irq_prop "${irq_prop}>"
+  fdt set ${dev_path} interrupts ${irq_prop}
+done
+
+setenv fdt_high 0xffffffffffffffff
+echo "Booting"
+
+booti ${xen_addr} - ${fdtaddr}

@@ -1,0 +1,13 @@
+diff --git a/drivers/virtio/virtio_ring.c b/drivers/virtio/virtio_ring.c
+index 7d320f799ca1..96ba831cf73f 100644
+--- a/drivers/virtio/virtio_ring.c
++++ b/drivers/virtio/virtio_ring.c
+@@ -279,7 +279,7 @@ static bool vring_use_dma_api(struct virtio_device *vdev)
+ 	 * the DMA API if we're a Xen guest, which at least allows
+ 	 * all of the sensible Xen configurations to work correctly.
+ 	 */
+-	if (xen_domain())
++	if (xen_pv_domain())
+ 		return true;
+
+ 	return false;

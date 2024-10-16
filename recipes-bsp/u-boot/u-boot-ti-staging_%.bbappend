@@ -1,5 +1,7 @@
 SRCREV:tie-jailhouse = "6301979bc99cd27951ee140df4b29bcfa4823fdd"
 
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
+
 IPC_DM_FW = "ipc_echo_testb_mcu1_0_release_strip.xer5f"
 
 # DM FW to be used only for AM62P tisdk-display-cluster image
@@ -11,5 +13,9 @@ TI_DM="${STAGING_DIR_HOST}${nonarch_base_libdir}/firmware/ti-dm/${PLAT_SFX}/${DM
 
 EXTRA_OEMAKE += "TI_DM=${TI_DM}"
 
-PR:append = "_tisdk_5"
+SRC_URI:append:k3 = " \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'xen', 'file://bootmethscript.cfg', '', d)} \
+"
+
+PR:append = "_tisdk_6"
 

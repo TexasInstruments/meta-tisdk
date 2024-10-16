@@ -1,0 +1,21 @@
+# This is a unit for spawning an OOB Xen DomU and pinging it
+
+[Unit]
+Description=Xen OOB
+After=systemd-logind.service
+Wants=systemd-logind.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/share/demo/xen-oob.sh
+StandardOutput=append:/var/log/xen-oob.log
+StandardError=append:/var/log/xen-oob.error.log
+Environment="XEN_NET_BRIDGE=@@XEN_NET_BRIDGE@@"
+Environment="XEN_DOMU_IFACE=@@XEN_DOMU_IFACE@@"
+Environment="XEN_BOOT_DOM0LESS=@@XEN_BOOT_DOM0LESS@@"
+Environment="RAMDISK_PATH=@@RAMDISK_PATH@@"
+Environment="DOM0_IP=@@DOM0_IP@@"
+Environment="DOMU_IP=@@DOMU_IP@@"
+
+[Install]
+WantedBy=multi-user.target
