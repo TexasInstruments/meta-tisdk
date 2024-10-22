@@ -1,4 +1,4 @@
-PR:append = "_tisdk_7"
+PR:append = "_tisdk_8"
 
 # Avoid building bootstrap-image while generating tisdk-core-bundle for PROC SDK
 TARGET_IMAGES:remove = " \
@@ -58,17 +58,27 @@ SYSFW_PREFIX:am64xx = "sci"
 SYSFW_PREFIX:am65xx = "sci"
 SYSFW_PREFIX:am62xx = "fs*"
 
+SYSFW_DATA ?= ""
+SYSFW_DATA:am62lxx = "sysfw-data"
+
 SYSFW_BINARY = "ti-${SYSFW_PREFIX}-firmware-${SYSFW_SOC}*.bin"
 
 PREBUILT_DIR = "${IMAGE_ROOTFS}/board-support/prebuilt-images"
 
 tisdk_image_build:append() {
-    # Add ti-sysfw, ti-dm needed by binman builds for u-boot
+    # Add ti-sysfw needed by binman builds for u-boot
     if [ -d "${DEPLOY_DIR_IMAGE}/ti-sysfw" ]
     then
         mkdir -p ${PREBUILT_DIR}/ti-sysfw/
         cp ${DEPLOY_DIR_IMAGE}/ti-sysfw/${SYSFW_BINARY} ${PREBUILT_DIR}/ti-sysfw/
+
+        if [ -e ${DEPLOY_DIR_IMAGE}/ti-sysfw/${SYSFW_DATA}.bin ]
+        then
+           cp ${DEPLOY_DIR_IMAGE}/ti-sysfw/${SYSFW_DATA}.bin ${PREBUILT_DIR}/ti-sysfw/
+        fi
     fi
+
+    # Add ti-dm needed by binman builds for u-boot
     if [ -d "${DEPLOY_DIR_IMAGE}/ti-dm" ]
     then
         cp -r ${DEPLOY_DIR_IMAGE}/ti-dm ${PREBUILT_DIR}/
