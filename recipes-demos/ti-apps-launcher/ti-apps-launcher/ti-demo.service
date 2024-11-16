@@ -4,6 +4,9 @@
 [Unit]
 Description=ti-demo service
 
+Wants=dev-dri-card1.device
+After=dev-dri-card1.device
+
 [Service]
 Type=simple
 EnvironmentFile=/etc/environment
