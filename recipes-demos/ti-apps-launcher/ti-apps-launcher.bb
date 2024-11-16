@@ -51,8 +51,8 @@ CONFIG_FILE:j784s4 = "am69-sk"
 CONFIG_FILE:j722s = "am67-sk"
 
 SERVICE_SUFFIX = ""
-# SERVICE_SUFFIX:am62xx = "-analytics"
-# SERVICE_SUFFIX:am62pxx = "-analytics"
+SERVICE_SUFFIX:am62xx = "-analytics"
+SERVICE_SUFFIX:am62pxx = "-analytics"
 SERVICE_SUFFIX:am62xxsip-evm = "-eglfs"
 
 HW_CODEC = "0"
@@ -100,7 +100,7 @@ do_install:append() {
         install -m 0755 ${WORKDIR}/ti-demo.service ${D}${systemd_system_unitdir}/ti-demo.service
     fi
 
-    if [ "${SERVICE_SUFFIX}" == "-eglfs" ]; then
+    if [ "${SERVICE_SUFFIX}" == "-eglfs" ] || [ "${DISPLAY_CLUSTER_ENABLE}" == "1" ]; then
         install -d ${D}${sysconfdir}/udev/rules.d
         install -m 0644 ${WORKDIR}/dev-dri-card1.rules ${D}${sysconfdir}/udev/rules.d/
     fi
