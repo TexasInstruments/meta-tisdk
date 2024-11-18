@@ -4,7 +4,7 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 
 SRC_URI += "file://jailhouse_root_oob.sh"
 
-SRCREV = "c95e329cef2ef3123e4a5f40511d49640f34495a"
+SRCREV = "42055c4e023f239b3f550940c59fb83024784843"
 
 do_install:append () {
 	sed -i '2i\start_linux_demo() {\' ${D}${JH_DATADIR}/linux-demo.sh
