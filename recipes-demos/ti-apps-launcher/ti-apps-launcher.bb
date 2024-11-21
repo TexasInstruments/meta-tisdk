@@ -1,4 +1,4 @@
-PR = "r18"
+PR = "r19"
 
 DESCRIPTION = "ti-apps-launcher service"
 HOMEPAGE = "https://github.com/TexasInstruments/ti-apps-launcher"
@@ -17,7 +17,7 @@ RDEPENDS:${PN}:append:am62xx = " powervr-graphics"
 RDEPENDS:${PN}:append:am62pxx = " powervr-graphics"
 
 BRANCH = "master"
-SRCREV = "098a1d8381b31c410cedc611ec23b8f68522f3b3"
+SRCREV = "4a18f8596b4f0c7211534289aeac68756f10df3d"
 
 SRC_URI = " \
     git://github.com/TexasInstruments/ti-apps-launcher.git;protocol=https;branch=${BRANCH} \
@@ -62,6 +62,7 @@ HW_CODEC:j784s4 = "1"
 HW_CODEC:j722s = "1"
 
 APP_NAME = "${@oe.utils.conditional("DISPLAY_CLUSTER_ENABLE", "1", "ti-demo", "ti-apps-launcher", d)}"
+RT_BUILD_VALUE = "${@oe.utils.conditional("ARAGO_RT_ENABLE", "1", "1", "0", d)}"
 QMAKE_PROFILES = "${S}/${APP_NAME}.pro"
 
 inherit qmake5 deploy systemd
@@ -74,6 +75,7 @@ do_compile:prepend() {
     echo "SOURCES += configs/${CONFIG_FILE}.cpp" >> ${S}/ti-apps-launcher.pro
     echo >> ${S}/ti-apps-launcher.pro
     echo "DEFINES += ${APPS_DEFINES}" >> ${S}/ti-apps-launcher.pro
+    echo "DEFINES += RT_BUILD=${RT_BUILD_VALUE}" >> ${S}/ti-apps-launcher.pro
 }
 
 do_install:append() {
