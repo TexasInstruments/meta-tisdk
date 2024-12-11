@@ -6,6 +6,8 @@ SRC_URI:append:j721e = " \
 "
 
 SRC_URI:append:am57xx = " \
+    file://0001-Revert-HACK-arm-dts-am57-disable-late-attach-as-defa.patch \
+    file://0002-arm-dts-am57xx-Extend-IPU-Late-Attach-support-to-all.patch \
     file://0001-support-TI-GC320-drivers.patch \
     file://0001-disable-gcc-plugin-config.patch \
     file://0001-arm-dts-am57xx-beagle-x15-Disable-the-PRU-cores.patch \
@@ -34,5 +36,5 @@ SRCREV:am64xx = "b871cdee8c31b877177e4e9d626d1d424052e32e"
 
 SRCREV:tie-jailhouse = "a63a1b1be1443add3bdae62cfcb7101ac483e190"
 
-PR:append = "_tisdk_6"
+PR:append = "_tisdk_7"
 
