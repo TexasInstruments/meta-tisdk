@@ -1,0 +1,227 @@
+From 73512148ad290df299d29e9121d49263e392d6eb Mon Sep 17 00:00:00 2001
+From: Anurag Dutta <a-dutta@ti.com>
+Date: Thu, 12 Dec 2024 11:08:35 +0530
+Subject: [PATCH] arm: dts: am57xx-idk-common: Relocate MAC Ethernet Node
+
+All am57xx-idk variants share the common properties from
+am57xx-idk-common.dtsi. Relocate the MAC Ethernet Node
+from am571x-idk.dts to am57xx-idk-common.dtsi so that it
+can be enabled across all am57xx-idk variants.
+
+Signed-off-by: Anurag Dutta <a-dutta@ti.com>
+---
+ arch/arm/boot/dts/am571x-idk.dts         | 76 ------------------------
+ arch/arm/boot/dts/am57xx-idk-common.dtsi | 71 ++++++++++++++++++++++
+ 2 files changed, 71 insertions(+), 76 deletions(-)
+
+diff --git a/arch/arm/boot/dts/am571x-idk.dts b/arch/arm/boot/dts/am571x-idk.dts
+index 4eeb2510f6d5..8f230e8eaf9c 100644
+--- a/arch/arm/boot/dts/am571x-idk.dts
++++ b/arch/arm/boot/dts/am571x-idk.dts
+@@ -16,11 +16,6 @@ / {
+ 	model = "TI AM5718 IDK";
+ 	compatible = "ti,am5718-idk", "ti,am5718", "ti,dra7";
+ 
+-	aliases {
+-		ethernet4 = "/pruss1_eth/ethernet-mii0";
+-		ethernet5 = "/pruss1_eth/ethernet-mii1";
+-	};
+-
+ 	memory@80000000 {
+ 		device_type = "memory";
+ 		reg = <0x0 0x80000000 0x0 0x40000000>;
+@@ -170,47 +165,6 @@ blue3-led {
+ 			default-state = "off";
+ 		};
+ 	};
+-
+-	/* Dual mac ethernet application node on icss1 */
+-	pruss1_eth {
+-		status = "okay";
+-		compatible = "ti,am57-prueth";
+-		ti,prus = <&pru1_0>, <&pru1_1>;
+-		ti,pruss-gp-mux-sel = <0>,	/* GP, default */
+-				      <4>;	/* MII2, needed for PRUSS1_MII1 */
+-		sram = <&ocmcram1>;
+-		mii-rt = <&pruss1_mii_rt>;
+-		interrupts = <20 2 2>, <21 3 3>;
+-		interrupt-names = "rx_lre_hp", "rx_lre_lp";
+-		iep = <&pruss1_iep>;
+-		interrupt-parent = <&pruss1_intc>;
+-
+-		ethernet-mii0 {
+-			phy-handle = <&pruss1_eth0_phy>;
+-			phy-mode = "mii";
+-			interrupts = <20 2 2>, <26 6 6>, <23 6 6>;
+-			interrupt-names = "rx", "emac_ptp_tx", "hsr_ptp_tx";
+-			ti,no-half-duplex;
+-			/* Filled in by bootloader */
+-			local-mac-address = [00 00 00 00 00 00];
+-		};
+-
+-		ethernet-mii1 {
+-			phy-handle = <&pruss1_eth1_phy>;
+-			phy-mode = "mii";
+-			interrupts = <21 3 3>, <27 9 7>, <24 9 7>;
+-			interrupt-names = "rx", "emac_ptp_tx", "hsr_ptp_tx";
+-			ti,no-half-duplex;
+-			/* Filled in by bootloader */
+-			local-mac-address = [00 00 00 00 00 00];
+-		};
+-	};
+-};
+-
+-&pruss1_iep {
+-	interrupt-parent = <&pruss1_intc>;
+-	interrupts = <7 7 8>;
+-	interrupt-names = "iep_cap_cmp";
+ };
+ 
+ &extcon_usb2 {
+@@ -255,34 +209,4 @@ &mmc2 {
+ 	pinctrl-2 = <&mmc2_pins_ddr_rev20 &mmc2_iodelay_ddr_conf>;
+ };
+ 
+-&pruss2_mdio {
+-	reset-gpios = <&gpio5 9 GPIO_ACTIVE_LOW>;
+-	reset-delay-us = <2>;   /* PHY datasheet states 1uS min */
+-};
+-
+-&pruss1_mdio {
+-	status = "okay";
+-	reset-gpios = <&gpio5 8 GPIO_ACTIVE_LOW>;
+-	reset-delay-us = <2>;   /* PHY datasheet states 1uS min */
+-	#address-cells = <1>;
+-	#size-cells = <0>;
+-
+-	pruss1_eth0_phy: ethernet-phy@0 {
+-		reg = <0>;
+-		interrupt-parent = <&gpio3>;
+-		interrupts = <28 IRQ_TYPE_EDGE_FALLING>;
+-	};
+-
+-	pruss1_eth1_phy: ethernet-phy@1 {
+-		reg = <1>;
+-		interrupt-parent = <&gpio3>;
+-		interrupts = <29 IRQ_TYPE_EDGE_FALLING>;
+-	};
+-};
+-
+-&pruss2_eth {
+-	ti,pruss-gp-mux-sel = <4>,	/* MII2, needed for PRUSS1_MII0 */
+-			      <4>;	/* MII2, needed for PRUSS1_MII1 */
+-};
+-
+ #include "dra7-ipu-common-early-boot.dtsi"
+diff --git a/arch/arm/boot/dts/am57xx-idk-common.dtsi b/arch/arm/boot/dts/am57xx-idk-common.dtsi
+index abcc5e406346..cfcccdd9e0c4 100644
+--- a/arch/arm/boot/dts/am57xx-idk-common.dtsi
++++ b/arch/arm/boot/dts/am57xx-idk-common.dtsi
+@@ -12,6 +12,8 @@ aliases {
+ 		display0 = &hdmi0;
+ 		ethernet2 = &pruss2_emac0;
+ 		ethernet3 = &pruss2_emac1;
++		ethernet4 = "/pruss1_eth/ethernet-mii0";
++		ethernet5 = "/pruss1_eth/ethernet-mii1";
+ 	};
+ 
+ 	chosen {
+@@ -158,6 +160,41 @@ src_clk_x1: src_clk_x1 {
+ 		clock-frequency = <20000000>;
+ 	};
+ 
++	/* Dual mac ethernet application node on icss1 */
++	pruss1_eth {
++		status = "okay";
++		compatible = "ti,am57-prueth";
++		ti,prus = <&pru1_0>, <&pru1_1>;
++		ti,pruss-gp-mux-sel = <0>,	/* GP, default */
++				      <4>;	/* MII2, needed for PRUSS1_MII1 */
++		sram = <&ocmcram1>;
++		mii-rt = <&pruss1_mii_rt>;
++		interrupts = <20 2 2>, <21 3 3>;
++		interrupt-names = "rx_lre_hp", "rx_lre_lp";
++		iep = <&pruss1_iep>;
++		interrupt-parent = <&pruss1_intc>;
++
++		ethernet-mii0 {
++			phy-handle = <&pruss1_eth0_phy>;
++			phy-mode = "mii";
++			interrupts = <20 2 2>, <26 6 6>, <23 6 6>;
++			interrupt-names = "rx", "emac_ptp_tx", "hsr_ptp_tx";
++			ti,no-half-duplex;
++			/* Filled in by bootloader */
++			local-mac-address = [00 00 00 00 00 00];
++		};
++
++		ethernet-mii1 {
++			phy-handle = <&pruss1_eth1_phy>;
++			phy-mode = "mii";
++			interrupts = <21 3 3>, <27 9 7>, <24 9 7>;
++			interrupt-names = "rx", "emac_ptp_tx", "hsr_ptp_tx";
++			ti,no-half-duplex;
++			/* Filled in by bootloader */
++			local-mac-address = [00 00 00 00 00 00];
++		};
++	};
++
+ 	/* Dual-MAC Ethernet application node on PRU-ICSS2 */
+ 	pruss2_eth: pruss2_eth {
+ 		compatible = "ti,am57-prueth";
+@@ -192,6 +229,12 @@ pruss2_emac1: ethernet-mii1 {
+ 
+ };
+ 
++&pruss1_iep {
++	interrupt-parent = <&pruss1_intc>;
++	interrupts = <7 7 8>;
++	interrupt-names = "iep_cap_cmp";
++};
++
+ &pruss2_iep {
+ 	interrupt-parent = <&pruss2_intc>;
+ 	interrupts = <7 7 8>;
+@@ -648,8 +691,31 @@ dpi_out: endpoint {
+ 	};
+ };
+ 
++&pruss1_mdio {
++	status = "okay";
++	reset-gpios = <&gpio5 8 GPIO_ACTIVE_LOW>;
++	reset-delay-us = <2>;   /* PHY datasheet states 1uS min */
++	#address-cells = <1>;
++	#size-cells = <0>;
++
++	pruss1_eth0_phy: ethernet-phy@0 {
++		reg = <0>;
++		interrupt-parent = <&gpio3>;
++		interrupts = <28 IRQ_TYPE_EDGE_FALLING>;
++	};
++
++	pruss1_eth1_phy: ethernet-phy@1 {
++		reg = <1>;
++		interrupt-parent = <&gpio3>;
++		interrupts = <29 IRQ_TYPE_EDGE_FALLING>;
++	};
++};
++
+ &pruss2_mdio {
+ 	status = "okay";
++	reset-gpios = <&gpio5 9 GPIO_ACTIVE_LOW>;
++	reset-delay-us = <2>;   /* PHY datasheet states 1uS min */
++
+ 	pruss2_eth0_phy: ethernet-phy@0 {
+ 		reg = <0>;
+ 		interrupt-parent = <&gpio3>;
+@@ -662,3 +728,8 @@ pruss2_eth1_phy: ethernet-phy@1 {
+ 		interrupts = <31 IRQ_TYPE_EDGE_FALLING>;
+ 	};
+ };
++
++&pruss2_eth {
++	ti,pruss-gp-mux-sel = <4>,	/* MII2, needed for PRUSS1_MII0 */
++			      <4>;	/* MII2, needed for PRUSS1_MII1 */
++};
+-- 
+2.34.1
+
