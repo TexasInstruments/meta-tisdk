@@ -1,4 +1,4 @@
-PR:append = "_tisdk_2"
+PR:append = "_tisdk_3"
 
 # Avoid building bootstrap-image while generating tisdk-core-bundle for PROC SDK
 TARGET_IMAGES:remove = " \
@@ -39,6 +39,7 @@ DTB_FILTER:ti43x = "am437x\|am43x"
 BOOT_PART:k3 = "uEnv.txt u-boot.img tispl.bin tiboot3.bin tiboot3-*.bin"
 BOOT_PART:append:j721e = " sysfw.itb sysfw-*evm.itb"
 BOOT_PART:append:am65xx = " sysfw.itb sysfw-*evm.itb"
+BOOT_PART:omap-a15 = "uEnv.txt u-boot.img ipc/dra7-ipu1-fw.xem4 MLO"
 
 # Update the default boot binaries in prebuilt-images
 SYSFW_SOC ?= "*"
