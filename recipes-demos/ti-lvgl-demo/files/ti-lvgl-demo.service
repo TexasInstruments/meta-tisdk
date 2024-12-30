@@ -1,0 +1,18 @@
+# This is a system unit for launching ti-lvgl-demo.
+
+[Unit]
+Description=ti-lvgl-demo service
+
+# Make sure we are started after logins are permitted.
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/bin/sh -c '/usr/bin/lvglsim'
+
+# Fail to start if not controlling the tty.
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=graphical.target multi-user.target
