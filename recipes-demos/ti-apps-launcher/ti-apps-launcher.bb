@@ -10,8 +10,30 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 LICENSE = "TI-TFL"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=5c3a7f5f6886ba6f33ec3d214dc7ab4c"
 
-DEPENDS = "qtbase qtquick3d qtdeclarative qtgraphicaleffects qtmultimedia qtxmlpatterns qmltermwidget"
-RDEPENDS:${PN} = "qtquick3d qtmultimedia bash seva-launcher pulseaudio-service qtdeclarative-qmlplugins qtgraphicaleffects-qmlplugins qmltermwidget"
+DEPENDS = "\
+    qtbase \
+    qtquick3d \
+    qtdeclarative \
+    qtgraphicaleffects \
+    qtmultimedia \
+    qtxmlpatterns \
+    qmltermwidget \
+"
+
+RDEPENDS:${PN} = "\
+    qtquick3d \
+    qtmultimedia \
+    bash \
+    seva-launcher \
+    pulseaudio-service \
+    qtdeclarative-qmlplugins \
+    qtgraphicaleffects-qmlplugins \
+    qmltermwidget \
+    qtquickcontrols-qmlplugins \
+    qtquickcontrols2-qmlplugins \
+    qtwayland-qmlplugins \
+"
+
 RDEPENDS:${PN}:remove:am62xxsip-evm = "seva-launcher"
 RDEPENDS:${PN}:append:am62xx = " powervr-graphics"
 RDEPENDS:${PN}:append:am62pxx = " powervr-graphics"
