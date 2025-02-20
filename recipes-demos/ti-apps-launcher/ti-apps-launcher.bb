@@ -8,7 +8,7 @@ COMPATIBLE_MACHINE = "am62xx|am62pxx|j721s2|j784s4|j722s"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 LICENSE = "TI-TFL"
-LIC_FILES_CHKSUM = "file://${WORKDIR}/git/LICENSE;md5=5c3a7f5f6886ba6f33ec3d214dc7ab4c"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=5c3a7f5f6886ba6f33ec3d214dc7ab4c"
 
 DEPENDS = "qtbase qtquick3d qtdeclarative qtgraphicaleffects qtmultimedia qtxmlpatterns qmltermwidget"
 RDEPENDS:${PN} = "qtquick3d qtmultimedia bash seva-launcher pulseaudio-service qtdeclarative-qmlplugins qtgraphicaleffects-qmlplugins qmltermwidget"
