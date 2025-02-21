@@ -65,7 +65,7 @@ APP_NAME = "${@oe.utils.conditional("DISPLAY_CLUSTER_ENABLE", "1", "ti-demo", "t
 RT_BUILD_VALUE = "${@oe.utils.conditional("ARAGO_RT_ENABLE", "1", "1", "0", d)}"
 QMAKE_PROFILES = "${S}/${APP_NAME}.pro"
 
-inherit qmake5 deploy systemd
+inherit qt6-qmake deploy systemd
 
 SYSTEMD_PACKAGES = "${PN}"
 
