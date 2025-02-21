@@ -12,6 +12,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=5c3a7f5f6886ba6f33ec3d214dc7ab4c"
 
 DEPENDS = "\
     qtbase \
+    qtbase-native \
     qtquick3d \
     qtdeclarative \
     qtgraphicaleffects \
@@ -32,6 +33,7 @@ RDEPENDS:${PN} = "\
     qtquickcontrols-qmlplugins \
     qtquickcontrols2-qmlplugins \
     qtwayland-qmlplugins \
+    qtdeclarative-tools \
 "
 
 RDEPENDS:${PN}:remove:am62xxsip-evm = "seva-launcher"
@@ -39,7 +41,7 @@ RDEPENDS:${PN}:append:am62xx = " powervr-graphics"
 RDEPENDS:${PN}:append:am62pxx = " powervr-graphics"
 
 BRANCH = "master"
-SRCREV = "4a18f8596b4f0c7211534289aeac68756f10df3d"
+SRCREV = "ddc40c071bf7d8c11373f69546c67ed46157df66"
 
 SRC_URI = " \
     git://github.com/TexasInstruments/ti-apps-launcher.git;protocol=https;branch=${BRANCH} \
@@ -62,16 +64,6 @@ APPS_DEFINES:j721s2 = "SOC_J721S2"
 APPS_DEFINES:j784s4 = "SOC_J784S4"
 APPS_DEFINES:j722s = "SOC_J722S"
 
-CONFIG_FILE = "generic"
-CONFIG_FILE:am62xx = "am62xx-evm"
-CONFIG_FILE:am62xx-lp-evm = "am62xx-lp-evm"
-CONFIG_FILE:am62pxx-evm = "am62pxx-evm"
-CONFIG_FILE:am62xxsip-evm = "am62xxsip-evm"
-CONFIG_FILE:beagleplay = "beagleplay"
-CONFIG_FILE:j721s2 = "am68-sk"
-CONFIG_FILE:j784s4 = "am69-sk"
-CONFIG_FILE:j722s = "am67-sk"
-
 SERVICE_SUFFIX = ""
 SERVICE_SUFFIX:am62xx = "-analytics"
 SERVICE_SUFFIX:am62pxx = "-analytics"
@@ -85,32 +77,22 @@ HW_CODEC:j722s = "1"
 
 APP_NAME = "${@oe.utils.conditional("DISPLAY_CLUSTER_ENABLE", "1", "ti-demo", "ti-apps-launcher", d)}"
 RT_BUILD_VALUE = "${@oe.utils.conditional("ARAGO_RT_ENABLE", "1", "1", "0", d)}"
-QMAKE_PROFILES = "${S}/${APP_NAME}.pro"
 
-inherit ${@bb.utils.contains('BBLAYERS', 'meta-qt6', 'qt6-qmake', '', d)} deploy systemd
+inherit systemd cmake
 
 SYSTEMD_PACKAGES = "${PN}"
 
 SYSTEMD_SERVICE:${PN} = "${APP_NAME}.service"
 
-do_compile:prepend() {
-    echo "SOURCES += configs/${CONFIG_FILE}.cpp" >> ${S}/ti-apps-launcher.pro
-    echo >> ${S}/ti-apps-launcher.pro
-    echo "DEFINES += ${APPS_DEFINES}" >> ${S}/ti-apps-launcher.pro
-    echo "DEFINES += RT_BUILD=${RT_BUILD_VALUE}" >> ${S}/ti-apps-launcher.pro
-}
+OECMAKE_CXX_FLAGS += "-D${APPS_DEFINES}=1"
+OECMAKE_CXX_FLAGS += "-DRT_BUILD=${RT_BUILD_VALUE}"
+
+EXTRA_OECMAKE = "-DOE_QMAKE_PATH_EXTERNAL_HOST_BINS=${STAGING_BINDIR_NATIVE}"
 
 do_install:append() {
-    install -d ${D}${bindir}
-    install -m 0755 ${APP_NAME} ${D}${bindir}/${APP_NAME}
-
     if [ "${DISPLAY_CLUSTER_ENABLE}" != "1" ]; then
         install -d ${D}/opt/ti-apps-launcher
         install -m 0755 ${S}/scripts/* ${D}/opt/ti-apps-launcher/
-
-        install -d ${D}/opt/ti-apps-launcher/assets
-        install -m 0755 ${S}/images/* ${D}/opt/ti-apps-launcher/assets/
-        install -m 0755 ${S}/audios/* ${D}/opt/ti-apps-launcher/assets/
 
         install -d ${D}${systemd_system_unitdir}
         install -m 0755 ${WORKDIR}/ti-apps-launcher${SERVICE_SUFFIX}.service ${D}${systemd_system_unitdir}/ti-apps-launcher.service
@@ -120,6 +102,9 @@ do_install:append() {
             install -m 0644 ${WORKDIR}/Usage.md ${D}/opt/ti-apps-launcher/gallery/
         fi
     else
+        install -d ${D}/opt/ti-demo
+        install -m 0755 ${S}/apps/auto_cluster.qml ${D}/opt/ti-demo/
+
         install -d ${D}${systemd_system_unitdir}
         install -m 0755 ${WORKDIR}/ti-demo.service ${D}${systemd_system_unitdir}/ti-demo.service
     fi
@@ -128,7 +113,6 @@ do_install:append() {
         install -d ${D}${sysconfdir}/udev/rules.d
         install -m 0644 ${WORKDIR}/dev-dri-card1.rules ${D}${sysconfdir}/udev/rules.d/
     fi
-
 }
 
 FILES:${PN} += " \

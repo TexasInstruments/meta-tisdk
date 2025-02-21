@@ -13,7 +13,7 @@ EnvironmentFile=/etc/environment
 Environment=QT_QPA_PLATFORM=eglfs
 Environment=QT_QPA_EGLFS_KMS_CONFIG=/etc/eglfs.conf
 ExecStartPre=/bin/sh -c 'for i in $(find /sys/devices/platform -name "card?"); do export D=${i:0-1}; if [[ "$i" == *"dss"* ]]; then echo -e "{\n\t\x5c\x22device\x5c\x22: \x5c\x22/dev/dri/card${i:0-1}\x5c\x22,\n\t\x5c\x22hwcursor\x5c\x22: false\n}\n" > /etc/eglfs.conf ; fi; done'
-ExecStart=/usr/bin/ti-demo -platform eglfs
+ExecStart=qmlscene -platform eglfs --fullscreen /opt/ti-demo/auto_cluster.qml
 
 # The user to run ti-demo as.
 User=root
