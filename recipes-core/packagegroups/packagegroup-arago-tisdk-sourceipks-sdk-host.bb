@@ -46,7 +46,6 @@ UTILS:append:ti33x = " \
     evse-hmi-src \
     protection-relays-hmi-src \
     oprofile-example-src \
-    ${@bb.utils.contains('MACHINE_FEATURES', 'gpu', 'pdm-anomaly-detection-src', '', d)} \
 "
 
 UTILS:append:ti43x = " \
@@ -54,13 +53,11 @@ UTILS:append:ti43x = " \
     mmwavegesture-hmi-src \
     evse-hmi-src \
     oprofile-example-src \
-    ${@bb.utils.contains('MACHINE_FEATURES', 'gpu', 'pdm-anomaly-detection-src', '', d)} \
 "
 
 UTILS:append:am65xx = " \
     pru-icss-src \
     oprofile-example-src \
-    ${@bb.utils.contains('MACHINE_FEATURES', 'gpu', 'pdm-anomaly-detection-src', '', d)} \
 "
 
 UTILS:append = " \
