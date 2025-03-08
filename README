@@ -1,0 +1,9 @@
+OpenEmbedded/Yocto Project layer for Processor SDK Linux
+
+Please submit any patches against the meta-tisdk layer by using the GitHub pull-request feature.
+You are encouraged to fork the mirror on GitHub https://github.com/TexasInstruments/meta-tisdk
+to share your patches.
+
+Please see the respective READMEs in the layer subdirectories
+
+Maintainers: Chirag Shilwant <c-shilwant@ti.com>
