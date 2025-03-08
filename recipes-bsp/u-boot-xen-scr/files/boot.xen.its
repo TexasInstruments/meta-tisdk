@@ -1,0 +1,19 @@
+/dts-v1/;
+/ {
+    description = "Configuration to load Xen/Linux";
+    #address-cells = <1>;
+    images {
+        default = "boot_scr";
+        boot_scr {
+            description = "default xen boot script";
+            data = /incbin/("boot.xen.source");
+            type = "script";
+            compression = "none";
+            load = <0x82000000>;
+            entry = <0x82000000>;
+            hash {
+                algo = "md5";
+            };
+        };
+    };
+};
