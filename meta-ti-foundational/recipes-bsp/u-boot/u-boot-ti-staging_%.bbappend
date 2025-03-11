@@ -9,7 +9,7 @@ DM_FIRMWARE:am62pxx = "${@oe.utils.conditional("DISPLAY_CLUSTER_ENABLE", "1", "$
 
 TI_DM="${STAGING_DIR_HOST}${nonarch_base_libdir}/firmware/ti-dm/${PLAT_SFX}/${DM_FIRMWARE}"
 
-EXTRA_OEMAKE += "TI_DM=${TI_DM}"
+EXTRA_OEMAKE += "TI_DM=${TI_DM} ${@oe.utils.conditional("DISPLAY_CLUSTER_ENABLE", "1", "BINMAN_ALLOW_MISSING=1", "", d)}"
 
 PR:append = "_tisdk_5"
 
