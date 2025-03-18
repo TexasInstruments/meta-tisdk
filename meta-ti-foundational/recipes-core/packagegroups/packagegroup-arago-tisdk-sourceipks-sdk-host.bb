@@ -42,16 +42,11 @@ UTILS:append:am335x-evm = " pru-adc-src"
 UTILS:append:ti33x = " \
     omapconf-src \
     pru-icss-src \
-    mmwavegesture-hmi-src \
-    evse-hmi-src \
-    protection-relays-hmi-src \
     oprofile-example-src \
 "
 
 UTILS:append:ti43x = " \
     pru-icss-src \
-    mmwavegesture-hmi-src \
-    evse-hmi-src \
     oprofile-example-src \
 "
 
