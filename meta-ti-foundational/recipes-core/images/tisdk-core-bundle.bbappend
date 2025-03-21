@@ -59,9 +59,6 @@ SYSFW_PREFIX:am65xx = "sci"
 SYSFW_PREFIX:am62xx = "fs*"
 SYSFW_PREFIX:am62pxx = "fs*"
 
-SYSFW_DATA ?= ""
-SYSFW_DATA:am62lxx = "sysfw-data"
-
 SYSFW_BINARY = "ti-${SYSFW_PREFIX}-firmware-${SYSFW_SOC}*.bin"
 
 PREBUILT_DIR = "${IMAGE_ROOTFS}/board-support/prebuilt-images"
@@ -72,11 +69,6 @@ tisdk_image_build:append() {
     then
         mkdir -p ${PREBUILT_DIR}/ti-sysfw/
         cp ${DEPLOY_DIR_IMAGE}/ti-sysfw/${SYSFW_BINARY} ${PREBUILT_DIR}/ti-sysfw/
-
-        if [ -e ${DEPLOY_DIR_IMAGE}/ti-sysfw/${SYSFW_DATA}.bin ]
-        then
-           cp ${DEPLOY_DIR_IMAGE}/ti-sysfw/${SYSFW_DATA}.bin ${PREBUILT_DIR}/ti-sysfw/
-        fi
     fi
 
     # Add ti-dm needed by binman builds for u-boot
