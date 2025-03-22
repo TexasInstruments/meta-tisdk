@@ -5,17 +5,17 @@ LICENSE = "GPL-2.0-only"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=4641e94ec96f98fabc56ff9cc48be14b"
 
 PV = "0.14.1+git"
-SRCREV = "59f967d5e1f6e9ce8e1632d9405422b071d93d30"
+SRCREV = "ac84d444b278d5682413f7200dd324ee6c564a01"
 
-DEPENDS = "qtbase qtdeclarative"
-RDEPENDS:${PN} = "ttf-liberation-mono qtxmlpatterns"
+DEPENDS = "qtbase qtdeclarative qt5compat"
+RDEPENDS:${PN} = "ttf-liberation-mono"
 
 SRC_URI = " \
-    git://github.com/Swordfish90/qmltermwidget.git;protocol=https;branch=master \
+    git://github.com/kalaksi/qmltermwidget.git;protocol=https;branch=qt6-font-fix \
     file://0001-qmltermwidget.pro-don-t-install-asset-directories-tw.patch \
 "
 S = "${WORKDIR}/git"
 
-inherit ${@bb.utils.contains('BBLAYERS', 'meta-qt6', 'qt6-qmake', '', d)}
+inherit qt6-qmake
 
 FILES:${PN} += "${libdir}"
