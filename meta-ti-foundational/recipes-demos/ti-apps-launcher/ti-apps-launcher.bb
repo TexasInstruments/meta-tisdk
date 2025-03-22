@@ -14,26 +14,24 @@ DEPENDS = "\
     qtbase \
     qtbase-native \
     qtquick3d \
+    qtquick3d-native \
     qtdeclarative \
-    qtgraphicaleffects \
     qtmultimedia \
-    qtxmlpatterns \
     qmltermwidget \
+    gstreamer1.0 \
 "
 
 RDEPENDS:${PN} = "\
     qtquick3d \
     qtmultimedia \
     bash \
-    seva-launcher \
     pulseaudio-service \
     qtdeclarative-qmlplugins \
-    qtgraphicaleffects-qmlplugins \
     qmltermwidget \
-    qtquickcontrols-qmlplugins \
-    qtquickcontrols2-qmlplugins \
     qtwayland-qmlplugins \
     qtdeclarative-tools \
+    gstreamer1.0-plugins-good \
+    gstreamer1.0-plugins-good-qml6 \
 "
 
 RDEPENDS:${PN}:remove:am62xxsip-evm = "seva-launcher"
@@ -41,7 +39,7 @@ RDEPENDS:${PN}:append:am62xx = " powervr-graphics"
 RDEPENDS:${PN}:append:am62pxx = " powervr-graphics"
 
 BRANCH = "master"
-SRCREV = "ddc40c071bf7d8c11373f69546c67ed46157df66"
+SRCREV = "1237f03767857df2190991edf5655f60f9537a54"
 
 SRC_URI = " \
     git://github.com/TexasInstruments/ti-apps-launcher.git;protocol=https;branch=${BRANCH} \
@@ -78,7 +76,7 @@ HW_CODEC:j722s = "1"
 APP_NAME = "${@oe.utils.conditional("DISPLAY_CLUSTER_ENABLE", "1", "ti-demo", "ti-apps-launcher", d)}"
 RT_BUILD_VALUE = "${@oe.utils.conditional("ARAGO_RT_ENABLE", "1", "1", "0", d)}"
 
-inherit systemd cmake
+inherit systemd pkgconfig cmake
 
 SYSTEMD_PACKAGES = "${PN}"
 
@@ -88,6 +86,7 @@ OECMAKE_CXX_FLAGS += "-D${APPS_DEFINES}=1"
 OECMAKE_CXX_FLAGS += "-DRT_BUILD=${RT_BUILD_VALUE}"
 
 EXTRA_OECMAKE = "-DOE_QMAKE_PATH_EXTERNAL_HOST_BINS=${STAGING_BINDIR_NATIVE}"
+EXTRA_OECMAKE += "-DQT_HOST_PATH=${RECIPE_SYSROOT_NATIVE}${prefix_native}"
 
 do_install:append() {
     if [ "${DISPLAY_CLUSTER_ENABLE}" != "1" ]; then
