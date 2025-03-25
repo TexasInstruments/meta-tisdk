@@ -81,6 +81,13 @@ tisdk_image_build:append() {
         cp -r ${DEPLOY_DIR_IMAGE}/ti-dm ${PREBUILT_DIR}/
     fi
 
+    # Add ti-hsm needed by binman builds for u-boot
+    if [ -d "${DEPLOY_DIR_IMAGE}/ti-hsm" ]
+    then
+        mkdir -p ${PREBUILT_DIR}/ti-hsm/
+        cp ${DEPLOY_DIR_IMAGE}/ti-hsm/* ${PREBUILT_DIR}/ti-hsm/
+    fi
+
     # Copy all the boot partition files (for all soc types: gp/hs/hs-fs)
     for f in ${BOOT_PART}
     do
