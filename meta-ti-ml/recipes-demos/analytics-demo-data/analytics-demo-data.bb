@@ -4,7 +4,7 @@ LICENSE = "TI-TFL"
 LIC_FILES_CHKSUM = "file://${COREBASE}/../meta-ti/meta-ti-bsp/licenses/TI-TFL;md5=a1b59cb7ba626b9dbbcbf00f3fbc438a"
 
 SRC_URI = "git://github.com/TexasInstruments/oob-demo-assets.git;protocol=https;branch=master"
-SRCREV = "3deadefecc49877c7f6c9d59854f801fa3fc43e1"
+SRCREV = "6b64cbdfd16648f1dd75dfc1ec8711c2b6559826"
 
 S = "${WORKDIR}/git"
 
