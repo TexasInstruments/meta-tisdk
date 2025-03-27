@@ -49,7 +49,7 @@ SYSFW_SOC:j722s = "j722s"
 SYSFW_SOC:am62axx = "am62ax"
 SYSFW_SOC:am62xx = "am62x"
 SYSFW_SOC:am62lxx = "am62lx"
-SYSFW_SOC:am64xx = "am64x_sr2|am64x-gp"
+SYSFW_SOC:am64xx = "am64x_sr2"
 SYSFW_SOC:am62pxx = "am62px"
 SYSFW_SOC:am65xx = "am65x_sr2"
 
