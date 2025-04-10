@@ -9,14 +9,14 @@ SRC_URI = "gitsm://github.com/texasinstruments/ti-lvgl-demo.git;branch=master;pr
 S = "${WORKDIR}/git/lv_port_linux"
 B = "${S}/build-arm64"
 
-SRCREV = "a1cec6469551d8ec6c1c0d2d5041c0c5432d9e3b"
+SRCREV = "f9ecfee218b3f74fd5fb43de57da24b643f99217"
 
 inherit systemd
 SYSTEMD_PACKAGES = "${PN}"
 SYSTEMD_SERVICE:${PN} = "${PN}.service"
 
 DEPENDS += "cmake mosquitto alsa-lib alsa-utils alsa-tools libdrm libsdl2 libsdl2-image curl wayland-protocols curl ca-certificates"
-RDEPENDS:${PN} += "cmake mosquitto alsa-lib alsa-utils alsa-tools libdrm libsdl2 libsdl2-image curl wayland-protocols curl ca-certificates"
+RDEPENDS:${PN} += "cmake mosquitto alsa-lib alsa-utils alsa-tools libdrm libsdl2 libsdl2-image curl wayland-protocols curl ca-certificates tensorflow-lite nnstreamer analytics-demo-data"
 
 inherit cmake
 OECMAKE_SOURCEPATH = "${S}"
