@@ -16,6 +16,6 @@ SRC_URI = " \
 "
 S = "${WORKDIR}/git"
 
-inherit qt6-qmake
+inherit ${@bb.utils.contains('BBLAYERS', 'meta-qt6', 'qt6-qmake', '', d)}
 
 FILES:${PN} += "${libdir}"
