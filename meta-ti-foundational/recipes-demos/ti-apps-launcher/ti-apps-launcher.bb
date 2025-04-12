@@ -49,6 +49,9 @@ RDEPENDS:${PN} = "\
     analytics-demo-data \
 "
 
+RDEPENDS:${PN}:remove:j721s2 = "tensorflow-lite onnx onnxruntime nnstreamer analytics-demo-data"
+RDEPENDS:${PN}:remove:j784s4 = "tensorflow-lite onnx onnxruntime nnstreamer analytics-demo-data"
+RDEPENDS:${PN}:remove:j722s = "tensorflow-lite onnx onnxruntime nnstreamer analytics-demo-data"
 RDEPENDS:${PN}:remove:am62xxsip-evm = "seva-launcher"
 RDEPENDS:${PN}:append:am62xx = " powervr-graphics"
 RDEPENDS:${PN}:append:am62pxx = " powervr-graphics"
