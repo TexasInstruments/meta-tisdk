@@ -1,6 +1,7 @@
-PR:append = ".arago0"
+PR:append = ".tisdk0"
 
-PACKAGECONFIG:append = " qt6"
+# Enable qt6 packageconfig if meta-qt6 layer is in use
+PACKAGECONFIG:append = " ${@bb.utils.contains('BBLAYERS', 'meta-qt6', 'qt6', '', d)}"
 
 QT6WAYLANDDEPENDS = "${@bb.utils.contains("DISTRO_FEATURES", "wayland", "qtwayland", "", d)}"
 
