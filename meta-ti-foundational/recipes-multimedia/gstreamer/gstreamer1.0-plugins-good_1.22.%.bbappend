@@ -1,6 +1,6 @@
-PR:append = ".arago0"
+PR:append = ".tisdk0"
 
-PACKAGECONFIG:append = " qt6"
+PACKAGECONFIG:append = " ${@bb.utils.contains('BBFILE_COLLECTIONS', 'qt6-layer', 'qt6', '', d)}"
 
 QT6WAYLANDDEPENDS = "${@bb.utils.contains("DISTRO_FEATURES", "wayland", "qtwayland", "", d)}"
 
