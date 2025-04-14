@@ -58,6 +58,7 @@ SYSFW_PREFIX:am64xx = "sci"
 SYSFW_PREFIX:am65xx = "sci"
 SYSFW_PREFIX:am62xx = "fs*"
 SYSFW_PREFIX:am62pxx = "fs*"
+SYSFW_PREFIX:am62axx = "fs*"
 
 SYSFW_BINARY = "ti-${SYSFW_PREFIX}-firmware-${SYSFW_SOC}*.bin"
 
