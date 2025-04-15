@@ -104,13 +104,6 @@ OECMAKE_CXX_FLAGS += "-DRT_BUILD=${RT_BUILD_VALUE}"
 EXTRA_OECMAKE = "-DOE_QMAKE_PATH_EXTERNAL_HOST_BINS=${STAGING_BINDIR_NATIVE}"
 EXTRA_OECMAKE += "-DQT_HOST_PATH=${RECIPE_SYSROOT_NATIVE}${prefix_native}"
 
-# The .so contains an ABI tag that denotes the minimum kernel version required.
-# Since Docker has no own kernel, the Docker host’s kernel version is used for
-# that comparison. Remove this check to un-break builds on some hosts.
-do_compile:prepend() {
-        strip --remove-section=.note.ABI-tag ${STAGING_LIBDIR_NATIVE}/libQt6Core.so.6.9.0
-}
-
 do_install:append() {
     if [ "${DISPLAY_CLUSTER_ENABLE}" != "1" ]; then
         install -d ${D}/opt/ti-apps-launcher
