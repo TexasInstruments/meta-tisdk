@@ -33,6 +33,7 @@ RDEPENDS:${PN} = "\
     qttools \
     qt3d \
     bash \
+    seva-launcher \
     pulseaudio-service \
     qtdeclarative-qmlplugins \
     qtwayland-qmlplugins \
