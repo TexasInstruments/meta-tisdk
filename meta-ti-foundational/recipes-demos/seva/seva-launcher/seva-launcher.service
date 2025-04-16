@@ -5,7 +5,7 @@
 Description=Seva Launcher Service
 
 # Make sure we are started after weston & docker is up.
-Requires=weston.service docker.socket
+Requires=emptty.service docker.socket
 After=docker.service
 PartOf=docker.service
 
@@ -13,7 +13,7 @@ PartOf=docker.service
 Type=simple
 Environment=XDG_RUNTIME_DIR=/run/user/1000
 Environment=QT_QPA_PLATFORM=wayland
-Environment=WAYLAND_DISPLAY=/run/wayland-0
+Environment=WAYLAND_DISPLAY=wayland-1
 EnvironmentFile=/etc/environment
 ExecStart=/bin/sh -c '/usr/bin/seva-launcher-aarch64 -no-browser=true'
 Restart=on-failure
