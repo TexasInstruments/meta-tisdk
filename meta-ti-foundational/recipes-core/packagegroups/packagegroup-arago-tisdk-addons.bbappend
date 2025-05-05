@@ -4,6 +4,7 @@ DEMOS = ""
 DEMOS:append:am62xx = " ti-apps-launcher"
 DEMOS:append:am62pxx = " ti-apps-launcher"
 DEMOS:append:am62lxx = " ti-lvgl-demo"
+DEMOS:append:am335x-evm = " ti-lvgl-demo"
 DEMOS:append:foundational = " ti-apps-launcher"
 DEMOS:append:am335x-evm = " pru-adc"
 

@@ -9,5 +9,8 @@ SYSTEMD_AUTO_ENABLE:${PN}:am62xxsip-evm = "disable"
 # Always disable emptty for AM62L
 SYSTEMD_AUTO_ENABLE:${PN}:am62lxx-evm = "disable"
 
+# Always disable emptty for AM335x
+SYSTEMD_AUTO_ENABLE:${PN}:am335x-evm = "disable"
+
 # Always disable emptty for AM64X
 SYSTEMD_AUTO_ENABLE:${PN}:am64xx-evm = "disable"

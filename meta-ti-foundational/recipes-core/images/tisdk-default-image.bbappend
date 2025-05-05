@@ -6,5 +6,7 @@ IMAGE_INSTALL:append = " \
 "
 
 IMAGE_INSTALL:append:am62lxx = " mosquitto libmosquitto1 libmosquittopp1 mosquitto-clients mosquitto-dev"
+IMAGE_INSTALL:append:am335x-evm = " mosquitto libmosquitto1 libmosquittopp1 mosquitto-clients mosquitto-dev"
 IMAGE_INSTALL:append:am62xx = " ti-gst-plugins-source ti-gst-plugins-dev ti-gst-utils "
 IMAGE_INSTALL:append:am62pxx = " ti-gst-plugins-source ti-gst-plugins-dev ti-gst-utils "
+
