@@ -16,6 +16,9 @@ GRAPHICS_RDEPENDS = "${@bb.utils.contains('MACHINE_FEATURES','gpu','${PREFERRED_
 # Remove GPU driver sources for j7200
 GRAPHICS_RDEPENDS:remove:j7200 = "${@bb.utils.contains('MACHINE_FEATURES','gpu','${PREFERRED_PROVIDER_virtual/gpudriver}-src','',d)}"
 
+# Remove GPU driver sources for am62dxx
+GRAPHICS_RDEPENDS:remove:am62dxx = "${@bb.utils.contains('MACHINE_FEATURES','gpu','${PREFERRED_PROVIDER_virtual/gpudriver}-src','',d)}"
+
 # Remove GPU driver sources for am62axx
 GRAPHICS_RDEPENDS:remove:am62axx = "${@bb.utils.contains('MACHINE_FEATURES','gpu','${PREFERRED_PROVIDER_virtual/gpudriver}-src','',d)}"
 
