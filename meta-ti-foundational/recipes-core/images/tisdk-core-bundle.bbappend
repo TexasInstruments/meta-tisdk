@@ -31,6 +31,7 @@ DTB_FILTER:am62xxsip-evm = "k3-am625"
 DTB_FILTER:am64xx = "k3-am642"
 DTB_FILTER:am62pxx-evm = "k3-am62p5"
 DTB_FILTER:am62axx = "k3-am62a7\|k3-am62x-sk\|k3-fpdlink\|k3-v3link"
+DTB_FILTER:am62dxx = "k3-am62d2"
 DTB_FILTER:ti33x = "am335x"
 DTB_FILTER:ti43x = "am437x\|am43x"
 
@@ -52,6 +53,7 @@ SYSFW_SOC:am62lxx = "am62lx"
 SYSFW_SOC:am64xx = "am64x_sr2"
 SYSFW_SOC:am62pxx = "am62px"
 SYSFW_SOC:am65xx = "am65x_sr2"
+SYSFW_SOC:am62dxx = "am62ax"
 
 SYSFW_PREFIX ?= "fs"
 SYSFW_PREFIX:am64xx = "sci"
@@ -59,6 +61,7 @@ SYSFW_PREFIX:am65xx = "sci"
 SYSFW_PREFIX:am62xx = "fs*"
 SYSFW_PREFIX:am62pxx = "fs*"
 SYSFW_PREFIX:am62axx = "fs*"
+SYSFW_PREFIX:am62dxx = "fs*"
 
 SYSFW_BINARY = "ti-${SYSFW_PREFIX}-firmware-${SYSFW_SOC}*.bin"
 
