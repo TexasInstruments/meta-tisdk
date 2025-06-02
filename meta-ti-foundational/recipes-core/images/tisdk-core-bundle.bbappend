@@ -36,7 +36,7 @@ DTB_FILTER:ti33x = "am335x"
 DTB_FILTER:ti43x = "am437x\|am43x"
 
 # All the boot partition files, including all the device variants that were built
-BOOT_PART:k3 = "uEnv.txt u-boot.img tispl.bin tiboot3.bin tiboot3-*.bin"
+BOOT_PART:k3 = "uEnv.txt u-boot.img tispl.bin tiboot3*.bin"
 BOOT_PART:append:j721e = " sysfw.itb sysfw-*evm.itb"
 BOOT_PART:append:am65xx = " sysfw.itb sysfw-*evm.itb"
 
