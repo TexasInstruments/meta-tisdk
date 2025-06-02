@@ -1,4 +1,4 @@
-SRCREV:tie-jailhouse = "05c947180bb7771d89caa530454263f8f6b93c44"
+SRCREV:tie-jailhouse = "d2e49789907c6f33ee2cb54a88a582fe9ce00d5e"
 
 PR:append = "_tisdk_8"
 
