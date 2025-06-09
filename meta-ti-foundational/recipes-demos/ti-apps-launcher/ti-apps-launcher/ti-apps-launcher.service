@@ -1,0 +1,26 @@
+# This is a system unit for launching ti-apps-launcher with auto-login as the
+# user configured here.
+
+[Unit]
+Description=ti-apps-launcher service
+Requires=emptty.service docker.socket
+After=systemd-user-sessions.service docker.service emptty.service
+
+[Service]
+Type=simple
+Environment=XDG_RUNTIME_DIR=/run/user/1000
+Environment=QT_QPA_PLATFORM=wayland
+Environment=WAYLAND_DISPLAY=wayland-1
+Environment=QML_DISABLE_DISK_CACHE=1
+Environment=QT_DISABLE_SHADER_DISK_CACHE=1
+EnvironmentFile=/etc/environment
+ExecStartPre=/bin/sh -c 'while [ ! -S /run/user/1000/wayland-1 ]; do sleep 1; done'
+ExecStart=/bin/sh -c '/usr/bin/ti-apps-launcher'
+
+Restart=on-failure
+
+User=root
+Group=root
+
+[Install]
+WantedBy=graphical.target multi-user.target

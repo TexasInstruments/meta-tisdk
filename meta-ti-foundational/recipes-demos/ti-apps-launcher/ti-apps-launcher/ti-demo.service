@@ -1,0 +1,29 @@
+# This is a system unit for launching ti-demo with auto-login as the
+# user configured here.
+
+[Unit]
+Description=ti-demo service
+
+Wants=dev-dri-card1.device
+After=dev-dri-card1.device
+
+[Service]
+Type=simple
+EnvironmentFile=/etc/environment
+Environment=QT_QPA_PLATFORM=eglfs
+Environment=QT_QPA_EGLFS_KMS_CONFIG=/etc/eglfs.conf
+ExecStartPre=/bin/sh -c 'for i in $(find /sys/devices/platform -name "card?"); do export D=${i:0-1}; if [[ "$i" == *"dss"* ]]; then echo -e "{\n\t\x5c\x22device\x5c\x22: \x5c\x22/dev/dri/card${i:0-1}\x5c\x22,\n\t\x5c\x22hwcursor\x5c\x22: false\n}\n" > /etc/eglfs.conf ; fi; done'
+ExecStart=qmlscene -platform eglfs --fullscreen /opt/ti-demo/auto_cluster.qml
+
+# The user to run ti-demo as.
+User=root
+Group=root
+
+# Fail to start if not controlling the tty.
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+# Note: If you only want ti-demo to start on-demand, remove this line with a
+# service drop file
+WantedBy=graphical.target multi-user.target
