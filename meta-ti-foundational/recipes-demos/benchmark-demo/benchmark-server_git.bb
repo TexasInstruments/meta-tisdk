@@ -66,9 +66,9 @@ LIC_FILES_CHKSUM = "\
 "
 
 SRC_URI = " \
-    git://git.ti.com/processor-sdk/sitara-apps.git;protocol=git;branch=master \
+    git://git.ti.com/git/processor-sdk/sitara-apps.git;protocol=https;branch=master \
     npmsw://${NPM_SHIRNKWRAP} \
-    git://git.ti.com/gui-composer-components/ti-gc-components.git;protocol=git;branch=master;destsuffix=git/benchmark_demo/webserver_app/app/components;name=guicomposer \
+    git://git.ti.com/git/gui-composer-components/ti-gc-components.git;protocol=https;branch=master;destsuffix=git/benchmark_demo/webserver_app/app/components;name=guicomposer \
 "
 SRCREV = "dc762b22701940867cc915093b865bb69317e13d"
 SRCREV_FORMAT = "default"

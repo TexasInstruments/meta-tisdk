@@ -12,7 +12,7 @@ PV = "1.0"
 PR = "r3"
 
 BRANCH = "master"
-SRC_URI = "git://git.ti.com/apps/tida01555.git;protocol=git;branch=${BRANCH}"
+SRC_URI = "git://git.ti.com/git/apps/tida01555.git;protocol=https;branch=${BRANCH}"
 
 SRCREV = "0a0f7700d11ec8a6b7ed02e4c70d4bf196ca35e5"
 
