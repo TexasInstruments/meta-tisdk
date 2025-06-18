@@ -6,7 +6,7 @@ COMPATIBLE_MACHINE = "am64xx"
 inherit systemd
 
 SRC_URI = " \
-    git://git.ti.com/processor-sdk/sitara-apps.git;protocol=git;branch=master \
+    git://git.ti.com/git/processor-sdk/sitara-apps.git;protocol=https;branch=master \
 "
 SRCREV = "6854fef24281893478d5d84be00d16f56b95b441"
 
