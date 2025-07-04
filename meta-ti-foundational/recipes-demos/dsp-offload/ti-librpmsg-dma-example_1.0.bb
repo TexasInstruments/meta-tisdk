@@ -3,7 +3,7 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=744e63d2bb8c6151dcdd97f49aa02c53"
 
 SRC_URI = "git://github.com/TexasInstruments/rpmsg-dma.git;protocol=https;branch=scarthgap"
-SRCREV = "26b8cf53257214860c78ad970643e4f90920b85d"
+SRCREV = "3c50cd2994841765b03b34758d4b198931322af2"
 
 S = "${WORKDIR}/git"
 
