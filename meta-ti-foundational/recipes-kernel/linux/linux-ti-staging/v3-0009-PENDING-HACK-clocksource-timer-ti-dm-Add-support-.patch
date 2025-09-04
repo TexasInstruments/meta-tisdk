@@ -1,0 +1,158 @@
+From 3a08b554986ba6bfc0b8e5d8d7d01635ee93a3df Mon Sep 17 00:00:00 2001
+From: Beleswar Padhi <b-padhi@ti.com>
+Date: Wed, 27 Nov 2024 21:20:45 +0530
+Subject: [tiL6.12 PATCH v3 9/9] PENDING: HACK: clocksource: timer-ti-dm: Add
+ support to handle late attach of rproc timers
+
+During late attach, the dmtimers used by remote processors would already
+have been configured and running. To prevent the kernel from resetting
+or reconfiguring the timers,
+
+- Set the late attach parameter if the timer is already running.
+- If late attach flag is set, increment the dmtimer's usage counter
+  immediately on probe and maintain this state until remoteproc starts
+  the timer. This prevents kernel power management functionality
+  from idling and disabling the dmtimers.
+- If late attach flag is set, also prevent the dmtimer configuration
+  code from modifying the dmtimer registers.
+
+The late attach flag in the omap_dm_timer structure is cleared on timer
+start to allow normal operation to resume.
+
+Signed-off-by: Venkateswara Rao Mandela <venkat.mandela@ti.com>
+Signed-off-by: Angela Stegmaier <angelabaker@ti.com>
+Signed-off-by: Suman Anna <s-anna@ti.com>
+Signed-off-by: Shravan Karthik <shravan.karthik@ti.com>
+Signed-off-by: Keerthy <j-keerthy@ti.com>
+Signed-off-by: Beleswar Padhi <b-padhi@ti.com>
+---
+ drivers/clocksource/timer-ti-dm.c | 64 ++++++++++++++++++++++++++++---
+ 1 file changed, 58 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/clocksource/timer-ti-dm.c b/drivers/clocksource/timer-ti-dm.c
+index b7a34b1a975e..31f7efc55ff4 100644
+--- a/drivers/clocksource/timer-ti-dm.c
++++ b/drivers/clocksource/timer-ti-dm.c
+@@ -138,6 +138,7 @@ struct dmtimer {
+ 	u32 errata;
+ 	struct platform_device *pdev;
+ 	struct list_head node;
++	u32 late_attach;
+ 	struct notifier_block nb;
+ 	struct notifier_block fclk_nb;
+ 	unsigned long fclk_rate;
+@@ -298,6 +299,14 @@ static inline void __omap_dm_timer_write_status(struct dmtimer *timer,
+ 
+ static void omap_timer_restore_context(struct dmtimer *timer)
+ {
++
++	/*
++	 * Do not restore the context during late attach. Kernel data
++	 * structure is not in sync with the register settings of the timer.
++	 */
++	if (timer->late_attach)
++		return;
++
+ 	dmtimer_write(timer, OMAP_TIMER_OCP_CFG_OFFSET, timer->context.ocp_cfg);
+ 
+ 	dmtimer_write(timer, OMAP_TIMER_WAKEUP_EN_REG, timer->context.twer);
+@@ -463,6 +472,20 @@ static int omap_dm_timer_set_source(struct omap_dm_timer *cookie, int source)
+ 	return ret;
+ }
+ 
++static int omap_dm_timer_is_enabled(struct dmtimer *timer)
++{
++	u32 val;
++
++	val = dmtimer_read(timer, OMAP_TIMER_CTRL_REG);
++
++	/* Check if timer ST bit is set or the Counter register is loaded */
++	if (val & OMAP_TIMER_CTRL_ST ||
++	    dmtimer_read(timer, OMAP_TIMER_COUNTER_REG))
++		return 1;
++	else
++		return 0;
++}
++
+ static void omap_dm_timer_enable(struct omap_dm_timer *cookie)
+ {
+ 	struct dmtimer *timer = to_dmtimer(cookie);
+@@ -762,6 +785,15 @@ static int omap_dm_timer_start(struct omap_dm_timer *cookie)
+ 		dmtimer_write(timer, OMAP_TIMER_CTRL_REG, l);
+ 	}
+ 
++	/*
++	 * Now that timer has been started, call pm_runtime_put_noidle to
++	 * balance the pm_runtime device usage count to the proper value as
++	 * the regular case, and reset the late_attach flag.
++	 */
++	if (timer->late_attach)
++		pm_runtime_put_noidle(&timer->pdev->dev);
++	timer->late_attach = 0;
++
+ 	return 0;
+ }
+ 
+@@ -798,8 +830,12 @@ static int omap_dm_timer_set_load(struct omap_dm_timer *cookie,
+ 	rc = pm_runtime_resume_and_get(dev);
+ 	if (rc)
+ 		return rc;
+-
+-	dmtimer_write(timer, OMAP_TIMER_LOAD_REG, load);
++	/*
++	 * If late attach is enabled, do not modify the dmtimer registers.
++	 * The registers would have been configured already.
++	 */
++	if (!timer->late_attach)
++		dmtimer_write(timer, OMAP_TIMER_LOAD_REG, load);
+ 
+ 	pm_runtime_put_sync(dev);
+ 
+@@ -863,7 +899,8 @@ static int omap_dm_timer_set_pwm(struct omap_dm_timer *cookie, int def_on,
+ 	l |= trigger << 10;
+ 	if (autoreload)
+ 		l |= OMAP_TIMER_CTRL_AR;
+-	dmtimer_write(timer, OMAP_TIMER_CTRL_REG, l);
++	if (!timer->late_attach)
++		dmtimer_write(timer, OMAP_TIMER_CTRL_REG, l);
+ 
+ 	pm_runtime_put_sync(dev);
+ 
+@@ -1167,9 +1204,18 @@ static int omap_dm_timer_probe(struct platform_device *pdev)
+ 		}
+ 		__omap_dm_timer_init_regs(timer);
+ 
+-		/* Clear timer configuration */
+-		dmtimer_write(timer, OMAP_TIMER_CTRL_REG, 0);
+-
++		if (omap_dm_timer_is_enabled(timer))
++			timer->late_attach = 1;
++		/*
++		 * Increase the pm_runtime usage count and prevent kernel power
++		 * management from idling or disabling the timer.
++		 */
++		if (timer->late_attach) {
++			pm_runtime_get_noresume(dev);
++		} else {
++			/* Clear timer configuration */
++			dmtimer_write(timer, OMAP_TIMER_CTRL_REG, 0);
++		}
+ 		pm_runtime_put(dev);
+ 	}
+ 
+@@ -1208,6 +1254,12 @@ static void omap_dm_timer_remove(struct platform_device *pdev)
+ 			if (!(timer->capability & OMAP_TIMER_ALWON))
+ 				cpu_pm_unregister_notifier(&timer->nb);
+ 			list_del(&timer->node);
++			/*
++			 * Reset device usage counter if late_attach is still
++			 * set
++			 */
++			if (timer->late_attach)
++				pm_runtime_put_noidle(&timer->pdev->dev);
+ 			ret = 0;
+ 			break;
+ 		}
+-- 
+2.34.1
+

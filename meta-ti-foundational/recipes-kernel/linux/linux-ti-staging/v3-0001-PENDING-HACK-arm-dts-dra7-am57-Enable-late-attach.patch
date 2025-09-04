@@ -1,0 +1,192 @@
+From 22d4e48625855bb885bba47ca1e8c67c54120bd5 Mon Sep 17 00:00:00 2001
+From: Beleswar Padhi <b-padhi@ti.com>
+Date: Wed, 27 Nov 2024 21:20:38 +0530
+Subject: [tiL6.12 PATCH v3 1/9] PENDING: HACK: arm: dts: dra7/am57: Enable
+ late attach support for IPU1 rproc
+
+In case of Early Boot of IPUs, the IOMMU inside the IPU subsystem is
+already programmed by the bootloader and the page tables are stored in
+DDR. Reserve that memory so that Kernel can attach to the IOMMU and
+access the page tables.
+
+The pwrdms and clkdms are not registered for the IPU when it is early
+booted to prevent the Kernel from force setting the resets at init time.
+Therefore, as a HACK, remove the "clocks" and "resets" properties from
+the IOMMU and IPU DT nodes.
+
+Also add few DT properties like "late_attach", "ti,no-idle-on-init" and
+"ti,no-reset-on-init" to all nodes like timers, IOMMUs and remoteprocs
+to convey the drivers not to idle/reset these IPs on init.
+
+Signed-off-by: Beleswar Padhi <b-padhi@ti.com>
+---
+ .../devicetree/bindings/arm/omap/omap.txt     |  2 +
+ arch/arm/boot/dts/ti/omap/am571x-idk.dts      |  2 +
+ .../boot/dts/ti/omap/am572x-idk-common.dtsi   |  2 +
+ .../dts/ti/omap/am57xx-beagle-x15-common.dtsi |  2 +
+ .../ti/omap/dra7-ipu-common-early-boot.dtsi   | 64 +++++++++++++++++++
+ arch/arm/boot/dts/ti/omap/dra7-l4.dtsi        |  6 +-
+ arch/arm/boot/dts/ti/omap/dra7.dtsi           |  2 +-
+ 7 files changed, 76 insertions(+), 4 deletions(-)
+ create mode 100644 arch/arm/boot/dts/ti/omap/dra7-ipu-common-early-boot.dtsi
+
+diff --git a/Documentation/devicetree/bindings/arm/omap/omap.txt b/Documentation/devicetree/bindings/arm/omap/omap.txt
+index c863ec07cbbb..4c746e80588b 100644
+--- a/Documentation/devicetree/bindings/arm/omap/omap.txt
++++ b/Documentation/devicetree/bindings/arm/omap/omap.txt
+@@ -24,6 +24,8 @@ Optional properties:
+ - ti,no-reset-on-init: When present, the module should not be reset at init
+ - ti,no-idle-on-init: When present, the module should not be idled at init
+ - ti,no-idle: When present, the module is never allowed to idle.
++- late_attach: Flag to convey the driver that the module has been already
++  initialized by an external entity.
+ 
+ Example:
+ 
+diff --git a/arch/arm/boot/dts/ti/omap/am571x-idk.dts b/arch/arm/boot/dts/ti/omap/am571x-idk.dts
+index 02653b440585..a8d3be2980d6 100644
+--- a/arch/arm/boot/dts/ti/omap/am571x-idk.dts
++++ b/arch/arm/boot/dts/ti/omap/am571x-idk.dts
+@@ -222,3 +222,5 @@ &pruss2_eth {
+ 	ti,pruss-gp-mux-sel = <4>,      /* MII2, needed for PRUSS1_MII0 */
+ 			      <4>;      /* MII2, needed for PRUSS1_MII1 */
+ };
++
++#include "dra7-ipu-common-early-boot.dtsi"
+diff --git a/arch/arm/boot/dts/ti/omap/am572x-idk-common.dtsi b/arch/arm/boot/dts/ti/omap/am572x-idk-common.dtsi
+index 3fca84819dc0..d06cc1fa19c7 100644
+--- a/arch/arm/boot/dts/ti/omap/am572x-idk-common.dtsi
++++ b/arch/arm/boot/dts/ti/omap/am572x-idk-common.dtsi
+@@ -201,3 +201,5 @@ &dsp2 {
+ 	status = "okay";
+ 	memory-region = <&dsp2_memory_region>;
+ };
++
++#include "dra7-ipu-common-early-boot.dtsi"
+diff --git a/arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-common.dtsi b/arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-common.dtsi
+index 994e69ab38d7..f08a1c54cd84 100644
+--- a/arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-common.dtsi
++++ b/arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-common.dtsi
+@@ -645,3 +645,5 @@ &pruss1_mdio {
+ &pruss2_mdio {
+ 	status = "disabled";
+ };
++
++#include "dra7-ipu-common-early-boot.dtsi"
+diff --git a/arch/arm/boot/dts/ti/omap/dra7-ipu-common-early-boot.dtsi b/arch/arm/boot/dts/ti/omap/dra7-ipu-common-early-boot.dtsi
+new file mode 100644
+index 000000000000..9c86d23cce24
+--- /dev/null
++++ b/arch/arm/boot/dts/ti/omap/dra7-ipu-common-early-boot.dtsi
+@@ -0,0 +1,64 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (C) 2019-2025 Texas Instruments Incorporated - http://www.ti.com/
++ *
++ * Common dtsi file that needs to be included in corresponding TI AM57xx
++ * board dts files that have the IPU1 remote processor booted early from
++ * TI U-Boot/SPL.
++ */
++
++/ {
++	reserved-memory {
++		mmu-early-page-tables@95700000 {
++			/* address need to match the usage within U-Boot */
++			reg = <0x0 0x95700000 0x0 0x100000>;
++			no-map;
++			status = "okay";
++		};
++	};
++};
++
++/* IPU1 */
++&target_module_timer11 {
++	ti,no-idle-on-init;
++	ti,no-reset-on-init;
++};
++
++&target_module_timer7 {
++	ti,no-idle-on-init;
++	ti,no-reset-on-init;
++};
++
++&target_module_timer8 {
++	ti,no-idle-on-init;
++	ti,no-reset-on-init;
++};
++
++&target_module_mmu_ipu1{
++	/* Delete the clocks and resets as they are not registered at init time */
++	/delete-property/ clocks;
++	/delete-property/ clock-names;
++	/delete-property/ resets;
++	/delete-property/ reset-names;
++	ti,no-idle-on-init;
++	ti,no-reset-on-init;
++};
++
++&mmu_ipu1 {
++	late_attach = <1>;
++};
++
++
++&ipu1_memory_region {
++	/delete-property/ reusable;
++	no-map;
++};
++
++&ipu1 {
++	/* Delete the clocks and resets as they are not registered at init time */
++	/delete-property/ clocks;
++	/delete-property/ resets;
++	late_attach = <1>;
++	ti,no-idle-on-init;
++	ti,no-reset-on-init;
++};
+diff --git a/arch/arm/boot/dts/ti/omap/dra7-l4.dtsi b/arch/arm/boot/dts/ti/omap/dra7-l4.dtsi
+index f06ae95c4aef..57efd480ad3d 100644
+--- a/arch/arm/boot/dts/ti/omap/dra7-l4.dtsi
++++ b/arch/arm/boot/dts/ti/omap/dra7-l4.dtsi
+@@ -1886,7 +1886,7 @@ timer10: timer@0 {
+ 			};
+ 		};
+ 
+-		target-module@88000 {			/* 0x48088000, ap 43 66.0 */
++		target_module_timer11: target-module@88000 {			/* 0x48088000, ap 43 66.0 */
+ 			compatible = "ti,sysc-omap4-timer", "ti,sysc";
+ 			reg = <0x88000 0x4>,
+ 			      <0x88010 0x4>;
+@@ -3375,7 +3375,7 @@ timer6: timer@0 {
+ 			};
+ 		};
+ 
+-		target-module@24000 {			/* 0x48824000, ap 9 26.0 */
++		target_module_timer7: target-module@24000 {			/* 0x48824000, ap 9 26.0 */
+ 			compatible = "ti,sysc-omap4-timer", "ti,sysc";
+ 			reg = <0x24000 0x4>,
+ 			      <0x24010 0x4>;
+@@ -3402,7 +3402,7 @@ timer7: timer@0 {
+ 			};
+ 		};
+ 
+-		target-module@26000 {			/* 0x48826000, ap 11 0c.0 */
++		target_module_timer8: target-module@26000 {			/* 0x48826000, ap 11 0c.0 */
+ 			compatible = "ti,sysc-omap4-timer", "ti,sysc";
+ 			reg = <0x26000 0x4>,
+ 			      <0x26010 0x4>;
+diff --git a/arch/arm/boot/dts/ti/omap/dra7.dtsi b/arch/arm/boot/dts/ti/omap/dra7.dtsi
+index 164fa88c459e..10914da48b0f 100644
+--- a/arch/arm/boot/dts/ti/omap/dra7.dtsi
++++ b/arch/arm/boot/dts/ti/omap/dra7.dtsi
+@@ -580,7 +580,7 @@ mmu1_dsp1: mmu@0 {
+ 			};
+ 		};
+ 
+-		target-module@58882000 {
++		target_module_mmu_ipu1: target-module@58882000 {
+ 			compatible = "ti,sysc-omap2", "ti,sysc";
+ 			reg = <0x58882000 0x4>,
+ 			      <0x58882010 0x4>,
+-- 
+2.34.1
+

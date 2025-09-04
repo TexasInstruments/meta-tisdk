@@ -1,0 +1,55 @@
+From 68ec9af2f2c076119e581282a0a39ba202e19df6 Mon Sep 17 00:00:00 2001
+From: Beleswar Padhi <b-padhi@ti.com>
+Date: Mon, 1 Sep 2025 10:42:03 +0530
+Subject: [tiL6.12 PATCH v3 2/9] PENDING: HACK: arm: dts: dra7*-ipu-dsp-common:
+ Remove rproc WDT timers
+
+The ex02_messageq firmware running on remote processors do not reset the
+watchdog timer periodically. This causes a watchdog timeout which
+generates an interrupt to Application core and reports a remote
+processor crash.
+
+Remove the watchdog timers from IPU and DSP remote processor nodes to
+prevent this crash as a workaround.
+
+Signed-off-by: Beleswar Padhi <b-padhi@ti.com>
+---
+ arch/arm/boot/dts/ti/omap/dra7-ipu-dsp-common.dtsi  | 3 ---
+ arch/arm/boot/dts/ti/omap/dra74-ipu-dsp-common.dtsi | 1 -
+ 2 files changed, 4 deletions(-)
+
+diff --git a/arch/arm/boot/dts/ti/omap/dra7-ipu-dsp-common.dtsi b/arch/arm/boot/dts/ti/omap/dra7-ipu-dsp-common.dtsi
+index a5bdc6431d8d..09bd9aafaa99 100644
+--- a/arch/arm/boot/dts/ti/omap/dra7-ipu-dsp-common.dtsi
++++ b/arch/arm/boot/dts/ti/omap/dra7-ipu-dsp-common.dtsi
+@@ -23,17 +23,14 @@ mbox_ipu2_ipc3x: mbox-ipu2-ipc3x {
+ &ipu2 {
+ 	mboxes = <&mailbox6 &mbox_ipu2_ipc3x>;
+ 	ti,timers = <&timer3>;
+-	ti,watchdog-timers = <&timer4>, <&timer9>;
+ };
+ 
+ &ipu1 {
+ 	mboxes = <&mailbox5 &mbox_ipu1_ipc3x>;
+ 	ti,timers = <&timer11>;
+-	ti,watchdog-timers = <&timer7>, <&timer8>;
+ };
+ 
+ &dsp1 {
+ 	mboxes = <&mailbox5 &mbox_dsp1_ipc3x>;
+ 	ti,timers = <&timer5>;
+-	ti,watchdog-timers = <&timer10>;
+ };
+diff --git a/arch/arm/boot/dts/ti/omap/dra74-ipu-dsp-common.dtsi b/arch/arm/boot/dts/ti/omap/dra74-ipu-dsp-common.dtsi
+index 3256631510c5..d155564b6784 100644
+--- a/arch/arm/boot/dts/ti/omap/dra74-ipu-dsp-common.dtsi
++++ b/arch/arm/boot/dts/ti/omap/dra74-ipu-dsp-common.dtsi
+@@ -14,5 +14,4 @@ mbox_dsp2_ipc3x: mbox-dsp2-ipc3x {
+ &dsp2 {
+ 	mboxes = <&mailbox6 &mbox_dsp2_ipc3x>;
+ 	ti,timers = <&timer6>;
+-	ti,watchdog-timers = <&timer13>;
+ };
+-- 
+2.34.1
+

@@ -1,0 +1,136 @@
+From d1543eb58f6985cc8c6862423399a4ba2a36c952 Mon Sep 17 00:00:00 2001
+From: Beleswar Padhi <b-padhi@ti.com>
+Date: Wed, 27 Nov 2024 21:20:40 +0530
+Subject: [tiL6.12 PATCH v3 4/9] PENDING: HACK: ARM: OMAP2+: clockdomain: Do
+ not initialize clks for early booted rprocs
+
+In case of Early Boot of IPU1, the rproc has already been powered-on and
+booted by the bootloader. Therefore, as a HACK, do not initialize the
+clks for IPU1 in Kernel, to prevent Kernel from configuring clks at init
+time.
+
+The clkdata for IPU1 is mostly present in "clockdomains7xx_data.c" file,
+and few are also hardcoded in the "clk-7xx.c" driver. Take care of all
+the instances by skipping the initialization of those clkdatas. The
+above limitation exists because IPUs (and other rprocs) have not been
+migrated to be used by the ti-sysc bus driver.
+
+Signed-off-by: Beleswar Padhi <b-padhi@ti.com>
+---
+ arch/arm/mach-omap2/clockdomain.c | 25 ++++++++++++++++++-------
+ drivers/clk/ti/clk.c              | 10 ++++++++++
+ drivers/clk/ti/clkctrl.c          |  9 +++++++++
+ 3 files changed, 37 insertions(+), 7 deletions(-)
+
+diff --git a/arch/arm/mach-omap2/clockdomain.c b/arch/arm/mach-omap2/clockdomain.c
+index 69dc5b839335..a73e5ea1668b 100644
+--- a/arch/arm/mach-omap2/clockdomain.c
++++ b/arch/arm/mach-omap2/clockdomain.c
+@@ -41,6 +41,8 @@ static struct clkdm_ops *arch_clkdm;
+ void clkdm_save_context(void);
+ void clkdm_restore_context(void);
+ 
++static bool ipu_early_booted;
++
+ /* Private functions */
+ 
+ static struct clockdomain *_clkdm_lookup(const char *name)
+@@ -172,8 +174,9 @@ static void _resolve_clkdm_deps(struct clockdomain *clkdm,
+ 			continue;
+ 		cd->clkdm = _clkdm_lookup(cd->clkdm_name);
+ 
+-		WARN(!cd->clkdm, "clockdomain: %s: could not find clkdm %s while resolving dependencies - should never happen",
+-		     clkdm->name, cd->clkdm_name);
++		if (!((strcmp(cd->clkdm_name, "ipu_clkdm") == 0 || strcmp(cd->clkdm_name, "ipu1_clkdm") == 0) && ipu_early_booted))
++			WARN(!cd->clkdm, "clockdomain: %s: could not find clkdm %s while resolving dependencies - should never happen",
++			     clkdm->name, cd->clkdm_name);
+ 	}
+ }
+ 
+@@ -478,18 +481,26 @@ int clkdm_complete_init(void)
+ {
+ 	struct clockdomain *clkdm;
+ 	static struct notifier_block nb;
++	struct device_node *np = of_find_node_by_path("/ocp/ipu@58820000");
++	ipu_early_booted = of_property_read_bool(np, "late_attach");
+ 
+ 	if (list_empty(&clkdm_list))
+ 		return -EACCES;
+ 
++	/*
++	 * Do not initialize ipu_clkdms if IPU is early booted to prevent
++	 * Kernel from messing up with its clks.
++	 */
+ 	list_for_each_entry(clkdm, &clkdm_list, node) {
+-		clkdm_deny_idle(clkdm);
++		if (!((strcmp(clkdm->name, "ipu_clkdm") == 0 || strcmp(clkdm->name, "ipu1_clkdm") == 0) && ipu_early_booted)) {
++			clkdm_deny_idle(clkdm);
+ 
+-		_resolve_clkdm_deps(clkdm, clkdm->wkdep_srcs);
+-		clkdm_clear_all_wkdeps(clkdm);
++			_resolve_clkdm_deps(clkdm, clkdm->wkdep_srcs);
++			clkdm_clear_all_wkdeps(clkdm);
+ 
+-		_resolve_clkdm_deps(clkdm, clkdm->sleepdep_srcs);
+-		clkdm_clear_all_sleepdeps(clkdm);
++			_resolve_clkdm_deps(clkdm, clkdm->sleepdep_srcs);
++			clkdm_clear_all_sleepdeps(clkdm);
++		}
+ 	}
+ 
+ 	/* Only AM43XX can lose clkdm context during rtc-ddr suspend */
+diff --git a/drivers/clk/ti/clk.c b/drivers/clk/ti/clk.c
+index f2117fef7c7d..1735f71a0905 100644
+--- a/drivers/clk/ti/clk.c
++++ b/drivers/clk/ti/clk.c
+@@ -183,10 +183,20 @@ void __init ti_dt_clocks_register(struct ti_dt_clk oclks[])
+ 	static bool clkctrl_nodes_missing;
+ 	static bool has_clkctrl_data;
+ 	static bool compat_mode;
++	struct device_node *np = of_find_node_by_path("/ocp/ipu@58820000");
++	bool ipu_early_booted = of_property_read_bool(np, "late_attach");
++
+ 
+ 	compat_mode = ti_clk_get_features()->flags & TI_CLK_CLKCTRL_COMPAT;
+ 
++	/*
++	 * Do not register IPU DT clkctrls if IPU is early booted to prevent
++	 * Kernel from messing up with its clks.
++	 */
+ 	for (c = oclks; c->node_name != NULL; c++) {
++		if (strcmp(c->node_name, "ipu1-clkctrl:0000:24") == 0 && ipu_early_booted)
++			continue;
++
+ 		strcpy(buf, c->node_name);
+ 		ptr = buf;
+ 		for (i = 0; i < 2; i++)
+diff --git a/drivers/clk/ti/clkctrl.c b/drivers/clk/ti/clkctrl.c
+index 607e34d8e289..eaef77689b74 100644
+--- a/drivers/clk/ti/clkctrl.c
++++ b/drivers/clk/ti/clkctrl.c
+@@ -523,6 +523,8 @@ static void __init _ti_omap4_clkctrl_setup(struct device_node *node)
+ 	char *c;
+ 	u16 soc_mask = 0;
+ 	struct resource res;
++	struct device_node *np = of_find_node_by_path("/ocp/ipu@58820000");
++	bool ipu_early_booted = of_property_read_bool(np, "late_attach");
+ 
+ 	of_address_to_resource(node, 0, &res);
+ 	addr = (u32)res.start;
+@@ -579,6 +581,13 @@ static void __init _ti_omap4_clkctrl_setup(struct device_node *node)
+ 		return;
+ 	}
+ 
++	/*
++	 * Do not initialize ipu_clkctrls if IPU is early booted to prevent
++	 * Kernel from messing up with its clks.
++	 */
++	if (data->addr == 0x4a005520 && ipu_early_booted)
++		return;
++
+ 	provider = kzalloc(sizeof(*provider), GFP_KERNEL);
+ 	if (!provider)
+ 		return;
+-- 
+2.34.1
+

@@ -1,0 +1,177 @@
+From 0c5bf6660893ab279f3066ca58e92ea0dbfeee54 Mon Sep 17 00:00:00 2001
+From: Beleswar Padhi <b-padhi@ti.com>
+Date: Wed, 27 Nov 2024 21:20:42 +0530
+Subject: [tiL6.12 PATCH v3 6/9] PENDING: HACK: remoteproc: core: Add
+ "late_attach" support
+
+The remoteproc driver core is, in general, responsible for allocating
+the memory for firmware segments, parsing and loading the firmware
+segments into the allocated memory regions, mapping these memory
+regions into associated IOMMUs, starting/releasing the processors
+from reset, and finally establishing IPC between the host and the remote
+processors.
+
+The "late attach" feature refers to a model wherein a remote processor
+has already been configured, loaded and started by some external entity
+prior to kernel boot (u-boot, for example), and the remoteproc driver
+needs to be configured to 'attach' or establish a connection with the
+currently running code on the remote processor without resetting or
+reconfiguring the device and associated peripherals. The feature is
+being added to support specific use-cases (eg: "early camera" or "early
+video"), requiring certain KPI criteria. The feature is currently based
+on having a remote processor perform all the necessary activities to
+achieve the required KPI in a stand-alone mode without having to rely
+on communicating with the MPU or perform any IPC activities until the
+remoteproc driver is up.
+
+The "late attach" support in the remoteproc driver core is currently
+designed to not perform the loading of the firmware segments, or
+programming of the IOMMUs. The driver though still goes through the
+sequence of processing the firmware to set up the correct virtio
+based IPC transports, and allocating the required memory segments
+to mark these memory regions as used/reserved from kernel in the
+corresponding rproc device's CMA pools. The driver expects the
+allocator to not perform any memory initialization, to avoid wiping
+out the pre-loaded code. Virtio-based IPC with the remote processors
+is established once the driver completes processing the firmware,
+just as in a regular boot.
+
+Signed-off-by: Robert Tivy <rtivy@ti.com>
+Signed-off-by: Suman Anna <s-anna@ti.com>
+Signed-off-by: Amarinder Bindra <a-bindra@ti.com>
+Signed-off-by: Venkateswara Rao Mandela <venkat.mandela@ti.com>
+Signed-off-by: Angela Stegmaier <angelabaker@ti.com>
+Signed-off-by: Beleswar Padhi <b-padhi@ti.com>
+---
+ drivers/remoteproc/remoteproc_core.c | 73 +++++++++++++++++++---------
+ 1 file changed, 49 insertions(+), 24 deletions(-)
+
+diff --git a/drivers/remoteproc/remoteproc_core.c b/drivers/remoteproc/remoteproc_core.c
+index 236f8a71d197..331712815fd9 100644
+--- a/drivers/remoteproc/remoteproc_core.c
++++ b/drivers/remoteproc/remoteproc_core.c
+@@ -645,11 +645,13 @@ static int rproc_handle_devmem(struct rproc *rproc, void *ptr,
+ 	if (!mapping)
+ 		return -ENOMEM;
+ 
+-	ret = iommu_map(rproc->domain, rsc->da, rsc->pa, rsc->len, rsc->flags,
+-			GFP_KERNEL);
+-	if (ret) {
+-		dev_err(dev, "failed to map devmem: %d\n", ret);
+-		goto out;
++	if (!rproc->late_attach) {
++		ret = iommu_map(rproc->domain, rsc->da, rsc->pa, rsc->len,
++				rsc->flags, GFP_KERNEL);
++		if (ret) {
++			dev_err(dev, "failed to map devmem: %d\n", ret);
++			goto out;
++		}
+ 	}
+ 
+ 	/*
+@@ -663,8 +665,12 @@ static int rproc_handle_devmem(struct rproc *rproc, void *ptr,
+ 	mapping->len = rsc->len;
+ 	list_add_tail(&mapping->node, &rproc->mappings);
+ 
+-	dev_dbg(dev, "mapped devmem pa 0x%x, da 0x%x, len 0x%x\n",
+-		rsc->pa, rsc->da, rsc->len);
++	if (!rproc->late_attach)
++		dev_dbg(dev, "mapped devmem pa 0x%x, da 0x%x, len 0x%x\n",
++			rsc->pa, rsc->da, rsc->len);
++	else
++		dev_dbg(dev, "late-attach: processed devmem pa 0x%x, da 0x%x, len 0x%x\n",
++			rsc->pa, rsc->da, rsc->len);
+ 
+ 	return 0;
+ 
+@@ -743,11 +749,13 @@ static int rproc_alloc_carveout(struct rproc *rproc,
+ 			goto dma_free;
+ 		}
+ 
+-		ret = iommu_map(rproc->domain, mem->da, dma, mem->len,
+-				mem->flags, GFP_KERNEL);
+-		if (ret) {
+-			dev_err(dev, "iommu_map failed: %d\n", ret);
+-			goto free_mapping;
++		if (!rproc->late_attach) {
++			ret = iommu_map(rproc->domain, mem->da, dma, mem->len,
++					mem->flags, GFP_KERNEL);
++			if (ret) {
++				dev_err(dev, "iommu_map failed: %d\n", ret);
++				goto free_mapping;
++			}
+ 		}
+ 
+ 		/*
+@@ -761,8 +769,13 @@ static int rproc_alloc_carveout(struct rproc *rproc,
+ 		mapping->len = mem->len;
+ 		list_add_tail(&mapping->node, &rproc->mappings);
+ 
+-		dev_dbg(dev, "carveout mapped 0x%x to %pad\n",
+-			mem->da, &dma);
++		if (!rproc->late_attach)
++			dev_dbg(dev, "carveout mapped 0x%x to %pad\n",
++				mem->da, &dma);
++		else
++			dev_dbg(dev, "late-attach: carveout processed 0x%x to %pad\n",
++				mem->da, &dma);
++
+ 	}
+ 
+ 	if (mem->da == FW_RSC_ADDR_ANY) {
+@@ -1366,11 +1379,14 @@ void rproc_resource_cleanup(struct rproc *rproc)
+ 	list_for_each_entry_safe(entry, tmp, &rproc->mappings, node) {
+ 		size_t unmapped;
+ 
+-		unmapped = iommu_unmap(rproc->domain, entry->da, entry->len);
+-		if (unmapped != entry->len) {
+-			/* nothing much to do besides complaining */
+-			dev_err(dev, "failed to unmap %zx/%zu\n", entry->len,
+-				unmapped);
++		if (!rproc->late_attach) {
++			unmapped = iommu_unmap(rproc->domain, entry->da,
++					       entry->len);
++			if (unmapped != entry->len) {
++				/* nothing much to do besides complaining */
++				dev_err(dev, "failed to unmap %zx/%zu\n",
++					entry->len, unmapped);
++			}
+ 		}
+ 
+ 		list_del(&entry->node);
+@@ -1403,11 +1419,16 @@ static int rproc_start(struct rproc *rproc, const struct firmware *fw)
+ 	struct device *dev = &rproc->dev;
+ 	int ret;
+ 
+-	/* load the ELF segments to memory */
+-	ret = rproc_load_segments(rproc, fw);
+-	if (ret) {
+-		dev_err(dev, "Failed to load program segments: %d\n", ret);
+-		return ret;
++	if (!rproc->late_attach) {
++		/* load the ELF segments to memory */
++		ret = rproc_load_segments(rproc, fw);
++
++		if (ret) {
++			dev_err(dev, "Failed to load program segments: %d\n", ret);
++			return ret;
++		}
++	} else {
++		dev_dbg(dev, "Skipped program segments load for pre-booted rproc\n");
+ 	}
+ 
+ 	/*
+@@ -1867,6 +1888,10 @@ static int rproc_stop(struct rproc *rproc, bool crashed)
+ 	rproc_unprepare_subdevices(rproc);
+ 
+ 	rproc->state = RPROC_OFFLINE;
++	if (rproc->late_attach) {
++		dev_warn(dev, "Unsupported ops: Trying to stop late attached rproc\n");
++		rproc->late_attach = 0;
++	}
+ 
+ 	dev_info(dev, "stopped remote processor %s\n", rproc->name);
+ 
+-- 
+2.34.1
+

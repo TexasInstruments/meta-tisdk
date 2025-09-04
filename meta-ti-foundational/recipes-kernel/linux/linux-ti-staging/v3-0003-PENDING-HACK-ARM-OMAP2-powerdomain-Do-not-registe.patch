@@ -1,0 +1,53 @@
+From cd5d03c7a9a84d5ab846f9d337fdb25e369aa985 Mon Sep 17 00:00:00 2001
+From: Beleswar Padhi <b-padhi@ti.com>
+Date: Wed, 27 Nov 2024 21:20:39 +0530
+Subject: [tiL6.12 PATCH v3 3/9] PENDING: HACK: ARM: OMAP2+: powerdomain: Do
+ not register pwrdms for early booted rprocs
+
+In case of Early Boot of IPU1, the rproc has already been powered-on and
+booted by the bootloader. Therefore, as a HACK, do not register the
+pwrdm data for IPU1 in Kernel, to prevent Kernel from resetting it at
+init time.
+
+The above limitation exists because IPUs (and other rprocs) have not
+been migrated to be used by the ti-sysc bus driver, which utilizes the
+DT quirks like "ti,no-reset-on-init" prevent resets.
+
+Signed-off-by: Beleswar Padhi <b-padhi@ti.com>
+---
+ arch/arm/mach-omap2/powerdomain.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/arch/arm/mach-omap2/powerdomain.c b/arch/arm/mach-omap2/powerdomain.c
+index 2441d96b7144..1ef15b0d0dd8 100644
+--- a/arch/arm/mach-omap2/powerdomain.c
++++ b/arch/arm/mach-omap2/powerdomain.c
+@@ -321,6 +321,8 @@ int pwrdm_register_platform_funcs(struct pwrdm_ops *po)
+ int pwrdm_register_pwrdms(struct powerdomain **ps)
+ {
+ 	struct powerdomain **p = NULL;
++	struct device_node *np = of_find_node_by_path("/ocp/ipu@58820000");
++	bool ipu_early_booted = of_property_read_bool(np, "late_attach");
+ 
+ 	if (!arch_pwrdm)
+ 		return -EEXIST;
+@@ -328,8 +330,15 @@ int pwrdm_register_pwrdms(struct powerdomain **ps)
+ 	if (!ps)
+ 		return -EINVAL;
+ 
+-	for (p = ps; *p; p++)
++	/*
++	 * Do not register ipu_pwrdm if it is early booted to prevent
++	 * Kernel from resetting its next pwrst.
++	 */
++	for (p = ps; *p; p++) {
++		if (strcmp((*p)->name, "ipu_pwrdm") == 0 && ipu_early_booted)
++			continue;
+ 		_pwrdm_register(*p);
++	}
+ 
+ 	return 0;
+ }
+-- 
+2.34.1
+

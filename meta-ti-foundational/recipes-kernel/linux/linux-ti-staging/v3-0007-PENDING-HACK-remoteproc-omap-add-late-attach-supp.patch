@@ -1,0 +1,148 @@
+From 583d01833a627478914dab269556ce93f92d5a56 Mon Sep 17 00:00:00 2001
+From: Beleswar Padhi <b-padhi@ti.com>
+Date: Wed, 27 Nov 2024 21:20:43 +0530
+Subject: [tiL6.12 PATCH v3 7/9] PENDING: HACK: remoteproc: omap: add "late
+ attach" support
+
+Add the necessary support in the OMAP remoteproc driver to enable the
+"late attach" functionality. The 'late attach' functionality has the
+processors already loaded and running by the time the kernel has
+booted.
+
+The 'late attach' support in OMAP remoteproc driver is added through
+minimal changes like skipping the releasing of the processor reset.
+The processor reset is skipped as this relies on the omap_hwmod /
+omap_device API which perform a module disable/enable sequence in
+addition to the reset programming. Other required functionality is
+achieved through the late attach support in the remoteproc driver core.
+
+The 'late attach' capability is determined through a DT-property called
+'late_attach'. The rproc nodes along with the corresponding IOMMU and
+timer nodes should all have the "ti,no-idle-on-init" and
+"ti,no-reset-on-init" properties set to prevent omap_hwmod from
+resetting and idling these devices on boot. The .late_attach field in
+the rproc data structure is used to denote the mode and differentiate a
+normal boot from a late-attach boot.
+
+Since the rproc IP blocks have not been migrated to be used by the
+ti-sysc driver, as a HACK, the pwrdms and clkdms for these rprocs have
+not been registered at Kernel init time. As a result, the runtime
+suspend and resume operations can not be utilized for these rprocs.
+
+Signed-off-by: Robert Tivy <rtivy@ti.com>
+Signed-off-by: Suman Anna <s-anna@ti.com>
+Signed-off-by: Venkateswara Rao Mandela <venkat.mandela@ti.com>
+Signed-off-by: Angela Stegmaier <angelabaker@ti.com>
+Signed-off-by: Shravan Karthik <shravan.karthik@ti.com>
+Signed-off-by: Keerthy <j-keerthy@ti.com>
+Signed-off-by: Beleswar Padhi <b-padhi@ti.com>
+---
+ drivers/remoteproc/omap_remoteproc.c | 32 ++++++++++++++++++++--------
+ include/linux/remoteproc.h           |  2 ++
+ 2 files changed, 25 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/remoteproc/omap_remoteproc.c b/drivers/remoteproc/omap_remoteproc.c
+index 3260dd512491..c3d1c4f77572 100644
+--- a/drivers/remoteproc/omap_remoteproc.c
++++ b/drivers/remoteproc/omap_remoteproc.c
+@@ -602,6 +602,10 @@ static int omap_rproc_start(struct rproc *rproc)
+ 	int ret;
+ 	struct mbox_client *client = &oproc->client;
+ 
++	/*
++	 * We set boot address irrespective of the value of the late attach flag
++	 * as boot address takes effect only on a deassert of remoteproc reset.
++	 */
+ 	if (oproc->boot_data) {
+ 		ret = omap_rproc_write_dsp_boot_addr(rproc);
+ 		if (ret)
+@@ -1288,6 +1292,12 @@ static void omap_rproc_mem_release(void *data)
+ 	of_reserved_mem_device_release(dev);
+ }
+ 
++static const struct dev_pm_ops omap_rproc_pm_ops = {
++	SET_SYSTEM_SLEEP_PM_OPS(omap_rproc_suspend, omap_rproc_resume)
++	SET_RUNTIME_PM_OPS(omap_rproc_runtime_suspend,
++			   omap_rproc_runtime_resume, NULL)
++};
++
+ static int omap_rproc_probe(struct platform_device *pdev)
+ {
+ 	struct device_node *np = pdev->dev.of_node;
+@@ -1302,7 +1312,7 @@ static int omap_rproc_probe(struct platform_device *pdev)
+ 		return -ENODEV;
+ 	}
+ 
+-	reset = devm_reset_control_array_get_exclusive(&pdev->dev);
++	reset = devm_reset_control_array_get_optional_exclusive(&pdev->dev);
+ 	if (IS_ERR(reset))
+ 		return PTR_ERR(reset);
+ 
+@@ -1321,6 +1331,17 @@ static int omap_rproc_probe(struct platform_device *pdev)
+ 	if (!rproc)
+ 		return -ENOMEM;
+ 
++	/*
++	 * HACK: Do not set pm ops for early booted rprocs as pwrdms and clkdms
++	 * are not registered for such cases.
++	 */
++	if (of_property_read_bool(np, "late_attach")) {
++		rproc->late_attach = 1;
++		pdev->dev.driver->pm = NULL;
++	} else {
++		pdev->dev.driver->pm = &omap_rproc_pm_ops;
++	}
++
+ 	oproc = rproc->priv;
+ 	oproc->rproc = rproc;
+ 	oproc->reset = reset;
+@@ -1360,7 +1381,7 @@ static int omap_rproc_probe(struct platform_device *pdev)
+ 
+ 	pm_runtime_set_autosuspend_delay(&pdev->dev, oproc->autosuspend_delay);
+ 
+-	oproc->fck = devm_clk_get(&pdev->dev, 0);
++	oproc->fck = devm_clk_get_optional(&pdev->dev, 0);
+ 	if (IS_ERR(oproc->fck))
+ 		return PTR_ERR(oproc->fck);
+ 
+@@ -1383,17 +1404,10 @@ static int omap_rproc_probe(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
+-static const struct dev_pm_ops omap_rproc_pm_ops = {
+-	SET_SYSTEM_SLEEP_PM_OPS(omap_rproc_suspend, omap_rproc_resume)
+-	SET_RUNTIME_PM_OPS(omap_rproc_runtime_suspend,
+-			   omap_rproc_runtime_resume, NULL)
+-};
+-
+ static struct platform_driver omap_rproc_driver = {
+ 	.probe = omap_rproc_probe,
+ 	.driver = {
+ 		.name = "omap-rproc",
+-		.pm = &omap_rproc_pm_ops,
+ 		.of_match_table = omap_rproc_of_match,
+ 	},
+ };
+diff --git a/include/linux/remoteproc.h b/include/linux/remoteproc.h
+index 79873d266639..c9fdbd4e8cae 100644
+--- a/include/linux/remoteproc.h
++++ b/include/linux/remoteproc.h
+@@ -539,6 +539,7 @@ enum rproc_features {
+  * @has_iommu: flag to indicate if remote processor is behind an MMU
+  * @auto_boot: flag to indicate if remote processor should be auto-started
+  * @sysfs_read_only: flag to make remoteproc sysfs files read only
++ * @late_attach: flag indicating remote core has been externally pre-booted
+  * @dump_segments: list of segments in the firmware
+  * @nb_vdev: number of vdev currently handled by rproc
+  * @elf_class: firmware ELF class
+@@ -581,6 +582,7 @@ struct rproc {
+ 	bool has_iommu;
+ 	bool auto_boot;
+ 	bool sysfs_read_only;
++	bool late_attach;
+ 	struct list_head dump_segments;
+ 	int nb_vdev;
+ 	u8 elf_class;
+-- 
+2.34.1
+
