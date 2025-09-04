@@ -77,3 +77,6 @@ RDEPENDS:${PN}:append:k3 = "\
     trusted-firmware-a-src \
     optee-os-src \
 "
+
+# Package OPTEE source for AM57x HS platform
+RDEPENDS:${PN}:append:am57xx-hs-evm = "optee-os-src"
