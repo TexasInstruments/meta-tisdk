@@ -1,0 +1,59 @@
+From 5b773b5df39b70d514f1e42bfa73a88ffc1b1299 Mon Sep 17 00:00:00 2001
+From: Beleswar Padhi <b-padhi@ti.com>
+Date: Fri, 29 Aug 2025 10:57:33 +0530
+Subject: [tiU25.01 PATCH 2/3] FROMLIST: configs: am57xx_evm_defconfig: Enable
+ configs needed for Early Boot
+
+Early Boot of remotecores happens at the SPL stage of the bootloader.
+This feature involves loading a firmware from the boot media to the
+remotecore and requires the remoteproc, fs_loader and reset drivers at
+the SPL stage. Enable the configs for the same.
+
+Link: https://lore.kernel.org/all/20250829053451.3615976-4-b-padhi@ti.com/
+Signed-off-by: Beleswar Padhi <b-padhi@ti.com>
+---
+ configs/am57xx_evm_defconfig | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/configs/am57xx_evm_defconfig b/configs/am57xx_evm_defconfig
+index 24212082c3b..7b942dba8de 100644
+--- a/configs/am57xx_evm_defconfig
++++ b/configs/am57xx_evm_defconfig
+@@ -7,6 +7,8 @@ CONFIG_SPL_DM_SPI=y
+ CONFIG_DEFAULT_DEVICE_TREE="am572x-idk"
+ CONFIG_OMAP54XX=y
+ CONFIG_TARGET_AM57XX_EVM=y
++CONFIG_DM_RESET=y
++CONFIG_SPL_DRIVERS_MISC=y
+ CONFIG_SPL_TEXT_BASE=0x40300000
+ CONFIG_SYS_BOOTM_LEN=0x4000000
+ CONFIG_SPL=y
+@@ -38,6 +40,8 @@ CONFIG_SPL_FALCON_BOOT_MMCSD=y
+ CONFIG_SYS_MMCSD_RAW_MODE_KERNEL_SECTOR=0x1700
+ CONFIG_SYS_MMCSD_RAW_MODE_ARGS_SECTOR=0x1500
+ CONFIG_SYS_MMCSD_RAW_MODE_ARGS_SECTORS=0x200
++CONFIG_SPL_DM_RESET=y
++CONFIG_SPL_REMOTEPROC=y
+ CONFIG_SPL_SPI_LOAD=y
+ CONFIG_SYS_SPI_U_BOOT_OFFS=0x40000
+ CONFIG_SYS_SPI_KERNEL_OFFS=0x1E0000
+@@ -85,6 +89,7 @@ CONFIG_FASTBOOT_CMD_OEM_FORMAT=y
+ CONFIG_DM_I2C=y
+ CONFIG_MISC=y
+ CONFIG_SYS_I2C_EEPROM_ADDR=0x50
++CONFIG_SPL_FS_LOADER=y
+ CONFIG_SUPPORT_EMMC_BOOT=y
+ CONFIG_MMC_OMAP_HS=y
+ CONFIG_HSMMC2_8BIT=y
+@@ -103,6 +108,8 @@ CONFIG_PMIC_PALMAS=y
+ CONFIG_DM_REGULATOR=y
+ CONFIG_DM_REGULATOR_PALMAS=y
+ CONFIG_PALMAS_POWER=y
++CONFIG_REMOTEPROC_TI_IPU=y
++CONFIG_RESET_DRA7=y
+ CONFIG_DM_SERIAL=y
+ CONFIG_SPI=y
+ CONFIG_DM_SPI=y
+-- 
+2.34.1
+

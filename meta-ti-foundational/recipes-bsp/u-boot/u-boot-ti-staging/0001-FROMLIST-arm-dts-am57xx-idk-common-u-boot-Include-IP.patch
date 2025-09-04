@@ -1,0 +1,33 @@
+From 84a6dfb6ace7667daa2a58dd04e7705d0dda3e68 Mon Sep 17 00:00:00 2001
+From: Beleswar Padhi <b-padhi@ti.com>
+Date: Fri, 29 Aug 2025 10:56:30 +0530
+Subject: [tiU25.01 PATCH 1/3] FROMLIST: arm: dts: am57xx-idk-common-u-boot:
+ Include IPU Early Boot changes
+
+The dra7-ipu-common-early-boot.dtsi defines the necessary nodes required
+for Early Boot of IPUs like memory carveouts, page table carveouts, MMU
+configuration and timers. Include this file in
+am57xx-idk-common-u-boot.dtsi to enable Early Boot on all AM57XX IDK
+devices.
+
+Link: https://lore.kernel.org/all/20250829053451.3615976-3-b-padhi@ti.com/
+Signed-off-by: Beleswar Padhi <b-padhi@ti.com>
+---
+ arch/arm/dts/am57xx-idk-common-u-boot.dtsi | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/arm/dts/am57xx-idk-common-u-boot.dtsi b/arch/arm/dts/am57xx-idk-common-u-boot.dtsi
+index 31faec4afe6..57e4163511e 100644
+--- a/arch/arm/dts/am57xx-idk-common-u-boot.dtsi
++++ b/arch/arm/dts/am57xx-idk-common-u-boot.dtsi
+@@ -3,6 +3,7 @@
+  * Copyright (C) 2019 Texas Instruments Incorporated - https://www.ti.com/
+  */
+ #include "omap5-u-boot.dtsi"
++#include "dra7-ipu-common-early-boot.dtsi"
+ 
+ / {
+ 	xtal25mhz: xtal25mhz {
+-- 
+2.34.1
+
