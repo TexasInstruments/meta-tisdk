@@ -54,6 +54,12 @@ UTILS:append:ti43x = " \
     oprofile-example-src \
 "
 
+UTILS:append:omap-a15 = " \
+    ti-gc320-driver-src \
+    omapconf-src \
+    oprofile-example-src \
+"
+
 UTILS:append:am65xx = " \
     pru-icss-src \
     oprofile-example-src \
