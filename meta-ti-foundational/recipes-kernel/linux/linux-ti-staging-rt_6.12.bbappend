@@ -19,6 +19,7 @@ SRC_URI:append:am57xx = " \
     file://v3-0007-PENDING-HACK-remoteproc-omap-add-late-attach-supp.patch \
     file://v3-0008-PENDING-HACK-iommu-omap-iommu-Add-support-for-per.patch \
     file://v3-0009-PENDING-HACK-clocksource-timer-ti-dm-Add-support-.patch \
+    file://0001-ARM-dts-Fix-suspend-issue-for-vip.patch \
 "
 
 SRCREV:tie-jailhouse = "aae1ac9e6d62c11ad49915504b7f0a9ce0dbe4aa"
