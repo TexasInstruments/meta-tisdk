@@ -84,14 +84,5 @@ SRCIPK_PRESERVE_GIT:pn-trusted-firmware-a ?= "true"
 CREATE_SRCIPK:pn-pru-icss ?= "1"
 SRCIPK_INSTALL_DIR:pn-pru-icss ?= "example-applications/${PN}-${PV}"
 
-CREATE_SRCIPK:pn-mmwavegesture-hmi ?= "1"
-SRCIPK_INSTALL_DIR:pn-mmwavegesture-hmi ?= "example-applications/${PN}-${PV}"
-
-CREATE_SRCIPK:pn-evse-hmi ?= "1"
-SRCIPK_INSTALL_DIR:pn-evse-hmi ?= "example-applications/${PN}-${PV}"
-
-CREATE_SRCIPK:pn-protection-relays-hmi ?= "1"
-SRCIPK_INSTALL_DIR:pn-protection-relays-hmi ?= "example-applications/${PN}-${PV}"
-
 CREATE_SRCIPK_pn-omapconf ?= "1"
 SRCIPK_INSTALL_DIR_pn-omapconf ?= "example-applications/${PN}-${PV}"
