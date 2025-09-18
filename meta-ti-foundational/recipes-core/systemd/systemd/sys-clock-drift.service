@@ -1,0 +1,16 @@
+[Unit]
+Description=system clock drift service
+DefaultDependencies=no
+Wants=sysinit.target
+Conflicts=shutdown.target
+After=getty.target sync-clocks.service
+
+[Service]
+ExecStart=/sbin/hwclock --hctosys
+StandardOutput=syslog
+Restart=always
+RestartSec=600s
+
+[Install]
+WantedBy=multi-user.target
+
