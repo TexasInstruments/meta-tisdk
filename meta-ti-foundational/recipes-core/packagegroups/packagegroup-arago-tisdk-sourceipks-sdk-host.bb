@@ -11,27 +11,7 @@ UBOOT_SRC = "${PREFERRED_PROVIDER_virtual/bootloader}-src"
 KERNEL_SRC = "${PREFERRED_PROVIDER_virtual/kernel}-src"
 
 # Task to install graphics sources in SDK
-GRAPHICS_RDEPENDS = "${@bb.utils.contains('MACHINE_FEATURES','gpu','${PREFERRED_PROVIDER_virtual/gpudriver}-src','',d)}"
-
-# Remove GPU driver sources for j7200
-GRAPHICS_RDEPENDS:remove:j7200 = "${@bb.utils.contains('MACHINE_FEATURES','gpu','${PREFERRED_PROVIDER_virtual/gpudriver}-src','',d)}"
-
-# Remove GPU driver sources for am62dxx
-GRAPHICS_RDEPENDS:remove:am62dxx = "${@bb.utils.contains('MACHINE_FEATURES','gpu','${PREFERRED_PROVIDER_virtual/gpudriver}-src','',d)}"
-
-# Remove GPU driver sources for am62axx
-GRAPHICS_RDEPENDS:remove:am62axx = "${@bb.utils.contains('MACHINE_FEATURES','gpu','${PREFERRED_PROVIDER_virtual/gpudriver}-src','',d)}"
-
-# Remove GPU driver sources for am64xx
-GRAPHICS_RDEPENDS:remove:am64xx = "${@bb.utils.contains('MACHINE_FEATURES','gpu','${PREFERRED_PROVIDER_virtual/gpudriver}-src','',d)}"
-
-# Remove GPU driver sources for am62lxx
-GRAPHICS_RDEPENDS:remove:am62lxx = "${@bb.utils.contains('MACHINE_FEATURES','gpu','${PREFERRED_PROVIDER_virtual/gpudriver}-src','',d)}"
-
-# Remove gpudriver sources for ti33x, ti43x and am65xx family of devices until we have SGX driver working with kernel 6.6
-GRAPHICS_RDEPENDS:remove:ti33x = "${@bb.utils.contains('MACHINE_FEATURES','gpu','${PREFERRED_PROVIDER_virtual/gpudriver}-src','',d)}"
-GRAPHICS_RDEPENDS:remove:ti43x = "${@bb.utils.contains('MACHINE_FEATURES','gpu','${PREFERRED_PROVIDER_virtual/gpudriver}-src','',d)}"
-GRAPHICS_RDEPENDS:remove:am65xx = "${@bb.utils.contains('MACHINE_FEATURES','gpu','${PREFERRED_PROVIDER_virtual/gpudriver}-src','',d)}"
+GRAPHICS_RDEPENDS = "${@d.getVar('PREFERRED_PROVIDER_virtual/gpudriver', True) and d.getVar('PREFERRED_PROVIDER_virtual/gpudriver', True) + '-src' or ''}"
 
 # Task to install crypto sources in SDK"
 CRYPTO_RDEPENDS = "cryptodev-module-src"
