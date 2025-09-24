@@ -9,7 +9,7 @@ SRC_URI = "gitsm://github.com/texasinstruments/ti-lvgl-demo.git;branch=master;pr
 S = "${WORKDIR}/git/lv_port_linux"
 B = "${S}/build-arm64"
 
-SRCREV = "b8396cf2ca51ba4cb28e71203dcfeae79de403b1"
+SRCREV = "231f5d956c83f934c6b4175870d867a61ae5bc32"
 
 inherit systemd
 SYSTEMD_PACKAGES = "${PN}"
