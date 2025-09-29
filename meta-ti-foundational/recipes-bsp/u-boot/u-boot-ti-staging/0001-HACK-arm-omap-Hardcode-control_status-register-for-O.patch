@@ -1,0 +1,65 @@
+From fb79fea0e3718c25d798e1e05429fbad75212ef1 Mon Sep 17 00:00:00 2001
+From: Beleswar Padhi <b-padhi@ti.com>
+Date: Fri, 26 Sep 2025 19:15:25 +0530
+Subject: [PATCH] HACK: arm: omap: Hardcode control_status register for
+ OMAP54xx
+
+Currently, the control status register address is obtained from the
+ctrl global pointer which points to DDR address 0x8086XXXX. The kernel
+section from the fitImage is loaded to address 0x80008000. So, a larger
+kernel image (~8.4 MB) overwrites the value at the address (0x8086XXXX)
+pointed by the ctrl pointer. This corrupts the (*ctrl) value and CPU
+goes into a data abort when it tries to access the data at addr=(*ctrl)
+
+data abort
+pc : [<fff551d0>]          lr : [<fff54a41>]
+reloc pc : [<808031d0>]    lr : [<80802a41>]
+sp : fdf0cec8  ip : 00000020     fp : 00000000
+r10: fff5366d  r9 : fdf31ec0     r8 : 00000000
+r7 : fdf31fa0  r6 : fdf40363     r5 : fffe275c  r4 : 8ffc7000
+r3 : 726ae0e1  r2 : fffebe40     r1 : fdf31fa0  r0 : 8ffc7000
+Flags: nZcv  IRQs off  FIQs off  Mode SVC_32 (T)
+Code: 4b04 681b 681b 681b (6818) f3bf
+Resetting CPU ...
+resetting ...
+
+Fix this by hard-coding the address of the control status register and
+avoid using pointers as done for OMAP3x case.
+
+Signed-off-by: Beleswar Padhi <b-padhi@ti.com>
+---
+ arch/arm/include/asm/arch-omap5/omap.h | 3 +++
+ arch/arm/mach-omap2/sysinfo-common.c   | 3 +++
+ 2 files changed, 6 insertions(+)
+
+diff --git a/arch/arm/include/asm/arch-omap5/omap.h b/arch/arm/include/asm/arch-omap5/omap.h
+index a9c0421b140..5791fd2d635 100644
+--- a/arch/arm/include/asm/arch-omap5/omap.h
++++ b/arch/arm/include/asm/arch-omap5/omap.h
+@@ -24,6 +24,9 @@
+ #define OMAP54XX_L4_WKUP_BASE	0x4Ae00000
+ #define OMAP54XX_L4_PER_BASE	0x48000000
+ 
++/* CONTROL */
++#define OMAP54XX_CTRL_BASE	(OMAP54XX_L4_CORE_BASE + 0x2000)
++
+ /* CONTROL ID CODE */
+ #define CONTROL_CORE_ID_CODE	0x4A002204
+ #define CONTROL_WKUP_ID_CODE	0x4AE0C204
+diff --git a/arch/arm/mach-omap2/sysinfo-common.c b/arch/arm/mach-omap2/sysinfo-common.c
+index 49bc3a634fb..1b7bca3ee37 100644
+--- a/arch/arm/mach-omap2/sysinfo-common.c
++++ b/arch/arm/mach-omap2/sysinfo-common.c
+@@ -22,6 +22,9 @@ u32 get_device_type(void)
+ 	 */
+ 	return (readl(OMAP34XX_CTRL_BASE + 0x2f0) & DEVICE_TYPE_MASK) >>
+ 		DEVICE_TYPE_SHIFT;
++#elif defined(CONFIG_OMAP54XX)
++	return (readl(OMAP54XX_CTRL_BASE + 0x134) & DEVICE_TYPE_MASK) >>
++		DEVICE_TYPE_SHIFT;
+ #else
+ 	return (readl((*ctrl)->control_status) & DEVICE_TYPE_MASK) >>
+ 		DEVICE_TYPE_SHIFT;
+-- 
+2.34.1
+
