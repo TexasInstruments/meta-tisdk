@@ -3,12 +3,14 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 SRC_URI:append = "\
     file://asound.state \
 "
-CARD_NAME=""
-CARD_NAME:am62xx="AM62xSKEVM"
-CARD_NAME:am62pxx="AM62xSKEVM"
-CARD_NAME:am62axx="AM62AxSKEVM"
-CARD_NAME:am62lxx="AM62LSKEVM"
 
+PACKAGE_ARCH = "${MACHINE_ARCH}"
+
+CARD_NAME = ""
+CARD_NAME:am62xx = "AM62xSKEVM"
+CARD_NAME:am62pxx = "AM62xSKEVM"
+CARD_NAME:am62axx = "AM62AxSKEVM"
+CARD_NAME:am62lxx = "AM62LSKEVM"
 
 do_install:append() {
     if [ -n "${CARD_NAME}" ]; then
