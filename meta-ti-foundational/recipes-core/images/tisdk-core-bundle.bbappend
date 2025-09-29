@@ -41,6 +41,9 @@ BOOT_PART:append:j721e = " sysfw.itb sysfw-*evm.itb"
 BOOT_PART:append:am65xx = " sysfw.itb sysfw-*evm.itb"
 BOOT_PART:omap-a15 = "uEnv.txt u-boot.img ipc/dra7-ipu1-fw.xem4 MLO"
 
+DEPLOY_IMAGES_NAME:append:omap-a15 = " zImage"
+DEPLOY_IMAGES_NAME:append:am57xx-hs-evm = " fitImage fitImage-its-${MACHINE}.its"
+
 # Update the default boot binaries in prebuilt-images
 SYSFW_SOC ?= "*"
 SYSFW_SOC:j721e = "j721e"
