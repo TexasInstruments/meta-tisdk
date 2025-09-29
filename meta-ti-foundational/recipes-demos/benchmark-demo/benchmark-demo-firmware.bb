@@ -3,7 +3,7 @@ LICENSE = "TI-TFL"
 LIC_FILES_CHKSUM = "file://${COREBASE}/../meta-ti/meta-ti-bsp/licenses/TI-TFL;md5=a1b59cb7ba626b9dbbcbf00f3fbc438a"
 
 COMPATIBLE_MACHINE = "am64xx"
-PACKAGE_ARCH = "${MACHINE_ARCH}"
+
 PV = "08_01_00_25"
 
 SRC_URI = "https://software-dl.ti.com/mcu-plus-sdk/esd/AM64X/${PV}/exports/mcu_plus_sdk_am64x_${PV}_firmware_demos.tar.xz"
@@ -28,7 +28,7 @@ INSANE_SKIP:${PN} += "arch"
 do_compile[noexec] = "1"
 do_configure[noexec] = "1"
 
-ALTERNATIVE:${PN}:am64xx = " \
+ALTERNATIVE:${PN} = " \
     am64-main-r5f0_0-fw \
     am64-main-r5f0_1-fw \
     am64-main-r5f1_0-fw \
