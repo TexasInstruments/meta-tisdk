@@ -20,7 +20,6 @@ CRYPTO_RDEPENDS = "cryptodev-module-src"
 UTILS = "arm-benchmarks-src"
 UTILS:append:am62xx = " pru-icss-src"
 UTILS:append:am64xx = " pru-icss-src"
-UTILS:append:am335x-evm = " pru-adc-src"
 
 UTILS:append:ti33x = " \
     omapconf-src \
