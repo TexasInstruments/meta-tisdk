@@ -7,17 +7,18 @@ SRC_URI:append = "\
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 CARD_NAME = ""
-CARD_NAME:am62xx = "AM62xSKEVM"
-CARD_NAME:am62pxx = "AM62xSKEVM"
-CARD_NAME:am62axx = "AM62AxSKEVM"
-CARD_NAME:am62lxx = "AM62LSKEVM"
+CARD_NAME:am62xx-evm = "AM62xSKEVM"
+CARD_NAME:am62pxx-evm = "AM62xSKEVM"
+CARD_NAME:am62axx-evm = "AM62AxSKEVM"
+CARD_NAME:am62lxx-evm = "AM62LSKEVM"
+CARD_NAME:am62dxx-evm = "AM62D2EVM"
 
 do_install:append() {
     if [ -n "${CARD_NAME}" ]; then
 	sed -i "s/state.example/state.${CARD_NAME}/"  ${WORKDIR}/asound.state
-	install -d ${D}/var/lib/alsa/
-	install -m 0755 ${WORKDIR}/asound.state ${D}/var/lib/alsa/asound.state
+	install -d ${D}${localstatedir}/lib/alsa/
+	install -m 0755 ${WORKDIR}/asound.state ${D}${localstatedir}/lib/alsa/asound.state
     fi
 }
 
-PR:append = "_tisdk_1"
+PR:append = "_tisdk_2"
