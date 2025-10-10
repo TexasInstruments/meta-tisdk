@@ -1,0 +1,127 @@
+state.example {
+	control.29 {
+		iface MIXER
+		name 'J3A DAC1 CHA Digital Playback Volume'
+		value 200
+	}
+	control.119 {
+		iface MIXER
+		name 'J3A OUT1x Config'
+		value 'Mono Single-ended at OUTxP only'
+	}
+	control.120 {
+		iface MIXER
+		name 'J3A OUT1x Driver'
+		value Headphone
+	}
+	control.121 {
+		iface MIXER
+		name 'J3A ASI_RX_CH1_EN Switch'
+		value true
+	}
+	control.123 {
+		iface MIXER
+		name 'J3A OUT2x Config'
+		value 'Mono Single-ended at OUTxP only'
+	}
+	control.124 {
+		iface MIXER
+		name 'J3A OUT2x Driver'
+		value Headphone
+	}
+	control.125 {
+		iface MIXER
+		name 'J3A ASI_RX_CH2_EN Switch'
+		value true
+	}
+	control.127 {
+		iface MIXER
+		name 'J3B OUT1x Config'
+		value 'Mono Single-ended at OUTxP only'
+	}
+	control.128 {
+		iface MIXER
+		name 'J3B OUT1x Driver'
+		value Headphone
+	}
+	control.129 {
+		iface MIXER
+		name 'J3B ASI_RX_CH1_EN Switch'
+		value true
+	}
+	control.131 {
+		iface MIXER
+		name 'J3B OUT2x Config'
+		value 'Mono Single-ended at OUTxP only'
+	}
+	control.132 {
+		iface MIXER
+		name 'J3B OUT2x Driver'
+		value Headphone
+	}
+	control.133 {
+		iface MIXER
+		name 'J3B ASI_RX_CH2_EN Switch'
+		value true
+	}
+	control.135 {
+		iface MIXER
+		name 'J4A OUT1x Config'
+		value 'Mono Single-ended at OUTxP only'
+	}
+	control.136 {
+		iface MIXER
+		name 'J4A OUT1x Driver'
+		value Headphone
+	}
+	control.137 {
+		iface MIXER
+		name 'J4A ASI_RX_CH1_EN Switch'
+		value true
+	}
+	control.139 {
+		iface MIXER
+		name 'J4A OUT2x Config'
+		value 'Mono Single-ended at OUTxP only'
+	}
+	control.140 {
+		iface MIXER
+		name 'J4A OUT2x Driver'
+		value Headphone
+	}
+	control.141 {
+		iface MIXER
+		name 'J4A ASI_RX_CH2_EN Switch'
+		value true
+	}
+	control.143 {
+		iface MIXER
+		name 'J4B OUT1x Config'
+		value 'Mono Single-ended at OUTxP only'
+	}
+	control.144 {
+		iface MIXER
+		name 'J4B OUT1x Driver'
+		value Headphone
+	}
+	control.145 {
+		iface MIXER
+		name 'J4B ASI_RX_CH1_EN Switch'
+		value true
+	}
+	control.147 {
+		iface MIXER
+		name 'J4B OUT2x Config'
+		value 'Mono Single-ended at OUTxP only'
+	}
+	control.148 {
+		iface MIXER
+		name 'J4B OUT2x Driver'
+		value Headphone
+	}
+	control.149 {
+		iface MIXER
+		name 'J4B ASI_RX_CH2_EN Switch'
+		value true
+	}
+}
