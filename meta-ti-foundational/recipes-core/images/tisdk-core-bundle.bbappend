@@ -31,7 +31,7 @@ DTB_FILTER:am62xxsip-evm = "k3-am625"
 DTB_FILTER:am64xx = "k3-am642"
 DTB_FILTER:am62pxx-evm = "k3-am62p5"
 DTB_FILTER:am62axx = "k3-am62a7\|k3-am62x-sk\|k3-fpdlink\|k3-v3link"
-DTB_FILTER:am62dxx = "k3-am62d2\|k3-am62a7-sk-edgeai"
+DTB_FILTER:am62dxx = "k3-am62d2\|k3-am62a7-sk-edgeai\|k3-am62x-sk"
 DTB_FILTER:ti33x = "am335x"
 DTB_FILTER:ti43x = "am437x\|am43x"
 
