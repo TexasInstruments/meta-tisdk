@@ -69,6 +69,10 @@ CREATE_SRCIPK:pn-ti-img-rogue-driver ?= "1"
 SRCIPK_INSTALL_DIR:pn-ti-img-rogue-driver ?= "board-support/extra-drivers/${PN}-${PV}"
 SRCIPK_PRESERVE_GIT:pn-ti-img-rogue-driver ?= "true"
 
+CREATE_SRCIPK:pn-ti-sgx-ddk-km ?= "1"
+SRCIPK_INSTALL_DIR:pn-ti-sgx-ddk-km ?= "board-support/extra-drivers/${PN}-${PV}"
+SRCIPK_PRESERVE_GIT:pn-ti-sgx-ddk-km ?= "true"
+
 CREATE_SRCIPK:pn-jailhouse ?= "1"
 SRCIPK_INSTALL_DIR:pn-jailhouse ?= "board-support/extra-drivers/${PN}-${PV}"
 SRCIPK_PRESERVE_GIT:pn-jailhouse ?= "true"
