@@ -16,7 +16,7 @@ SYSTEMD_PACKAGES = "${PN}"
 SYSTEMD_SERVICE:${PN} = "${PN}.service"
 
 DEPENDS += "cmake mosquitto alsa-lib alsa-utils alsa-tools libdrm libsdl2 libsdl2-image curl wayland-protocols curl ca-certificates"
-RDEPENDS:${PN} += "cmake mosquitto alsa-lib alsa-utils alsa-tools libdrm libsdl2 libsdl2-image curl wayland-protocols curl ca-certificates tensorflow-lite nnstreamer analytics-demo-data"
+RDEPENDS:${PN} += "cmake mosquitto alsa-lib alsa-utils alsa-tools libdrm libsdl2 libsdl2-image mosquitto-clients curl wayland-protocols curl ca-certificates tensorflow-lite nnstreamer analytics-demo-data"
 
 inherit cmake
 OECMAKE_SOURCEPATH = "${S}"

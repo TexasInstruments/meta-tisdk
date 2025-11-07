@@ -6,6 +6,9 @@ DEMOS:append:am62pxx = " ti-apps-launcher"
 DEMOS:append:am62lxx = " ti-lvgl-demo"
 DEMOS:append:foundational = " ti-apps-launcher"
 DEMOS:append:am62dxx-evm = " ti-librpmsg-dma-example"
+DEMOS:append:am335x-evm = " ti-lvgl-demo"
+DEMOS:append:am437x-evm  = " ti-lvgl-demo"
+DEMOS:append:am65xx-evm  = " ti-lvgl-demo"
 
 DEMOS:append:am64xx = " \
     benchmark-server \
