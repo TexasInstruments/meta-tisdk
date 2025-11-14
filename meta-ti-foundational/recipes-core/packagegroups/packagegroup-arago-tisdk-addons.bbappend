@@ -13,6 +13,10 @@ DEMOS:append:am64xx = " \
     opcua-server \
 "
 
+DEMOS:append:am335x-evm = " \
+    webserver-oob \
+"
+
 EXTRA_PACKAGES:append:ti33x = " opencv"
 EXTRA_PACKAGES:append:ti43x = " opencv"
 
