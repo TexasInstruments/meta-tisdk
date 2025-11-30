@@ -1,0 +1,15 @@
+[Unit]
+Description=EVerest
+Requires=mosquitto.service cg5317-host.service
+After=mosquitto.service cg5317-host.service
+ConditionFileNotEmpty=/etc/everest/config.yaml
+
+[Service]
+Type=simple
+Restart=always
+
+# TODO: improve startup of cg5317 to not have to wait here
+ExecStart=/bin/sh -c 'sleep 10 && /usr/bin/manager --conf /etc/everest/config.yaml'
+
+[Install]
+WantedBy=multi-user.target
