@@ -1,0 +1,4 @@
+# Symlink UART dev nodes for consistent naming 
+SUBSYSTEM=="tty", KERNELS=="2820000.serial", SYMLINK+="ttyTIDA939-MSP"
+SUBSYSTEM=="tty", KERNELS=="2830000.serial", SYMLINK+="ttyTIDA939-RS232"
+SUBSYSTEM=="tty", KERNELS=="2840000.serial", SYMLINK+="ttyTIDA939-RS485"
