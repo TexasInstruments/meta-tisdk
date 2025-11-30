@@ -1,0 +1,19 @@
+[Unit]
+Description=EVerest
+Requires=mosquitto.service cg5317-host@0.service
+After=mosquitto.service cg5317-host@0.service
+ConditionFileNotEmpty=/etc/everest/config.yaml
+
+[Service]
+Type=simple
+Restart=always
+StateDirectory=everest
+StateDirectoryMode=0700
+
+# TODO: improve startup of cg5317 to not have to wait here
+# The settings file selects the Unix domain socket of mosquitto (everest-mosquitto-config); the TCP
+# listener on localhost denies the internal everest/ topics.
+ExecStart=/bin/sh -c 'sleep 10 && exec /usr/bin/manager --config /etc/everest/config.yaml --db /var/lib/everest/everest.db --settings /etc/everest/settings-mqtt-uds.yaml'
+
+[Install]
+WantedBy=multi-user.target
