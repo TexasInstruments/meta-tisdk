@@ -1,14 +1,15 @@
 # This is a system unit for launching ti-lvgl-demo.
-
 [Unit]
 Description=ti-lvgl-demo service
-
-# Make sure we are started after logins are permitted.
 After=multi-user.target
 
 [Service]
 Type=simple
+ExecStartPre=/bin/sh -c 'echo 0 > /sys/class/vtconsole/vtcon1/bind'
+ExecStartPre=/bin/sh -c 'systemctl stop getty@tty1.service || true'
 ExecStart=/bin/sh -c '/usr/bin/lvglsim'
+ExecStopPost=/bin/sh -c 'echo 1 > /sys/class/vtconsole/vtcon1/bind'
+ExecStopPost=/bin/sh -c 'systemctl start getty@tty1.service || true'
 
 # Fail to start if not controlling the tty.
 StandardOutput=journal
