@@ -1,0 +1,36 @@
+meta-ti-security layer includes components for Texas Instruments' security offering.
+
+This layer works with the latest Yocto Project release (currently 5.0+) and tracks
+the stable/maintenance branches (currently "scarthgap") of the corresponding layers:
+
+URI: git://git.openembedded.org/openembedded-core
+branch: scarthgap
+revision: HEAD
+layers: meta
+
+URI: git://git.yoctoproject.org/meta-ti
+branch: scarthgap
+revision: HEAD
+layers: meta-ti-bsp, meta-ti-extras
+
+URI: git://git.yoctoproject.org/meta-arm
+branch: scarthgap
+revision: HEAD
+layers: meta-arm, meta-arm-toolchain
+
+URI: git://git.openembedded.org/meta-openembedded
+branch: scarthgap
+revision: HEAD
+layers: meta-oe, meta-networking, meta-python
+
+URI: git://git.yoctoproject.org/meta-arago
+branch: scarthgap
+revision: HEAD
+layers: meta-arago-distro, meta-arago-extras, meta-arago-test
+
+Please submit any patches against the meta-tisdk layer by using the GitHub pull-request feature.
+You are encouraged to fork the mirror on GitHub https://github.com/TexasInstruments/meta-tisdk
+to share your patches.
+
+Layer Maintainers:
+Chirag Shilwant <c-shilwant@ti.com>
