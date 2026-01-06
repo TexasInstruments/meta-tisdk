@@ -22,8 +22,8 @@ GROUPMEMS_PARAM:${PN} = " --add root --group audio"
 
 do_install:append() {
     if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
-        install -d ${D}${systemd_unitdir}/system
-        install -m 0644 ${UNPACKDIR}/pulseaudio.service ${D}/${systemd_unitdir}/system/
+        install -d ${D}${systemd_system_unitdir}
+        install -m 0644 ${UNPACKDIR}/pulseaudio.service ${D}${systemd_system_unitdir}/
     fi
 }
 

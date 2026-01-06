@@ -38,11 +38,11 @@ SYSTEMD_PACKAGES = "${PN}"
 SYSTEMD_SERVICE:${PN} = "seva-launcher.service"
 
 do_install() {
-    install -d ${D}/usr/bin
-    install -m 0755 ${S}/seva-launcher-${LAUNCHER_SOC}-aarch64 ${D}/usr/bin/seva-launcher-aarch64
+    install -d ${D}${bindir}
+    install -m 0755 ${S}/seva-launcher-${LAUNCHER_SOC}-aarch64 ${D}${bindir}/seva-launcher-aarch64
 
     install -d ${D}${systemd_system_unitdir}
     install -m 0755 ${UNPACKDIR}/seva-launcher.service ${D}${systemd_system_unitdir}/seva-launcher.service
 }
 
-FILES:${PN} = "/usr/bin/seva-launcher-aarch64"
+FILES:${PN} = "${bindir}/seva-launcher-aarch64"
