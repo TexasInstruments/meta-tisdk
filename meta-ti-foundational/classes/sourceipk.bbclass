@@ -203,6 +203,7 @@ adjust_git() {
             fi
 
             rm -f .git/objects/info/alternates
+            rm -rf .git/logs/
 
         else
             rm -rf .git
