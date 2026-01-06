@@ -88,5 +88,5 @@ SRCIPK_PRESERVE_GIT:pn-trusted-firmware-a ?= "true"
 CREATE_SRCIPK:pn-pru-icss ?= "1"
 SRCIPK_INSTALL_DIR:pn-pru-icss ?= "example-applications/${PN}-${PV}"
 
-CREATE_SRCIPK_pn-omapconf ?= "1"
-SRCIPK_INSTALL_DIR_pn-omapconf ?= "example-applications/${PN}-${PV}"
+CREATE_SRCIPK:pn-omapconf ?= "1"
+SRCIPK_INSTALL_DIR:pn-omapconf ?= "example-applications/${PN}-${PV}"

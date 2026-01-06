@@ -293,7 +293,7 @@ python __anonymous () {
         if '${PN}-src' not in d.getVar("PACKAGES", False):
             d.appendVar('PACKAGES', ' ${PN}-src')
         pn = d.getVar("PN")
-        d.setVar('FILES_%s-src' % (pn), '${SRCIPK_INSTALL_DIR}')
+        d.setVar('FILES:%s-src' % (pn), '${SRCIPK_INSTALL_DIR}')
 }
 
 PACKAGESPLITFUNCS:append = " ${@oe.utils.conditional('CREATE_SRCIPK','0','','populate_srcipk_package',d)}"
