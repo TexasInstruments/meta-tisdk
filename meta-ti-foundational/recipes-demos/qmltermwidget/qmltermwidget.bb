@@ -14,7 +14,6 @@ SRC_URI = " \
     git://github.com/kalaksi/qmltermwidget.git;protocol=https;branch=qt6-font-fix \
     file://0001-qmltermwidget.pro-don-t-install-asset-directories-tw.patch \
 "
-S = "${WORKDIR}/git"
 
 inherit ${@bb.utils.contains('BBLAYERS', 'meta-qt6', 'qt6-qmake', '', d)}
 

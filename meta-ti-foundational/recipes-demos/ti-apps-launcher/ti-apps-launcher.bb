@@ -69,8 +69,6 @@ SRC_URI = " \
     file://Usage.md \
 "
 
-S = "${WORKDIR}/git"
-
 APPS_DEFINES = ""
 APPS_DEFINES:am62xx = "SOC_AM62"
 APPS_DEFINES:am62xx-lp-evm = "SOC_AM62_LP"

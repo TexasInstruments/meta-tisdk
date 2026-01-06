@@ -14,8 +14,6 @@ PLAT_SOC = ""
 PLAT_SOC:am62xx = "am62x"
 PLAT_SOC:am62pxx = "am62p"
 
-S = "${WORKDIR}/git"
-
 RDEPENDS:${PN}-source += "python3-core cmake"
 
 COMPATIBLE_MACHINE = "am62xx|am62pxx"
