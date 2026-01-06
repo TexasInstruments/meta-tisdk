@@ -8,7 +8,7 @@ SRC_URI += " \
 
 do_install:append() {
     install -d ${D}${sysconfdir}/sudoers.d/
-    install  ${WORKDIR}/sudoers-weston ${D}${sysconfdir}/sudoers.d/
+    install  ${UNPACKDIR}/sudoers-weston ${D}${sysconfdir}/sudoers.d/
 }
 
 FILES:${PN} += " ${sysconfdir}/sudoers.d/sudoers-weston"

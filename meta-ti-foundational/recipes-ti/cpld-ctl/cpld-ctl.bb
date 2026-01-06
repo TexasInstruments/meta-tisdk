@@ -9,7 +9,7 @@ COMPATIBLE_MACHINE = "am62dxx"
 
 SRC_URI = "file://cpld_ctl.sh"
 
-S = "${WORKDIR}"
+S = "${UNPACKDIR}"
 
 RDEPENDS:${PN} = "i2c-tools bash"
 

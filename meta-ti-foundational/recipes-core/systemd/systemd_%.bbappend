@@ -8,5 +8,5 @@ SRC_URI:append = " \
 
 do_install:append() {
     install -d ${D}${base_libdir}
-    install -m 0644 ${WORKDIR}/systemd-networkd-wait-online.service ${D}${systemd_unitdir}/system/
+    install -m 0644 ${UNPACKDIR}/systemd-networkd-wait-online.service ${D}${systemd_unitdir}/system/
 }

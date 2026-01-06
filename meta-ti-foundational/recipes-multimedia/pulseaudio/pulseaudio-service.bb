@@ -10,6 +10,7 @@ SRC_URI += "\
     file://pulseaudio.service \
 "
 
+S = "${UNPACKDIR}"
 SYSTEMD_SERVICE:${PN} = "pulseaudio.service"
 
 FILES:${PN} = " \
@@ -22,7 +23,7 @@ GROUPMEMS_PARAM:${PN} = " --add root --group audio"
 do_install:append() {
     if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
         install -d ${D}${systemd_unitdir}/system
-        install -m 0644 ${WORKDIR}/pulseaudio.service ${D}/${systemd_unitdir}/system/
+        install -m 0644 ${UNPACKDIR}/pulseaudio.service ${D}/${systemd_unitdir}/system/
     fi
 }
 

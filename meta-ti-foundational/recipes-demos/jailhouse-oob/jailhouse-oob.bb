@@ -10,6 +10,7 @@ SRC_URI = " \
     file://jailhouse-oob.sh \
 "
 
+S = "${UNPACKDIR}"
 RDEPENDS:${PN} += "bash"
 SYSTEMD_SERVICE:${PN} = "jailhouse-oob.service"
 
@@ -18,10 +19,10 @@ inherit systemd
 do_install() {
 	# Install the systemd unit and demo script
 	install -d ${D}${systemd_system_unitdir}
-	install -m 0755 ${WORKDIR}/jailhouse-oob.service ${D}${systemd_system_unitdir}
+	install -m 0755 ${UNPACKDIR}/jailhouse-oob.service ${D}${systemd_system_unitdir}
 
 	install -d ${D}${datadir}/demo
-	install -m 0755 ${WORKDIR}/jailhouse-oob.sh ${D}${datadir}/demo
+	install -m 0755 ${UNPACKDIR}/jailhouse-oob.sh ${D}${datadir}/demo
 }
 
 FILES:${PN} += " \

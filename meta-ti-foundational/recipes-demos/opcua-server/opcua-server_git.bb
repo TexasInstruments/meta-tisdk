@@ -6,7 +6,7 @@ SRC_URI = "git://git.ti.com/git/processor-sdk/sitara-apps.git;protocol=https;bra
 SRCREV = "2f75495113219580eb1f5351920aa04abf43ccd0"
 PV = "0.1"
 
-S = "${WORKDIR}/git/servo_drive_demo/opc_ua_app"
+S = "${UNPACKDIR}/${BB_GIT_DEFAULT_DESTSUFFIX}/servo_drive_demo/opc_ua_app"
 
 DEPENDS = "open62541"
 

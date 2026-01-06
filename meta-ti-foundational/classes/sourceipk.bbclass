@@ -48,7 +48,7 @@ CREATE_SRCIPK ?= "0"
 SRCIPK_INSTALL_DIR ?= "/usr/src/${PN}-src"
 
 # Directory to preserve sources until they can be installed for packaging
-SRCIPK_STAGING_DIR = "${WORKDIR}/srcipk-staging"
+SRCIPK_STAGING_DIR = "${UNPACKDIR}/srcipk-staging"
 
 # Specify the directory of the sources
 SRCIPK_SRC_DIR ?= "${S}"
@@ -121,7 +121,7 @@ get_remote() {
 limit_git_history() {
 
     # Temporary directory to make shallow clones in
-    gitshallowclone="${WORKDIR}/temp-git-shallow-clone"
+    gitshallowclone="${UNPACKDIR}/temp-git-shallow-clone"
 
     # Change directory to the git repository to be safe
     cd ${SRCIPK_STAGING_DIR}/${SRCIPK_INSTALL_DIR}
@@ -243,7 +243,7 @@ sourceipk_do_create_srcipk() {
         # Copy sources for packaging
         mkdir -p ${SRCIPK_STAGING_DIR}/${SRCIPK_INSTALL_DIR}
         if [ -e ${SRCIPK_SRC_DIR} ]; then
-            if [ "${SRCIPK_SRC_DIR}" = "${WORKDIR}" ]; then
+            if [ "${SRCIPK_SRC_DIR}" = "${UNPACKDIR}" ]; then
                 excludes='--exclude ./temp --exclude ${SRCIPK_STAGING_DIR}'
             fi
             tar -C ${SRCIPK_SRC_DIR} -cO $excludes . | tar -C ${SRCIPK_STAGING_DIR}/${SRCIPK_INSTALL_DIR} -xpf -

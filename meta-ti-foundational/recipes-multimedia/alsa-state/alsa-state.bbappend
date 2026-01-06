@@ -15,9 +15,9 @@ CARD_NAME:am62dxx-evm = "AM62D2EVM"
 
 do_install:append() {
     if [ -n "${CARD_NAME}" ]; then
-	sed -i "s/state.example/state.${CARD_NAME}/"  ${WORKDIR}/asound.state
+	sed -i "s/state.example/state.${CARD_NAME}/"  ${UNPACKDIR}/asound.state
 	install -d ${D}${localstatedir}/lib/alsa/
-	install -m 0755 ${WORKDIR}/asound.state ${D}${localstatedir}/lib/alsa/asound.state
+	install -m 0755 ${UNPACKDIR}/asound.state ${D}${localstatedir}/lib/alsa/asound.state
     fi
 }
 

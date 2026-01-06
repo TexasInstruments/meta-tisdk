@@ -8,7 +8,7 @@ COMPATIBLE_MACHINE = "am62xx|am62pxx|j721s2|j784s4|j722s"
 
 PV = "v1.0.7"
 
-S = "${WORKDIR}"
+S = "${UNPACKDIR}"
 
 SRC_URI = " \
     https://github.com/TexasInstruments/seva/releases/download/${PV}/seva-launcher-am62-aarch64;name=am62_launcher \
@@ -42,7 +42,7 @@ do_install() {
     install -m 0755 ${S}/seva-launcher-${LAUNCHER_SOC}-aarch64 ${D}/usr/bin/seva-launcher-aarch64
 
     install -d ${D}${systemd_system_unitdir}
-    install -m 0755 ${WORKDIR}/seva-launcher.service ${D}${systemd_system_unitdir}/seva-launcher.service
+    install -m 0755 ${UNPACKDIR}/seva-launcher.service ${D}${systemd_system_unitdir}/seva-launcher.service
 }
 
 FILES:${PN} = "/usr/bin/seva-launcher-aarch64"

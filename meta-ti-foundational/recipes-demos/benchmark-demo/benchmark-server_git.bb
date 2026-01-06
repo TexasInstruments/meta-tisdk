@@ -83,7 +83,7 @@ inherit npm systemd
 
 # Must be set after inherit npm since that itself sets S
 
-WEBSERVER_ROOT = "${WORKDIR}/git/benchmark_demo/webserver_app"
+WEBSERVER_ROOT = "${UNPACKDIR}/${BB_GIT_DEFAULT_DESTSUFFIX}/benchmark_demo/webserver_app"
 
 # Set this for npm.bbclass
 S = "${WEBSERVER_ROOT}/webserver"

@@ -14,6 +14,8 @@ SRC_URI = " \
     file://print-ip.sh \
 "
 
+
+S = "${UNPACKDIR}"
 SYSTEMD_SERVICE:${PN} = "print-ip.timer print-ip.service"
 
 inherit systemd
@@ -21,12 +23,12 @@ inherit systemd
 do_install() {
     install -d ${D}${systemd_system_unitdir}
 
-    install -m 0644 ${WORKDIR}/print-ip.service ${D}${systemd_system_unitdir}/print-ip.service
-    install -m 0644 ${WORKDIR}/print-ip.timer ${D}${systemd_system_unitdir}/print-ip.timer
+    install -m 0644 ${UNPACKDIR}/print-ip.service ${D}${systemd_system_unitdir}/print-ip.service
+    install -m 0644 ${UNPACKDIR}/print-ip.timer ${D}${systemd_system_unitdir}/print-ip.timer
 
     install -d ${D}/usr/bin/
 
-    install -m 0755 ${WORKDIR}/print-ip.sh ${D}/usr/bin/print-ip.sh
+    install -m 0755 ${UNPACKDIR}/print-ip.sh ${D}/usr/bin/print-ip.sh
 }
 
 PR = "r0"

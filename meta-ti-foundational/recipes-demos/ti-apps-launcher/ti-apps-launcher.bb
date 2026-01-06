@@ -110,11 +110,11 @@ do_install:append() {
         install -m 0755 ${S}/scripts/* ${D}/opt/ti-apps-launcher/
 
         install -d ${D}${systemd_system_unitdir}
-        install -m 0755 ${WORKDIR}/ti-apps-launcher${SERVICE_SUFFIX}.service ${D}${systemd_system_unitdir}/ti-apps-launcher.service
+        install -m 0755 ${UNPACKDIR}/ti-apps-launcher${SERVICE_SUFFIX}.service ${D}${systemd_system_unitdir}/ti-apps-launcher.service
 
         if [ "${HW_CODEC}" = "1" ]; then
             install -d ${D}/opt/ti-apps-launcher/gallery
-            install -m 0644 ${WORKDIR}/Usage.md ${D}/opt/ti-apps-launcher/gallery/
+            install -m 0644 ${UNPACKDIR}/Usage.md ${D}/opt/ti-apps-launcher/gallery/
         fi
     else
         install -d ${D}/opt/ti-demo
@@ -122,12 +122,12 @@ do_install:append() {
         install -m 0755 ${S}/apps/CircularGauge.qml ${D}/opt/ti-demo/
 
         install -d ${D}${systemd_system_unitdir}
-        install -m 0755 ${WORKDIR}/ti-demo.service ${D}${systemd_system_unitdir}/ti-demo.service
+        install -m 0755 ${UNPACKDIR}/ti-demo.service ${D}${systemd_system_unitdir}/ti-demo.service
     fi
 
     if [ "${SERVICE_SUFFIX}" == "-eglfs" ] || [ "${DISPLAY_CLUSTER_ENABLE}" == "1" ]; then
         install -d ${D}${sysconfdir}/udev/rules.d
-        install -m 0644 ${WORKDIR}/dev-dri-card1.rules ${D}${sysconfdir}/udev/rules.d/
+        install -m 0644 ${UNPACKDIR}/dev-dri-card1.rules ${D}${sysconfdir}/udev/rules.d/
     fi
 }
 

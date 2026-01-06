@@ -9,7 +9,7 @@ PV = "08_01_00_25"
 SRC_URI = "https://software-dl.ti.com/mcu-plus-sdk/esd/AM64X/${PV}/exports/mcu_plus_sdk_am64x_${PV}_firmware_demos.tar.xz"
 SRC_URI[sha256sum] = "9edbe6a9c8b967be9f4111be597cf8426b57179e77268255a2bb8fbb08c1f813"
 
-S = "${WORKDIR}/lib"
+S = "${UNPACKDIR}/lib"
 
 do_install() {
 	CP_ARGS="-Prf --preserve=mode,timestamps --no-preserve=ownership"

@@ -15,7 +15,7 @@ LIC_FILES_CHKSUM = " \
     file://jsmn.h;endline=23;md5=c56db537a1570530f80115c3ad355575 \
 "
 
-S = "${WORKDIR}/git/benchmark_demo/webserver_app/linux_app"
+S = "${UNPACKDIR}/${BB_GIT_DEFAULT_DESTSUFFIX}/benchmark_demo/webserver_app/linux_app"
 
 TARGET_CC_ARCH += "${LDFLAGS}"
 

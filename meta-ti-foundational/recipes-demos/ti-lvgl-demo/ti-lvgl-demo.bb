@@ -1,7 +1,7 @@
 DESCRIPTION = "High Resolution OOB Demo"
 
 LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://${WORKDIR}/git/LICENSE;md5=802d3d83ae80ef5f343050bf96cce3a4"
+LIC_FILES_CHKSUM = "file://${UNPACKDIR}/${BB_GIT_DEFAULT_DESTSUFFIX}/LICENSE;md5=802d3d83ae80ef5f343050bf96cce3a4"
 
 BRANCH = "legacy"
 BRANCH:am62lxx-evm = "version_9.4"
@@ -11,7 +11,7 @@ SRC_URI = "gitsm://github.com/texasinstruments/ti-lvgl-demo.git;branch=${BRANCH}
            file://ti-lvgl-demo.service \
           "
 
-S = "${WORKDIR}/git/lv_port_linux"
+S = "${UNPACKDIR}/${BB_GIT_DEFAULT_DESTSUFFIX}/lv_port_linux"
 
 SRCREV_main = "edc14fdab29376d9642ee057c9a2095fdc58416a"
 SRCREV_main:am62lxx-evm = "72bc10aff283c81f89fc4496d61cc811c18db414"
@@ -33,7 +33,7 @@ export SDKTARGETSYSROOT = "${STAGING_DIR_TARGET}"
 EXTRA_OECMAKE += " \
       -DCMAKE_BUILD_TYPE=Release \
       -DFETCHCONTENT_FULLY_DISCONNECTED=ON \
-      -DFETCHCONTENT_SOURCE_DIR_LV_DEMOS_EXT=${WORKDIR}/git-lvdemos \
+      -DFETCHCONTENT_SOURCE_DIR_LV_DEMOS_EXT=${UNPACKDIR}/git-lvdemos \
 "
 
 do_install() {
@@ -43,14 +43,14 @@ do_install() {
     install -d ${D}${datadir}/ti-lvgl-demo/slides
     install -d ${D}${datadir}/ti-lvgl-demo/cert
     install -m 0755 ${B}/bin/lvglsim ${D}${bindir}
-    cp ${CP_ARGS} ${WORKDIR}/git-lvdemos/src/high_res/assets/* ${D}${datadir}/ti-lvgl-demo/assets
-    cp ${CP_ARGS} ${WORKDIR}/git-lvdemos/src/high_res/slides/* ${D}${datadir}/ti-lvgl-demo/slides
+    cp ${CP_ARGS} ${UNPACKDIR}/git-lvdemos/src/high_res/assets/* ${D}${datadir}/ti-lvgl-demo/assets
+    cp ${CP_ARGS} ${UNPACKDIR}/git-lvdemos/src/high_res/slides/* ${D}${datadir}/ti-lvgl-demo/slides
 
     # Install certificate with correct permissions (not executable)
     install -m 0644 ${S}/certs/AmazonRootCA1.pem ${D}${datadir}/ti-lvgl-demo/cert/
 
     install -d ${D}${systemd_system_unitdir}
-    install -m 0644 ${WORKDIR}/ti-lvgl-demo.service ${D}${systemd_system_unitdir}/ti-lvgl-demo.service
+    install -m 0644 ${UNPACKDIR}/ti-lvgl-demo.service ${D}${systemd_system_unitdir}/ti-lvgl-demo.service
 }
 
 FILES:${PN} += " \
