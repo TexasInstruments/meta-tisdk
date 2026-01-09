@@ -3,8 +3,8 @@
 
 [Unit]
 Description=ti-apps-launcher service
-Requires=emptty.service docker.socket
-After=systemd-user-sessions.service docker.service emptty.service
+Requires=weston.service docker.socket
+After=systemd-user-sessions.service docker.service weston.service
 
 [Service]
 Type=simple

@@ -5,7 +5,7 @@
 Description=Seva Launcher Service
 
 # Make sure we are started after weston & docker is up.
-Requires=emptty.service docker.socket
+Requires=weston.service docker.socket
 After=docker.service
 PartOf=docker.service
 
