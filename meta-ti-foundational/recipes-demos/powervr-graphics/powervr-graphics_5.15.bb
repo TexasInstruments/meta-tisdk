@@ -8,10 +8,11 @@ COMPATIBLE_MACHINE = "am62xx|am62pxx"
 SRC_URI = " \
     gitsm://github.com/powervr-graphics/Native_SDK.git;protocol=https;branch=${BRANCH} \
     file://0001-PATCH-use-library-so-names-for-linking.patch \
+    file://0002-Fix-compilation-with-modern-GCC.patch \
 "
 
 BRANCH = "master"
-SRCREV = "f79fdc075ca1f81f2aac98160466d510cd8f1da2"
+SRCREV = "470ad34a080d285f84195b0556a8a4a67c8b0c7b"
 
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE.md;md5=402476d9302b00251cc699d23264b191"
@@ -24,7 +25,7 @@ inherit cmake pkgconfig
 export http_proxy
 export https_proxy
 
-EXTRA_OECMAKE += " -DPVR_WINDOW_SYSTEM=Wayland -DCMAKE_LIBRARY_PATH= -DPVR_BUILD_OPENGLES_EXAMPLES=On -DPVR_BUILD_VULKAN_EXAMPLES=Off"
+EXTRA_OECMAKE += " -DPVR_WINDOW_SYSTEM=Wayland -DCMAKE_LIBRARY_PATH= -DPVR_BUILD_OPENGLES_EXAMPLES=On -DPVR_BUILD_VULKAN_EXAMPLES=Off -DCMAKE_POLICY_VERSION_MINIMUM=3.5"
 
 do_install () {
     CP_ARGS="-Prf --preserve=mode,timestamps --no-preserve=ownership"
