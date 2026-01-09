@@ -2,8 +2,8 @@
 
 [Unit]
 Description=ti-lvgl-demo service
-Requires=emptty.service
-After=systemd-user-sessions.service emptty.service
+Requires=weston.service
+After=systemd-user-sessions.service weston.service
 
 
 [Service]
