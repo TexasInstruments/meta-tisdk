@@ -1,21 +1,24 @@
-From 6131d37309adf8f090f331a0db0a49df7d9f3e89 Mon Sep 17 00:00:00 2001
+From 9012311210b76d7b2c6686d314cc07ca1e4abf0c Mon Sep 17 00:00:00 2001
 From: Sai Sree Kartheek Adivi <s-adivi@ti.com>
 Date: Thu, 1 Jun 2023 12:01:18 +0530
-Subject: [PATCH] [PATCH] use library so names for linking
+Subject: [PATCH] use library so names for linking
 
 The recommended "best practices" for applications is to link to library
 sonames (e.g. libEGL.so.1) instead of library names (e.g. libiEGL.so). This
 ensures that applications don't try to use libraries if an incompatible ABI
 change occurs.
 
+Upstream-Status: Inappropriate [embedded specific]
+
 Signed-off-by: Sai Sree Kartheek Adivi <s-adivi@ti.com>
+Signed-off-by: Telukula Jeevan Kumar Sahu <j-sahu@ti.com>
 ---
  include/DynamicEgl.h  | 6 +++---
  include/DynamicGles.h | 2 +-
  2 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/include/DynamicEgl.h b/include/DynamicEgl.h
-index 1cc84779..7c1bf485 100644
+index 1cc84779d..7c1bf485e 100644
 --- a/include/DynamicEgl.h
 +++ b/include/DynamicEgl.h
 @@ -33,7 +33,7 @@ static const char* libName = "libEGL.dll";
@@ -39,7 +42,7 @@ index 1cc84779..7c1bf485 100644
  			}
  		}
 diff --git a/include/DynamicGles.h b/include/DynamicGles.h
-index d247061b..2389f414 100644
+index d247061b9..2389f4144 100644
 --- a/include/DynamicGles.h
 +++ b/include/DynamicGles.h
 @@ -59,7 +59,7 @@ static const char* libName = "libGLESv2.dll";
@@ -52,5 +55,5 @@ index d247061b..2389f414 100644
  } // namespace internals
  } // namespace gl
 -- 
-2.17.1
+2.34.1
 
