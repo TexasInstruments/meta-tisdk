@@ -14,8 +14,8 @@ LIC_FILES_CHKSUM = "\
 
 SRC_URI = " \
     git://github.com/TexasInstruments/webserver-oob-demo.git;protocol=https;branch=main \
-    git://git.ti.com/git/gui-composer-components/ti-gc-components.git;protocol=https;branch=master;destsuffix=git/webserver_app/app/components;name=guicomposer \
-    npmsw://${NPM_SHRINKWRAP} \
+    git://git.ti.com/git/gui-composer-components/ti-gc-components.git;protocol=https;branch=master;destsuffix=${BB_GIT_DEFAULT_DESTSUFFIX}/webserver_app/app/components;name=guicomposer \
+    npmsw://${NPM_SHRINKWRAP};destsuffix=${BB_GIT_DEFAULT_DESTSUFFIX}/webserver_app/webserver \
 "
 SRCREV = "4478322d171a7ddf16e1bfc51e1d2c69d305e37a"
 SRCREV_guicomposer = "18115d266ba9f1956d06258ce2c8997fd1ef2efe"
