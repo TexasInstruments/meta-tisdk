@@ -287,7 +287,7 @@ python () {
 PACKAGES_DYNAMIC += "${PN}-src"
 
 # Do not perform any QA checks on sourceipk packages
-INSANE_SKIP:${PN}-src += "${@oe.utils.conditional("${CREATE_SRCIPK}", "0", "", "${ALL_QA}", d)}"
+INSANE_SKIP:${PN}-src += "${@(d.getVar('ERROR_QA') or '') + ' ' + (d.getVar('WARN_QA') or '') if d.getVar('CREATE_SRCIPK') != '0' else ''}"
 
 python __anonymous () {
     if d.getVar("CREATE_SRCIPK") != "0":
