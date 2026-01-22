@@ -24,7 +24,7 @@ SYSTEMD_PACKAGES = "${PN}"
 SYSTEMD_SERVICE:${PN} = "${PN}.service"
 
 DEPENDS += "alsa-lib curl libdrm libevdev libsdl2 libsdl2-image mosquitto pkgconfig-native python3-native python3-pcpp-native wayland wayland-native wayland-protocols"
-RDEPENDS:${PN} += "alsa-tools alsa-utils analytics-demo-data ca-certificates curl mosquitto-clients nnstreamer tensorflow-lite"
+RDEPENDS:${PN} += "alsa-tools alsa-utils ca-certificates curl mosquitto-clients"
 
 # Ensure build system uses correct target sysroot for cross-compilation
 export SDKTARGETSYSROOT = "${STAGING_DIR_TARGET}"
