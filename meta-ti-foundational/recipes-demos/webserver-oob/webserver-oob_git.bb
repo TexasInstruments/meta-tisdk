@@ -24,7 +24,7 @@ PV = "1.0.0"
 
 NPM_SHRINKWRAP := "${THISDIR}/${BPN}/npm-shrinkwrap.json"
 
-RDEPENDS:${PN} = "tensorflow-lite nnstreamer analytics-demo-data"
+# RDEPENDS:${PN} = "tensorflow-lite nnstreamer analytics-demo-data"
 
 inherit npm systemd
 
