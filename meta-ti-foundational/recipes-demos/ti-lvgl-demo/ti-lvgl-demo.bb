@@ -10,6 +10,7 @@ SRC_URI = "gitsm://github.com/texasinstruments/ti-lvgl-demo.git;branch=${BRANCH}
            git://github.com/TexasInstruments/lv_demos.git;protocol=https;branch=${BRANCH};name=lvdemos;destsuffix=git-lvdemos \
            file://ti-lvgl-demo.service \
           "
+SRC_URI:append:am62lxx-evm = " file://99-hdmi-hotplug.rules"
 
 S = "${WORKDIR}/git/lv_port_linux"
 
@@ -53,6 +54,11 @@ do_install() {
     install -m 0644 ${WORKDIR}/ti-lvgl-demo.service ${D}${systemd_system_unitdir}/ti-lvgl-demo.service
 }
 
+do_install:append:am62lxx-evm() {
+    install -d ${D}${sysconfdir}/udev/rules.d
+    install -m 0644 ${WORKDIR}/99-hdmi-hotplug.rules ${D}${sysconfdir}/udev/rules.d/
+}
+
 FILES:${PN} += " \
     ${bindir}/lvglsim \
     ${datadir}/ti-lvgl-demo/assets \
@@ -60,3 +66,4 @@ FILES:${PN} += " \
     ${systemd_system_unitdir}/ti-lvgl-demo.service \
     ${datadir}/ti-lvgl-demo/cert/AmazonRootCA1.pem \
 "
+FILES:${PN}:append:am62lxx-evm = " ${sysconfdir}/udev/rules.d/99-hdmi-hotplug.rules"

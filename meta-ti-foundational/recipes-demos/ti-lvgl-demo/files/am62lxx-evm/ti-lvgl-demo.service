@@ -8,6 +8,9 @@ After=multi-user.target
 
 [Service]
 Type=simple
+# Keep polling for HDMI connection for 30 secs.
+# Fail if no HDMI found. HDMI hotplug is handled by the udev rule.
+ExecStartPre=/bin/sh -c 'for i in $(seq 1 30); do grep -q "^connected$" /sys/class/drm/card*/status 2>/dev/null && exit 0; sleep 1; done; exit 1'
 ExecStart=/bin/sh -c '/usr/bin/lvglsim'
 
 # Fail to start if not controlling the tty.
@@ -15,4 +18,4 @@ StandardOutput=journal
 StandardError=journal
 
 [Install]
-WantedBy=graphical.target multi-user.target
+WantedBy=graphical.target

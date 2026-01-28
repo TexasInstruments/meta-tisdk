@@ -1,0 +1,4 @@
+# This udev rule automatically starts the ti-lvgl-demo
+# systemd service when an HDMI display is connected to the system
+# This is done to handle HDMI hotplug.
+ACTION=="change", KERNEL=="card0", SUBSYSTEM=="drm", ATTR{card0-HDMI-A-1/status}=="connected", TAG+="systemd", ENV{SYSTEMD_WANTS}="ti-lvgl-demo.service"
