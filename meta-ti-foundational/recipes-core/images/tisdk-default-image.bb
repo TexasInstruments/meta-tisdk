@@ -1,4 +1,10 @@
-PR:append = "_tisdk_5"
+SUMMARY = "TI SDK full filesystem image"
+
+DESCRIPTION = "Complete TI SDK filesystem image containing comprehensive \
+applications and packages to enable full SoC functionality. This image is derived \
+from arago-default-image and includes additional packages for TI SDK."
+
+require recipes-core/images/arago-default-image.bb
 
 IMAGE_INSTALL:append = " \
     packagegroup-arago-gst-sdk-target \
@@ -8,5 +14,5 @@ IMAGE_INSTALL:append = " \
 IMAGE_INSTALL:append:am62lxx = " mosquitto libmosquitto1 libmosquittopp1 mosquitto-clients mosquitto-dev"
 IMAGE_INSTALL:append:am62xx = " ti-gst-plugins-source ti-gst-plugins-dev ti-gst-utils "
 IMAGE_INSTALL:append:am62pxx = " ti-gst-plugins-source ti-gst-plugins-dev ti-gst-utils "
-IMAGE_INSTALL:remove:am62dxx = " packagegroup-arago-tisdk-graphics"
+IMAGE_INSTALL:remove:am62dxx = " packagegroup-arago-graphics"
 IMAGE_INSTALL:append:am62dxx = " cpld-ctl"

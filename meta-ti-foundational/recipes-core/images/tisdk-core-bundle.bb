@@ -1,8 +1,15 @@
-PR:append = "_tisdk_8"
+SUMMARY = "TI SDK installer package - NOT for direct use on target"
+
+DESCRIPTION = "This creates an installer package including all the default images, \
+source packages, binaries, and filesystems for TI SDK. This installer is meant to be \
+used on the host system and is derived from arago-core-bundle.\
+"
+
+require recipes-core/images/arago-core-bundle.bb
 
 # Avoid building bootstrap-image while generating tisdk-core-bundle for PROC SDK
 TARGET_IMAGES:remove = " \
-	tisdk-bootstrap-image \
+	arago-bootstrap-image \
 	${@oe.utils.conditional("TI_EXTRAS", "tie-jailhouse", "tisdk-base-image", "", d)} \
 	${@oe.utils.conditional("TI_EXTRAS", "tie-jailhouse", "tisdk-thinlinux-image", "", d)} \
 	${@oe.utils.conditional("TI_EXTRAS", "tie-jailhouse", "tisdk-default-image", "", d)} \
@@ -94,5 +101,3 @@ tisdk_image_build:append() {
         cp ${DEPLOY_DIR_IMAGE}/$f ${PREBUILT_DIR}
     done
 }
-
-

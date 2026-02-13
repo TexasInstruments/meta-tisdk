@@ -1,7 +1,8 @@
-SUMMARY = "Arago TI SDK full filesystem image showcasing display sharing in AM62P"
+SUMMARY = "TI SDK filesystem image with display sharing for AM62P"
 
-DESCRIPTION = "Complete Arago TI SDK filesystem image containing complete \
-applications (along with display sharing) and packages intended to be used for AM62P."
+DESCRIPTION = "Complete Arago based TI SDK filesystem image containing comprehensive applications \
+with display sharing capabilities and packages for AM62P. This image is derived from \
+tisdk-default-image and includes additional features specific to AM62P display cluster use cases."
 
 # Use tisdk-default-image as base
 require recipes-core/images/tisdk-default-image.bb
