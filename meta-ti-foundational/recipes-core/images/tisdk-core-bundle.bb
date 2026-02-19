@@ -7,15 +7,13 @@ used on the host system and is derived from arago-core-bundle.\
 
 require recipes-core/images/arago-core-bundle.bb
 
-# Avoid building bootstrap-image while generating tisdk-core-bundle for PROC SDK
-TARGET_IMAGES:remove = " \
-	arago-bootstrap-image \
-	${@oe.utils.conditional("TI_EXTRAS", "tie-jailhouse", "tisdk-base-image", "", d)} \
-	${@oe.utils.conditional("TI_EXTRAS", "tie-jailhouse", "tisdk-thinlinux-image", "", d)} \
-	${@oe.utils.conditional("TI_EXTRAS", "tie-jailhouse", "tisdk-default-image", "", d)} \
-"
+# Replace arago images with tisdk-branded images
+TARGET_IMAGES:remove = "arago-base-image arago-default-image arago-thinlinux-image arago-bootstrap-image"
 
-TARGET_IMAGES:append = " ${@oe.utils.conditional("TI_EXTRAS", "tie-jailhouse", "tisdk-jailhouse-image", "", d)}"
+# Add tisdk-branded images
+TARGET_IMAGES:append = " \
+	${@oe.utils.conditional("TI_EXTRAS", "tie-jailhouse", "tisdk-jailhouse-image", "tisdk-base-image tisdk-default-image tisdk-thinlinux-image", d)} \
+"
 
 TARGET_IMAGE_TYPES = "tar.xz wic.xz wic.bmap"
 
