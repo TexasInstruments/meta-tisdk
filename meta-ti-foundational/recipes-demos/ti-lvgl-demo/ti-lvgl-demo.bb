@@ -14,12 +14,16 @@ SRC_URI = "gitsm://github.com/texasinstruments/ti-lvgl-demo.git;branch=${BRANCH}
 S = "${UNPACKDIR}/${BB_GIT_DEFAULT_DESTSUFFIX}/lv_port_linux"
 
 SRCREV_main = "edc14fdab29376d9642ee057c9a2095fdc58416a"
-SRCREV_main:am62lxx-evm = "72bc10aff283c81f89fc4496d61cc811c18db414"
+SRCREV_main:am62lxx-evm = "a69da8bd3a163e3ee7eebc96b34fd51f0788fdb8"
 SRCREV_lvdemos = "de9c755979b690a2064b80d993bd14f0be7eff5b"
-SRCREV_lvdemos:am62lxx-evm = "2f469710c47e188a6e70d7d6cf09a469c117d14b"
+SRCREV_lvdemos:am62lxx-evm = "8e41791a2dce961ff9e157b413dcea2217301146"
 SRCREV_FORMAT = "main_lvdemos"
 
-inherit cmake systemd python3native
+inherit cmake pkgconfig systemd python3native
+
+# Disable debug package to avoid buildpaths QA issue
+INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
+
 SYSTEMD_PACKAGES = "${PN}"
 SYSTEMD_SERVICE:${PN} = "${PN}.service"
 
