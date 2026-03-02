@@ -65,38 +65,95 @@ LIC_FILES_CHKSUM = "\
     file://node_modules/w-json/LICENSE;md5=53e80078cd02a6dd9555b612acad2860 \
 "
 
+require benchmark-server.inc
+
 SRC_URI = " \
     git://git.ti.com/git/processor-sdk/sitara-apps.git;protocol=https;branch=master \
-    npmsw://${NPM_SHIRNKWRAP};destsuffix=${BB_GIT_DEFAULT_DESTSUFFIX}/benchmark_demo/webserver_app/webserver \
     git://git.ti.com/git/gui-composer-components/ti-gc-components.git;protocol=https;branch=master;destsuffix=${BB_GIT_DEFAULT_DESTSUFFIX}/benchmark_demo/webserver_app/app/components;name=guicomposer \
+    ${NPM_SRC_URI} \
 "
+
 SRCREV = "dc762b22701940867cc915093b865bb69317e13d"
 SRCREV_FORMAT = "default"
 PV = "1.0.0"
 
-NPM_SHIRNKWRAP := "${THISDIR}/${BPN}/npm-shrinkwrap.json"
 SRCREV_guicomposer = "18115d266ba9f1956d06258ce2c8997fd1ef2efe"
 
-RDEPENDS:${PN} = "benchmark-demo-firmware sitara-ipc-app"
+RDEPENDS:${PN} = "nodejs benchmark-demo-firmware sitara-ipc-app"
 
-inherit npm systemd
-
-# Must be set after inherit npm since that itself sets S
+inherit systemd
 
 WEBSERVER_ROOT = "${UNPACKDIR}/${BB_GIT_DEFAULT_DESTSUFFIX}/benchmark_demo/webserver_app"
-
-# Set this for npm.bbclass
 S = "${WEBSERVER_ROOT}/webserver"
 
 LICENSE:${PN} = "BSD-3-Clause"
 
-do_install:append() {
+# Extract npm tarballs to node_modules, stripping top-level package/ directory.
+# Runs after do_unpack (git sources ready) and before do_patch (for license checks).
+python do_npm_unpack() {
+    import subprocess
+    import os
+
+    s_dir = d.getVar("S")
+    dl_dir = d.getVar("DL_DIR")
+    npm_map = d.getVar("NPM_PACKAGE_MAP") or ""
+
+    # Parse package map into list of (install_path, tarball) tuples
+    packages = [e.split('=', 1) for e in npm_map.split() if '=' in e]
+    if not packages:
+        bb.note("No npm packages to extract")
+        return
+
+    bb.note("Preparing to extract %d npm packages..." % len(packages))
+
+    # Pre-validate that all tarballs exist before extraction
+    missing = [t for _, t in packages if not os.path.exists(os.path.join(dl_dir, t))]
+    if missing:
+        bb.fatal("Missing npm tarballs (%d):\n  %s" % (len(missing), "\n  ".join(missing)))
+
+    # Extract each package
+    for idx, (install_path, tarball) in enumerate(packages, 1):
+        target_dir = os.path.join(s_dir, install_path)
+        tarball_path = os.path.join(dl_dir, tarball)
+
+        bb.utils.mkdirhier(target_dir)
+
+        cmd = ["tar", "xzf", tarball_path, "--strip-components=1", "-C", target_dir]
+        try:
+            subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+        except subprocess.CalledProcessError as e:
+            bb.fatal("Failed to extract package %d/%d (%s -> %s): %s\nOutput: %s"
+                     % (idx, len(packages), tarball, install_path, str(e), e.output.decode('utf-8', errors='replace')))
+
+        # Progress indicator for every 20 packages
+        if idx % 20 == 0:
+            bb.note("Progress: %d/%d packages extracted" % (idx, len(packages)))
+
+    bb.note("Successfully extracted %d npm packages into %s/node_modules" % (len(packages), s_dir))
+}
+addtask npm_unpack after do_unpack before do_patch
+
+do_configure[noexec] = "1"
+do_compile[noexec] = "1"
+
+do_install() {
     CP_ARGS="-Prf --preserve=mode,timestamps --no-preserve=ownership"
 
-    # Install service file
+    # Install webserver application
+    install -d ${D}${nonarch_libdir}/node_modules/${BPN}
+    cp $CP_ARGS ${S}/. ${D}${nonarch_libdir}/node_modules/${BPN}/
+    rm -f ${D}${nonarch_libdir}/node_modules/${BPN}/npm-shrinkwrap.json
+
+    # Make main script executable
+    chmod +x ${D}${nonarch_libdir}/node_modules/${BPN}/benchmark_server.js
+
+    # Create bin symlink for systemd service (emulates npm install --global)
+    install -d ${D}${bindir}
+    ln -s ${nonarch_libdir}/node_modules/${BPN}/benchmark_server.js ${D}${bindir}/benchmark_server
+
+    # Install systemd service file
     install -d ${D}${systemd_system_unitdir}
-    install -m 0644 benchmark_server.service \
-                    ${D}${systemd_system_unitdir}/benchmark_server.service
+    install -m 0644 ${S}/benchmark_server.service ${D}${systemd_system_unitdir}/benchmark_server.service
 
     # Install GUI Composer app
     install -d ${D}${datadir}/${BPN}/app
@@ -105,10 +162,10 @@ do_install:append() {
     # Remove git directory
     rm -rf ${D}${datadir}/${BPN}/app/components/.git*
 
-    # GUI composer provides some examples, remove the binaries for now
+    # Remove example binaries from GUI composer components
     find ${D}${datadir}/${BPN}/app/components -name '*\.out' -exec rm {} \;
 
-    # install server defaults file, replacing with how we choose to install
+    # Install server config and update APP_DIR path
     install -d ${D}${sysconfdir}
     install -m 0644 ${S}/benchmark_server.conf ${D}${sysconfdir}
     sed -i -e 's|^APP_DIR=.*$|APP_DIR='"${datadir}/${BPN}/app"'|' ${D}${sysconfdir}/benchmark_server.conf
@@ -116,4 +173,12 @@ do_install:append() {
 
 SYSTEMD_SERVICE:${PN} = "benchmark_server.service"
 
-PR = "r1"
+FILES:${PN} = " \
+    ${bindir}/benchmark_server \
+    ${nonarch_libdir}/node_modules/${BPN} \
+    ${systemd_system_unitdir}/benchmark_server.service \
+    ${datadir}/${BPN}/app \
+    ${sysconfdir}/benchmark_server.conf \
+"
+
+PR = "r2"
