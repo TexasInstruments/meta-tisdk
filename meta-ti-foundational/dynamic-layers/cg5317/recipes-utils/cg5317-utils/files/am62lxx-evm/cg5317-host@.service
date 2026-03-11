@@ -7,7 +7,7 @@ EnvironmentFile=/etc/lumissil/cg5317_%i.cfg
 User=root
 Group=root
 Type=forking
-ExecPreStart=/bin/sh -c '/usr/bin/gpioset -c gpiochip0 -p 1s -t 1s 39=1'
+ExecPreStart=/bin/sh -c '/usr/bin/gpioset -c gpiochip0 -p 1s -t 0 39=1'
 ExecStart=/root/lumissil_examples/host_loading_service/host_loading_service ${RMII_FLAG} \
                                         -f ${FW_PATH} \
                                         -c ${CFG_PATH} \
