@@ -24,6 +24,7 @@ DEPENDS = "\
     qtshadertools \
     qt5compat \
     qtwayland \
+    qmltermwidget \
 "
 
 RDEPENDS:${PN} = "\
