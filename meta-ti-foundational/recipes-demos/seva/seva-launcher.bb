@@ -37,6 +37,8 @@ inherit systemd
 SYSTEMD_PACKAGES = "${PN}"
 SYSTEMD_SERVICE:${PN} = "seva-launcher.service"
 
+RDEPENDS += " docker-compose"
+
 do_install() {
     install -d ${D}${bindir}
     install -m 0755 ${S}/seva-launcher-${LAUNCHER_SOC}-aarch64 ${D}${bindir}/seva-launcher-aarch64
