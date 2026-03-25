@@ -43,6 +43,11 @@ RDEPENDS:${PN} = "\
     qt5compat \
     qtquick3d \
     qtwayland \
+    tensorflow-lite \
+    onnx \
+    onnxruntime \
+    nnstreamer \
+    analytics-demo-data \
 "
 
 RDEPENDS:${PN}:remove:j721s2 = "tensorflow-lite onnx onnxruntime nnstreamer analytics-demo-data"
