@@ -37,7 +37,7 @@ inherit systemd
 SYSTEMD_PACKAGES = "${PN}"
 SYSTEMD_SERVICE:${PN} = "seva-launcher.service"
 
-RDEPENDS += " docker-compose"
+RDEPENDS:${PN} += " docker-compose"
 
 do_install() {
     install -d ${D}${bindir}
