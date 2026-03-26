@@ -98,7 +98,10 @@ get_remote() {
     cd $git_repo
 
     # Get the remote repository fetch URL
-    remote=`git remote -v | grep "(fetch)" | cut -d ' ' -f 1   | cut -c 7- | tr -d ' '`
+    remote=$(git remote -v | grep "(fetch)" | awk '{print $2}' | grep -v "^file://" | head -n1)
+    if [ -z "$remote" ]; then
+        remote=$(git remote -v | grep "(fetch)" | awk '{print $2}' | head -n1)
+    fi
 
     # Since the echo'ed value of this statment is the returned value redirect
     # the output of this command to /dev/null
