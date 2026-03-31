@@ -8,8 +8,8 @@ SRC_URI:append:am62pxx = "\
     file://uEnv-am62p-display-cluster.txt \
 "
 
-SRC_URI:append:am62lxx = "\
-    file://uEnv-am62l-sk.txt \
+SRC_URI:append:am62lxx-evm = "\
+    file://uEnv-am62l-evm.txt \
 "
 
 do_deploy:j722s:foundational() {
@@ -26,7 +26,7 @@ do_deploy:am62pxx() {
     fi
 }
 
-do_deploy:am62lxx() {
+do_deploy:am62lxx-evm() {
     install -d ${DEPLOYDIR}
     install -m 0644 ${S}/uEnv-am62l-sk.txt ${DEPLOYDIR}/uEnv.txt
 }
