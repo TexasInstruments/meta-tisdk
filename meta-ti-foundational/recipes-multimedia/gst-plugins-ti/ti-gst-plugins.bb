@@ -28,12 +28,19 @@ FILES:${PN} += "${libdir}/gstreamer-1.0/*.so"
 EXTRA_OEMESON = "--prefix=/usr -Dpkg_config_path=${S}/pkgconfig -Ddl-plugins=disabled -Denable-tidl=disabled"
 
 inherit meson pkgconfig
+ 
+do_configure:prepend() {
+    # Fix pkg-config files for cross-compilation
+    sed -i "s|^prefix=/usr|prefix=${STAGING_DIR_TARGET}/usr|g" ${S}/pkgconfig/*.pc
+}
 
 do_install:append() {
     CP_ARGS="-Prf --preserve=mode,timestamps --no-preserve=ownership"
 
     mkdir -p ${D}/opt/edgeai-gst-plugins
     cp ${CP_ARGS} ${S}/* ${D}/opt/edgeai-gst-plugins
+
+    sed -i "s|${STAGING_DIR_TARGET}/usr|/usr|g" ${D}/opt/edgeai-gst-plugins/pkgconfig/*.pc
 }
 
 INSANE_SKIP:${PN}-source += "dev-deps"
