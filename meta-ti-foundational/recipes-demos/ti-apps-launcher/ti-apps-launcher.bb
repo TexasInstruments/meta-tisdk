@@ -35,6 +35,7 @@ RDEPENDS:${PN} = "\
     bash \
     seva-launcher \
     pulseaudio-service \
+    qmltermwidget \
     qtdeclarative-qmlplugins \
     qtwayland-qmlplugins \
     qtdeclarative-tools \
@@ -58,7 +59,7 @@ RDEPENDS:${PN}:append:am62xx = " powervr-graphics"
 RDEPENDS:${PN}:append:am62pxx = " powervr-graphics"
 
 BRANCH = "master"
-SRCREV = "955bc28d39a5718949f4eb9146ef40d7b06a022f"
+SRCREV = "6c2ef5d86ffc637e4dd63d798b6f831cd2af8b31"
 
 SRC_URI = " \
     git://github.com/TexasInstruments/ti-apps-launcher.git;protocol=https;branch=${BRANCH} \
