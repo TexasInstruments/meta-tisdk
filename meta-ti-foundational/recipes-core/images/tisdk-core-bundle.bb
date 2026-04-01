@@ -21,3 +21,7 @@ TARGET_IMAGE_TYPES = "tar.xz wic.xz wic.bmap"
 IMAGE_INSTALL:append = " \
     packagegroup-arago-tisdk-sourceipks-sdk-host \
 "
+
+# Ensure SPDX image tasks are run for all TARGET_IMAGES
+# This forces complete SPDX generation (image, rootfs, and package level) for each image in the bundle
+do_create_image_sbom_spdx[depends] += "${@' '.join(['%s:do_create_image_sbom_spdx' % pn for pn in (d.getVar('TARGET_IMAGES') or '').split()])}"
