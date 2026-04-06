@@ -1,0 +1,20 @@
+[Unit]
+Description=CG5317_%i Host FW Loading
+After=network-online.target
+
+[Service]
+EnvironmentFile=/etc/lumissil/cg5317_%i.cfg
+User=root
+Group=root
+Type=forking
+ExecPreStart=/bin/sh -c '/usr/bin/gpioset -c gpiochip0 -p 1s -t 0 39=1'
+ExecStart=/root/lumissil_examples/host_loading_service/host_loading_service ${RMII_FLAG} \
+                                        -f ${FW_PATH} \
+                                        -c ${CFG_PATH} \
+                                        -s ${SPI_IFNAME} \
+                                        -e ${ETH_IFNAME} \
+                                        -g ${CG_RESET_GPIO_CHIP} \
+                                        -o ${CG_RESET_GPIO_OFFSET}
+
+[Install]
+WantedBy=multi-user.target
