@@ -2,6 +2,7 @@ PR:append = "_tisdk_ml_0"
 
 IMAGE_INSTALL:append = " \
     tensorflow-lite \
+    tensorflow-lite-dev \
     onnx \
     onnxruntime \
     onnxruntime-tests \
