@@ -15,7 +15,7 @@ TARGET_IMAGES:append = " \
 	${@oe.utils.conditional("TI_EXTRAS", "tie-jailhouse", "tisdk-jailhouse-image", "tisdk-base-image tisdk-default-image tisdk-thinlinux-image", d)} \
 "
 
-TARGET_IMAGE_TYPES = "tar.xz wic.xz wic.bmap"
+TARGET_IMAGE_TYPES = "tar.xz wic.xz wic.bmap spdx.json vex.json"
 
 # Add packagegroup to deploy sources in SDK installer
 IMAGE_INSTALL:append = " \
