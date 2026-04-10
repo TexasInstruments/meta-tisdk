@@ -73,7 +73,7 @@ SRC_URI = " \
     ${NPM_SRC_URI} \
 "
 
-SRCREV = "dc762b22701940867cc915093b865bb69317e13d"
+SRCREV = "fc9fb3dc1ef8788feef2df0951c70bd704e49a41"
 SRCREV_FORMAT = "default"
 PV = "1.0.0"
 
