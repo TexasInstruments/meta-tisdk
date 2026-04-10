@@ -28,7 +28,7 @@ do_deploy:am62pxx() {
 
 do_deploy:am62lxx-evm() {
     install -d ${DEPLOYDIR}
-    install -m 0644 ${S}/uEnv-am62l-sk.txt ${DEPLOYDIR}/uEnv.txt
+    install -m 0644 ${S}/uEnv-am62l-evm.txt ${DEPLOYDIR}/uEnv.txt
 }
 
 PR:append = "_tisdk_1"
