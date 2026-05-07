@@ -2,7 +2,7 @@ DESCRIPTION = "Pulseaudio systemd service"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 
-inherit systemd useradd
+inherit systemd
 
 DEPENDS = "pulseaudio"
 
@@ -17,8 +17,11 @@ FILES:${PN} = " \
     ${systemd_unitdir} \
 "
 
-USERADD_PACKAGES = "pulseaudio-service"
-GROUPMEMS_PARAM:${PN} = " --add root --group audio"
+RDEPENDS:${PN} += "shadow"
+
+pkg_postinst_ontarget:${PN}() {
+    usermod -a -G audio root
+}
 
 do_install:append() {
     if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
