@@ -8,7 +8,7 @@ inherit systemd
 SRC_URI = " \
     git://git.ti.com/git/processor-sdk/sitara-apps.git;protocol=https;branch=master \
 "
-SRCREV = "6854fef24281893478d5d84be00d16f56b95b441"
+SRCREV = "fc9fb3dc1ef8788feef2df0951c70bd704e49a41"
 
 LIC_FILES_CHKSUM = " \
     file://rpmsg_json.c;endline=37;md5=20101a2f531854f0c7fd8b99b6fe6f32 \
