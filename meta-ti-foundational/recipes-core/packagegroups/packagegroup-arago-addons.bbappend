@@ -10,14 +10,12 @@ DEMOS:append:am335x-evm = " ti-lvgl-demo"
 DEMOS:append:am437x-evm  = " ti-lvgl-demo"
 DEMOS:append:am65xx-evm  = " ti-lvgl-demo"
 
+DEMOS:append = " webserver-oob"
+
 DEMOS:append:am64xx = " \
     benchmark-server \
     print-ip \
     opcua-server \
-"
-
-DEMOS:append:am335x-evm = " \
-    webserver-oob \
 "
 
 EXTRA_PACKAGES:append:ti33x = " opencv"
