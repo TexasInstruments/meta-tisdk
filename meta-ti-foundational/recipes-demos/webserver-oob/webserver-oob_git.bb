@@ -1,17 +1,16 @@
 SUMMARY = "Out-of-box web server for demonstrating example application demos"
 LICENSE = "BSD-3-Clause & MIT & ISC"
 
-COMPATIBLE_MACHINE = "am335x-evm|am62xx-evm|am62xxsip-evm|am62xx-lp-evm|am62pxx-evm|am62lxx-evm|am62dxx-evm"
+COMPATIBLE_MACHINE = "ti33x|am62xx|am62pxx|am62lxx|am62dxx"
 
 # Maps to repo devices/<DEVICE_ID>/ directory.
 # Use SOC_FAMILY overrides where one override covers multiple machines.
-# am335x has SOC_FAMILY=ti33x so we fall back to explicit machine name.
-DEVICE_ID             = "unknown"
-DEVICE_ID:am335x-evm  = "am335x"
-DEVICE_ID:am62xx      = "am62xx"
-DEVICE_ID:am62pxx     = "am62pxx"
-DEVICE_ID:am62lxx     = "am62lxx"
-DEVICE_ID:am62dxx     = "am62dxx"
+DEVICE_ID = "unknown"
+DEVICE_ID:ti33x = "am335x"
+DEVICE_ID:am62xx = "am62xx"
+DEVICE_ID:am62pxx = "am62pxx"
+DEVICE_ID:am62lxx = "am62lxx"
+DEVICE_ID:am62dxx = "am62dxx"
 
 # NPM pulls in many "independent" packages into a single app package
 LIC_FILES_CHKSUM = "\
