@@ -9,6 +9,7 @@ IMAGE_INSTALL:append = " \
     armnn \
     arm-compute-library \
     arm-compute-library-tests \
+    arm-compute-library-examples \
     nnstreamer \
     nnstreamer-tests \
     nnshark \
