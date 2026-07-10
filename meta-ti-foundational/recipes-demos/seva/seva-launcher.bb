@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/../meta-ti/meta-ti-bsp/licenses/TI-TFL;md
 
 COMPATIBLE_MACHINE = "am62xx|am62pxx|j721s2|j784s4|j722s"
 
-PV = "v1.0.7"
+PV = "v1.0.8"
 
 S = "${UNPACKDIR}"
 
@@ -19,11 +19,11 @@ SRC_URI = " \
     file://seva-launcher.service \
 "
 
-SRC_URI[am62_launcher.sha256sum] = "98d6c511028e13c22cb10b84742be10020b8b6449b53e680ef5224196d35f9ee"
-SRC_URI[am62p_launcher.sha256sum] = "73ad9e52c5e3b8584f9617a681fd25285a2e46fb0605c390822956d9326a034f"
-SRC_URI[am67_launcher.sha256sum] = "b41f3569e2d1e79186a7c1f50a076c2fa8803d9946c5ee7e10084e376ea862d5"
-SRC_URI[am68_launcher.sha256sum] = "be65a3a3cf1f8acd95b576db8c7f84c714867ebb1422779107d1bf921b33f0e8"
-SRC_URI[am69_launcher.sha256sum] = "9a7970d7cdecd5624232a3ecfbc62ffd5cabe1bf35f9350f04040462e6e843ac"
+SRC_URI[am62_launcher.sha256sum] = "c4e12a31c64f5261d0d52ae84c8309054ac5c007170b9dacf2c519434c8d2047"
+SRC_URI[am62p_launcher.sha256sum] = "476257af7d57275ea22661fd4fac771953c31c923756cae26ee5cd454e4d2b86"
+SRC_URI[am67_launcher.sha256sum] = "2f39f24622cdc055fd9591c267b3bb9fe19fd793830e559dd6926ddbe40b3e25"
+SRC_URI[am68_launcher.sha256sum] = "46c0087fc15cdc8e88a0f0e72c9ea7bdaeefc6fcd826bb0913260986a76b1a25"
+SRC_URI[am69_launcher.sha256sum] = "2a223e21a1a801646ca8ea7c9c34fe19392ac7145eb005ec2c8e999d8aacfdf0"
 
 LAUNCHER_SOC = "unknown"
 LAUNCHER_SOC:am62xx = "am62"
