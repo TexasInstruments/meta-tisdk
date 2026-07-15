@@ -14,7 +14,7 @@ SRC_URI = "gitsm://github.com/texasinstruments/ti-lvgl-demo.git;branch=${BRANCH}
 S = "${UNPACKDIR}/${BB_GIT_DEFAULT_DESTSUFFIX}/lv_port_linux"
 
 SRCREV_main = "edc14fdab29376d9642ee057c9a2095fdc58416a"
-SRCREV_main:am62lxx-evm = "a69da8bd3a163e3ee7eebc96b34fd51f0788fdb8"
+SRCREV_main:am62lxx-evm = "346dc2971873333a2451e1ccd466358154800c34"
 SRCREV_lvdemos = "de9c755979b690a2064b80d993bd14f0be7eff5b"
 SRCREV_lvdemos:am62lxx-evm = "8e41791a2dce961ff9e157b413dcea2217301146"
 SRCREV_FORMAT = "main_lvdemos"
