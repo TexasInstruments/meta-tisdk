@@ -1,3 +1,3 @@
-SRCREV_uboot:tie-jailhouse:bsp-ti-6_18 = "57264a4c2fbfbbde2ef6b3aa74484f98a0c3c325"
+SRCREV_uboot:tie-jailhouse:bsp-ti-6_18 = "e0df75de86563b5299726a76f483e7b5fe72106f"
 
 PR:append = "_tisdk_0"
