@@ -1,7 +1,7 @@
 SUMMARY = "Out-of-box web server for demonstrating example application demos"
 LICENSE = "BSD-3-Clause & MIT & ISC"
 
-COMPATIBLE_MACHINE = "ti33x|am62xx|am62pxx|am62lxx|am62dxx"
+COMPATIBLE_MACHINE = "ti33x|am62xx|am62pxx|am62lxx|am62dxx|am64xx"
 
 # Maps to repo devices/<DEVICE_ID>/ directory.
 # Use SOC_FAMILY overrides where one override covers multiple machines.
@@ -11,6 +11,7 @@ DEVICE_ID:am62xx = "am62xx"
 DEVICE_ID:am62pxx = "am62pxx"
 DEVICE_ID:am62lxx = "am62lxx"
 DEVICE_ID:am62dxx = "am62dxx"
+DEVICE_ID:am64xx = "am64xx"
 
 # NPM pulls in many "independent" packages into a single app package
 LIC_FILES_CHKSUM = "\
@@ -94,12 +95,13 @@ SRC_URI = " \
     git://git.ti.com/git/gui-composer-components/ti-gc-components.git;protocol=https;branch=master;destsuffix=${BB_GIT_DEFAULT_DESTSUFFIX}/common/app/components;name=guicomposer \
     ${NPM_SRC_URI} \
 "
-SRCREV = "3777eb16343afd3e9654a7e379d821ce4bfa40be"
+SRCREV = "8b5947ff2c3bbe6b01d7e6c968c24815a3ef1086"
 SRCREV_guicomposer = "18115d266ba9f1956d06258ce2c8997fd1ef2efe"
 SRCREV_FORMAT = "default"
 PV = "1.0.0"
 
 RDEPENDS:${PN} = "nodejs tensorflow-lite nnstreamer analytics-demo-data"
+RDEPENDS:${PN}:append:am64xx = " benchmark-demo-firmware"
 
 WEBSERVER_ROOT = "${UNPACKDIR}/${BB_GIT_DEFAULT_DESTSUFFIX}"
 S = "${WEBSERVER_ROOT}/common/webserver"
@@ -174,7 +176,9 @@ do_install() {
     ln -s ${nonarch_libdir}/node_modules/${BPN}/server.js ${D}${bindir}/webserver-oob
 
     install -m 0755 ${WEBSERVER_ROOT}/common/linux_app/cpu_stats ${D}${bindir}/cpu_stats
-    install -m 0755 ${WEBSERVER_ROOT}/devices/${DEVICE_ID}/linux_app/audio_utils ${D}${bindir}/audio_utils
+    if [ -f ${WEBSERVER_ROOT}/devices/${DEVICE_ID}/linux_app/audio_utils ]; then
+        install -m 0755 ${WEBSERVER_ROOT}/devices/${DEVICE_ID}/linux_app/audio_utils ${D}${bindir}/audio_utils
+    fi
 
     # Install demos
     install -d ${D}${datadir}/${BPN}/demos
@@ -202,7 +206,16 @@ do_install() {
         ${D}${sysconfdir}/webserver-oob.conf
 }
 
+
+do_install:append:am64xx() {
+
+    install -m 0755 ${WEBSERVER_ROOT}/devices/${DEVICE_ID}/linux_app/rpmsg_json ${D}${bindir}/rpmsg_json
+    install -m 0644 ${WEBSERVER_ROOT}/devices/${DEVICE_ID}/linux_app/rpmsg-json.service ${D}${systemd_system_unitdir}/
+
+}
+
 SYSTEMD_SERVICE:${PN} = "webserver-oob.service"
+SYSTEMD_SERVICE:${PN}:append:am64xx = " rpmsg-json.service"
 
 FILES:${PN} = " \
     ${bindir}/webserver-oob \
@@ -214,5 +227,7 @@ FILES:${PN} = " \
     ${datadir}/${BPN}/app \
     ${sysconfdir}/webserver-oob.conf \
 "
+
+FILES:${PN}:append:am64xx = " ${bindir}/rpmsg_json ${systemd_system_unitdir}/rpmsg-json.service"
 
 PR = "r1"
