@@ -4,7 +4,7 @@ LICENSE = "TI-TFL"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=9581b427bf58e35c66e06c572d472e88"
 
 SRC_URI = "git://github.com/TexasInstruments/oob-demo-assets.git;protocol=https;branch=master"
-SRCREV = "6b64cbdfd16648f1dd75dfc1ec8711c2b6559826"
+SRCREV = "2bee2f461a3b508c949d8ae0d585a9779e7181d3"
 
 do_install() {
 	CP_ARGS="-Prf --preserve=mode,timestamps --no-preserve=ownership"

@@ -95,13 +95,22 @@ SRC_URI = " \
     git://git.ti.com/git/gui-composer-components/ti-gc-components.git;protocol=https;branch=master;destsuffix=${BB_GIT_DEFAULT_DESTSUFFIX}/common/app/components;name=guicomposer \
     ${NPM_SRC_URI} \
 "
-SRCREV = "8b5947ff2c3bbe6b01d7e6c968c24815a3ef1086"
+SRCREV = "297f002e65c4eceb172706049f703bed7db4152e"
 SRCREV_guicomposer = "18115d266ba9f1956d06258ce2c8997fd1ef2efe"
 SRCREV_FORMAT = "default"
 PV = "1.0.0"
 
 RDEPENDS:${PN} = "nodejs tensorflow-lite nnstreamer analytics-demo-data"
 RDEPENDS:${PN}:append:am64xx = " benchmark-demo-firmware"
+# speech-to-text support for am62pxx, am62xx, am62lxx
+RDEPENDS:${PN}:append:am62pxx = " gstreamer1.0 glib-2.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good onnxruntime"
+RDEPENDS:${PN}:append:am62xx = " gstreamer1.0 glib-2.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good onnxruntime"
+RDEPENDS:${PN}:append:am62lxx = " gstreamer1.0 glib-2.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good onnxruntime"
+
+# Build-time GStreamer headers for speech_utils cross-compilation (am62pxx, am62xx, am62lxx)
+DEPENDS:append:am62pxx = " gstreamer1.0 glib-2.0"
+DEPENDS:append:am62xx = " gstreamer1.0 glib-2.0"
+DEPENDS:append:am62lxx = " gstreamer1.0 glib-2.0"
 
 WEBSERVER_ROOT = "${UNPACKDIR}/${BB_GIT_DEFAULT_DESTSUFFIX}"
 S = "${WEBSERVER_ROOT}/common/webserver"
@@ -110,7 +119,7 @@ S = "${WEBSERVER_ROOT}/common/webserver"
 DEBUG_PREFIX_MAP:append = " -ffile-prefix-map=${WEBSERVER_ROOT}=/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}"
 
 TARGET_CC_ARCH += "${LDFLAGS}"
-inherit systemd
+inherit pkgconfig systemd
 
 # Extract npm tarballs to node_modules, stripping top-level package/ directory.
 # Runs after do_unpack (git sources ready) and before do_patch (for license checks).
@@ -179,6 +188,9 @@ do_install() {
     if [ -f ${WEBSERVER_ROOT}/devices/${DEVICE_ID}/linux_app/audio_utils ]; then
         install -m 0755 ${WEBSERVER_ROOT}/devices/${DEVICE_ID}/linux_app/audio_utils ${D}${bindir}/audio_utils
     fi
+    if [ -f ${WEBSERVER_ROOT}/devices/${DEVICE_ID}/linux_app/speech_utils ]; then
+        install -m 0755 ${WEBSERVER_ROOT}/devices/${DEVICE_ID}/linux_app/speech_utils ${D}${bindir}/speech_utils
+    fi
 
     # Install demos
     install -d ${D}${datadir}/${BPN}/demos
@@ -228,6 +240,10 @@ FILES:${PN} = " \
     ${sysconfdir}/webserver-oob.conf \
 "
 
+FILES:${PN}:append:am62pxx = " ${bindir}/speech_utils"
+FILES:${PN}:append:am62xx = " ${bindir}/speech_utils"
+FILES:${PN}:append:am62lxx = " ${bindir}/speech_utils"
+
 FILES:${PN}:append:am64xx = " ${bindir}/rpmsg_json ${systemd_system_unitdir}/rpmsg-json.service"
 
-PR = "r1"
+PR = "r2"
