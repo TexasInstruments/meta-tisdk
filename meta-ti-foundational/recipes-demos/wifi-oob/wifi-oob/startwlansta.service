@@ -1,0 +1,13 @@
+[Unit]
+Description=startwlansta
+
+[Service]
+Type=exec
+ExecStart=/etc/init.d/startwlansta.sh
+After=startwlanap.service
+StandardOutput=journal+console
+RemainAfterExit=yes
+
+
+[Install]
+WantedBy=multi-user.target
