@@ -11,7 +11,7 @@ DEMOS:append:am437x-evm  = " ti-lvgl-demo"
 DEMOS:append:am65xx-evm  = " ti-lvgl-demo"
 
 DEMOS:append:am64xx = " \
-    benchmark-server \
+    webserver-oob \
     print-ip \
     opcua-server \
 "
