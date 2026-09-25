@@ -1,0 +1,12 @@
+[Unit]
+Description=startwlanap
+After=network-pre.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/share/wl18xx/startwlanap.sh
+StandardOutput=journal+console
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
