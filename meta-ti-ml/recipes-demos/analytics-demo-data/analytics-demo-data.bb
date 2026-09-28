@@ -1,6 +1,6 @@
 DESCRIPTION = "Model test data for ARM Analytics demos"
 HOMEPAGE = "https://github.com/TexasInstruments/oob-demo-assets"
-LICENSE = "TI-TFL"
+LICENSE = "LicenseRef-TI-TFL"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=9581b427bf58e35c66e06c572d472e88"
 
 SRC_URI = "git://github.com/TexasInstruments/oob-demo-assets.git;protocol=https;branch=master"

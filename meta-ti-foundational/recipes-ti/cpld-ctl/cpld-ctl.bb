@@ -1,6 +1,6 @@
 SUMMARY = "CPLD programmer via I2C"
 DESCRIPTION = "Script to program CPLD routing channels using i2c-tools"
-LICENSE = "TI-TFL"
+LICENSE = "LicenseRef-TI-TFL"
 LIC_FILES_CHKSUM = "file://${COREBASE}/../meta-ti/meta-ti-bsp/licenses/TI-TFL;md5=a1b59cb7ba626b9dbbcbf00f3fbc438a"
 
 FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
