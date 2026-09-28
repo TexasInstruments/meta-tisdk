@@ -1,6 +1,6 @@
 DESCRIPTION = "Startup script to resize rootfs to full size"
 SUMMARY = "This startup script expands the rootfs partition to full size of the boot device."
-LICENSE = "TI-TSPA"
+LICENSE = "LicenseRef-TI-TSPA"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=b427432730a914095e04e12c25413c41"
 
 FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"

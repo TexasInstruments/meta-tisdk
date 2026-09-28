@@ -1,5 +1,5 @@
 SUMMARY = "Webserver for the Sitara Benchmark Demo"
-LICENSE = "BSD-3-Clause & MIT & ISC"
+LICENSE = "BSD-3-Clause AND ISC AND MIT"
 
 COMPATIBLE_MACHINE = "am64xx"
 

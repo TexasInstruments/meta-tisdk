@@ -2,7 +2,7 @@ SUMMARY = "Custom arm-only GStreamer plugins for TI devices"
 DESCRIPTION = "TI GST arm-only plugins which internally uses Arm NEON optimized kernels on TI Sitara devices"
 HOMEPAGE = "https://github.com/TexasInstruments/edgeai-gst-plugins"
 
-LICENSE = "TI-TFL"
+LICENSE = "LicenseRef-TI-TFL"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=1f7721ee7d288457c5a70d0c8ff44b87"
 
 PV = "1.0.0"

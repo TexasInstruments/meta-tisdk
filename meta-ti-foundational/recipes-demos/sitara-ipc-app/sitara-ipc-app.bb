@@ -1,5 +1,5 @@
 SUMMARY = "Sitara Benchmark IPC Linux App"
-LICENSE = "BSD-3-Clause & MIT"
+LICENSE = "BSD-3-Clause AND MIT"
 
 COMPATIBLE_MACHINE = "am64xx"
 
