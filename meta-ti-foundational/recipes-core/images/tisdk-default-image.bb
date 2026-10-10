@@ -16,6 +16,17 @@ IMAGE_INSTALL:append:am62xx = " ti-gst-plugins-source ti-gst-plugins-dev ti-gst-
 IMAGE_INSTALL:append:am62pxx = " ti-gst-plugins-source ti-gst-plugins-dev ti-gst-utils "
 IMAGE_INSTALL:remove:am62dxx = " packagegroup-arago-graphics"
 IMAGE_INSTALL:append:am62dxx = " cpld-ctl"
+IMAGE_INSTALL:append:am64xx-evm = " wifi-oob"
 
 IMAGE_INSTALL:append = "${@bb.utils.contains('DISTRO_FEATURES', 'selinux', ' packagegroup-core-selinux', '', d)}"
 IMAGE_INSTALL:append = "${@bb.utils.contains('BBFILE_COLLECTIONS', 'chromium-browser-layer', ' chromium-ozone-wayland', '', d)}"
+
+python () {
+    # Check if the package is in the final calculated list of image packages
+    # This catches it whether it's in IMAGE_INSTALL, packagegroups, or IMAGE_FEATURES
+    image_install = d.getVar('IMAGE_INSTALL') or ''
+    
+    if 'wifi-oob' in image_install.split():
+        d.appendVar('IMAGE_DEPENDS:wic', ' wifi-oob')
+        d.appendVar('IMAGE_BOOT_FILES', ' wificfg')
+}
