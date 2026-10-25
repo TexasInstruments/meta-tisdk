@@ -1,0 +1,13 @@
+[Unit]
+Description=startwlansta
+After=startwlanap.service
+Requires=startwlanap.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/share/wl18xx/startwlansta.sh
+StandardOutput=journal+console
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
