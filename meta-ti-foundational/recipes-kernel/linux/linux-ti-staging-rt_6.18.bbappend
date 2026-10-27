@@ -1,3 +1,3 @@
-SRCREV:tie-jailhouse:bsp-ti-6_18 = "7bb6651c0bbf2ce187074c6e0dfc972a818da12e"
+SRCREV:tie-jailhouse:bsp-ti-6_18 = "308197443abdbb28ef970a50703ceb968028f193"
 
 PR:append = "_tisdk_0"
