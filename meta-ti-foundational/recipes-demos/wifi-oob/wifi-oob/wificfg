@@ -1,0 +1,10 @@
+# This file is used for configuring the credentials required when the
+# board is acting as a WiFi station.
+# Customize this as per your need
+# Set the demo_enable to yes so that the board connects to the AP automatically
+# after the boot
+
+[Wifi-STA]
+    demo_enable = no
+    ssid = homewifi
+    password = password123
