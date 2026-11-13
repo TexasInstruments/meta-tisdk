@@ -1,0 +1,13 @@
+[Unit]
+Description=startwlanap
+After=systemd-logind.service
+
+[Service]
+Type=oneshot
+ExecStart=/etc/init.d/startwlanap.sh
+StandardOutput=journal+console
+RemainAfterExit=yes
+
+
+[Install]
+WantedBy=multi-user.target
