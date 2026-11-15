@@ -17,7 +17,7 @@ SRC_URI = " \
     git://git.ti.com/git/gui-composer-components/ti-gc-components.git;protocol=https;branch=master;destsuffix=${BB_GIT_DEFAULT_DESTSUFFIX}/webserver_app/app/components;name=guicomposer \
     npmsw://${NPM_SHRINKWRAP};destsuffix=${BB_GIT_DEFAULT_DESTSUFFIX}/webserver_app/webserver \
 "
-SRCREV = "4478322d171a7ddf16e1bfc51e1d2c69d305e37a"
+SRCREV = "43e7177dd92dca3f737091fa0b0d8bfcd1b4b693"
 SRCREV_guicomposer = "18115d266ba9f1956d06258ce2c8997fd1ef2efe"
 SRCREV_FORMAT = "default"
 PV = "1.0.0"
