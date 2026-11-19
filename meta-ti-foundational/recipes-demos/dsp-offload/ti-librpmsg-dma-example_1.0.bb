@@ -3,7 +3,7 @@ LICENSE = "TI-TFL"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=91dc4ee6d125d0aaba4e5bd2fcc50ed3"
 
 SRC_URI = "git://github.com/TexasInstruments/rpmsg-dma.git;protocol=https;branch=main"
-SRCREV = "5e5ffaf05167d4c255d245a9f806bde66a0e0baf"
+SRCREV = "222cc4e83cb6084d4a05ed8c296a1db28246ff86"
 
 inherit cmake pkgconfig
 
