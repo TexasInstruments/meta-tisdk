@@ -14,6 +14,7 @@ IMAGE_INSTALL:append = " \
     kernel-module-lms-eth2spi \
     lms-eth2spi \
     open-plc-utils \
+    mosquitto \
     tzdata \
 "
 

@@ -1,0 +1,147 @@
+settings:
+  telemetry_enabled: true
+active_modules:
+  api:
+    connections:
+      evse_manager:
+      - implementation_id: evse
+        module_id: evse_manager
+    module: API
+  auth:
+
+    module: Auth
+    config_module:
+      connection_timeout: 10
+      selection_algorithm: PlugEvents
+    connections:
+      token_provider:
+      - module_id: token_provider_1
+        implementation_id: main
+      token_validator:
+
+      - module_id: token_validator
+        implementation_id: main
+      evse_manager:
+      - module_id: evse_manager
+        implementation_id: evse
+  energy_manager:
+    connections:
+      energy_trunk:
+      - implementation_id: energy_grid
+        module_id: grid_connection_point
+    module: EnergyManager
+  evse_manager:
+    config_module:
+      ac_enforce_hlc: true
+      ac_hlc_enabled: true
+      ac_hlc_use_5percent: true
+      ac_nominal_voltage: 230
+      ac_with_soc: false
+      charge_mode: AC
+      dbg_hlc_auth_after_tstep: false
+      ev_receipt_required: false
+      evse_id: DE*PNX*E123456*1
+      has_ventilation: true
+      payment_enable_contract: false
+      payment_enable_eim: true
+      session_logging: true
+      session_logging_path: /tmp/logs
+      session_logging_xml: false
+      connector_id: 1
+    connections:
+      bsp:
+      - implementation_id: board_support 
+        module_id: tida_mcu
+      hlc:
+      - implementation_id: charger
+        module_id: iso15118_charger
+
+      slac:
+      - implementation_id: main
+        module_id: slac
+      ac_rcd:
+      - implementation_id: rcd
+        module_id: tida_mcu
+      connector_lock:
+      - implementation_id: connector_lock 
+        module_id: tida_mcu
+    module: EvseManager
+    telemetry:
+      id: 1
+  grid_connection_point:
+    config_module:
+      fuse_limit_A: 6
+      phase_count: 1
+
+    connections:
+      energy_consumer:
+      - implementation_id: energy_grid
+        module_id: evse_manager
+    module: EnergyNode
+  iso15118_charger:
+    config_module:
+      device: seth0
+    connections:
+      security:
+      - implementation_id: main
+        module_id: evse_security
+    module: EvseV2G
+  evse_security:
+    module: EvseSecurity
+  persistent_store:
+    module: PersistentStore
+    config_module:
+      sqlite_db_file_path: /etc/everest/everest_persistent_store.db
+    connections: {}
+  setup:
+    config_module:
+      localization: true
+      setup_simulation: false
+      setup_wifi: true
+    connections:
+      store:
+      - module_id: persistent_store
+        implementation_id: main
+    module: Setup
+  slac:
+    config_implementation:
+      main:
+        device: seth0
+        number_of_sounds: 10
+    connections: {}
+    module: EvseSlac
+  token_provider_1:
+    config_implementation:
+      main:
+        timeout: 10
+        token: DEADBEEF
+        type: RFID
+    connections:
+      evse:
+      - implementation_id: evse
+        module_id: evse_manager
+    module: DummyTokenProvider
+  token_validator:
+    config_implementation:
+      main:
+        sleep: 0.25
+        validation_reason: Token seems valid
+        validation_result: Accepted
+    connections: {}
+    module: DummyTokenValidator
+  tida_mcu:          
+    module: TIDA010939
+    config_module:
+      serial_port: /dev/ttyTIDA939-MSP
+      reset_gpio_chip: gpiochip0
+      reset_gpio: 30
+      baud_rate: 115200
+      min_current_A_import: 6
+      max_current_A_import: 10
+      min_phase_count_import: 1
+      max_phase_count_import: 1
+      min_current_A_export: 6
+      max_current_A_export: 10
+      min_phase_count_export: 1
+      max_phase_count_export: 1
+      has_socket: true

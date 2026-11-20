@@ -1,0 +1,128 @@
+settings:
+  telemetry_enabled: true
+active_modules:
+
+  api:
+    connections:
+      evse_manager:
+        - implementation_id: evse
+          module_id: connector_1
+    module: API
+  auth:
+    config_module:
+      connection_timeout: 50
+      prioritize_authorization_over_stopping_transaction: true
+      selection_algorithm: FindFirst
+    connections:
+      evse_manager:
+        - implementation_id: evse
+          module_id: connector_1
+      token_provider:
+        - implementation_id: main
+          module_id: token_provider
+      token_validator:
+        - implementation_id: main
+          module_id: token_validator
+    module: Auth
+  energy_manager:
+    connections:
+      energy_trunk:
+        - implementation_id: energy_grid
+          module_id: grid_connection_point
+    module: EnergyManager
+  connector_1:
+
+    config_module:
+      connector_type: sType2
+      ac_enforce_hlc: false
+      ac_hlc_enabled: true
+      ac_hlc_use_5percent: false
+      ac_nominal_voltage: 230
+      charge_mode: AC
+
+      connector_id: 1
+      ev_receipt_required: false
+      evse_id: DE*PNX*E12345*1
+      has_ventilation: true
+      max_current_import_A: 6
+      max_current_export_A: 6 
+      payment_enable_contract: true
+      payment_enable_eim: true
+      session_logging: true
+      session_logging_path: /tmp/everest-logs
+      session_logging_xml: false
+    connections:
+      bsp:
+        - implementation_id: board_support
+          module_id: tida_mcu
+      ac_rcd:
+        - implementation_id: rcd
+          module_id: tida_mcu
+      connector_lock:
+      - implementation_id: connector_lock
+        module_id: tida_mcu
+    module: EvseManager
+    telemetry:
+      id: 1
+  grid_connection_point:
+    config_module:
+      fuse_limit_A: 16
+      phase_count: 1
+    connections:
+      energy_consumer:
+        - implementation_id: energy_grid
+          module_id: connector_1
+    module: EnergyNode
+  persistent_store:
+    config_module:
+      sqlite_db_file_path: everest_persistent_store.db
+    connections: {}
+    module: PersistentStore
+  setup:
+    config_module:
+      initialized_by_default: true
+      localization: true
+      online_check_host: lfenergy.org
+      setup_simulation: true
+      setup_wifi: true
+    connections:
+
+      store:
+        - implementation_id: main
+          module_id: persistent_store
+    module: Setup
+  token_provider:
+    config_implementation:
+      main:
+        timeout: 10
+        token: DEADBEEF
+    connections:
+      evse:
+        - implementation_id: evse
+          module_id: connector_1
+    module: DummyTokenProvider
+  token_validator:
+    config_implementation:
+      main:
+        sleep: 0.25
+        validation_reason: Token seems valid
+        validation_result: Accepted
+    connections: {}
+    module: DummyTokenValidator
+  tida_mcu:          
+    module: TIDA010939
+    config_module:
+      serial_port: /dev/ttyTIDA939-MSP
+
+      reset_gpio_chip: gpiochip0
+      reset_gpio: 30
+      baud_rate: 115200
+      min_current_A_import: 6
+      max_current_A_import: 10
+      min_phase_count_import: 1
+      max_phase_count_import: 1
+      min_current_A_export: 6
+      max_current_A_export: 10
+      min_phase_count_export: 1
+      max_phase_count_export: 1
+      has_socket: true
