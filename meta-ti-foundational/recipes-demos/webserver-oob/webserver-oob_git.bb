@@ -107,7 +107,7 @@ SRC_URI = " \
 # am62dxx ships a Vue/Vuetify frontend — pull in its build-time npm packages
 SRC_URI:append:am62dxx = " ${FRONTEND_NPM_SRC_URI}"
 
-SRCREV = "2b654bb2c19dff1b46777e98cddfd03ab70d16e5"
+SRCREV = "b461d2fe9171a539cbe0e003b42484c426f71b03"
 SRCREV_guicomposer = "18115d266ba9f1956d06258ce2c8997fd1ef2efe"
 SRCREV_FORMAT = "default"
 PV = "1.0.0"
